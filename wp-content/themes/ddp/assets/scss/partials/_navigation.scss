@@ -1,0 +1,43 @@
+// .menu-item {
+//     display: inline-block;
+//     // position: absolute;
+//     //
+//     // li {
+//     //   width: 100px;
+//     // }
+//     a {
+//       // display: inherit;
+//     }
+// }
+//
+// .article__navigation {
+//   max-height: 50px;
+//   position: relative;
+//   background: lightgray;
+//
+// }
+//
+.nav__thumbnails {
+  height: 250px;
+  display: block;
+  position: relative;
+
+  & li {
+    display: inline-block;
+    position: relative;
+  }
+
+  & li a img {
+    width: 160px;
+    height: 160px;
+    // max-height: 100px;
+  }
+}
+//
+// ul#menu-nav {
+//     display: inline-block;
+//     height: auto;
+//     position: relative;
+//     padding: 0;
+//     margin: 0;
+// }

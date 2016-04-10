@@ -1,16 +1,15 @@
 <?php
 
+include_once WP_CONTENT_DIR . '/wpalchemy/MetaBox.php';
+include_once WP_CONTENT_DIR . '/wpalchemy/MediaAccess.php';
+include_once 'metaboxes/setup.php';
+include_once 'metaboxes/customizer-spec.php';
+$wpalchemy_media_access = new WPAlchemy_MediaAccess();
+
 add_theme_support( 'post-thumbnails' );
 
 class description_walker extends Walker_Nav_Menu
 {
-	// function end_el(&$output, $item, $depth = 0, $args = array(), $current_object_id = 0) {
-	//                 // $indent = str_repeat("\t", $depth);
-	// 	              // $output .= "\n$indent<ul class=\"sub-menu\">\n";
-	//
-	//
-	//
-  //       }
       function start_el(&$output, $item, $depth = 0, $args = array(), $current_object_id = 0)
       {
            global $wp_query;
@@ -87,27 +86,101 @@ class description_walker extends Walker_Nav_Menu
             }
 }
 
-// object(WP_Post)#3009 (40)
-// { ["ID"]=> int(10340) ["post_author"]=> string(1) "1" ["post_date"]=> string(19) "2016-04-08 10:30:02" ["post_date_gmt"]=> string(19) "2016-04-08 09:30:02" ["post_content"]=> string(1) " " ["post_title"]=> string(0) "" ["post_excerpt"]=> string(0) "" ["post_status"]=> string(7) "publish" ["comment_status"]=> string(6) "closed" ["ping_status"]=> string(6) "closed" ["post_password"]=> string(0) "" ["post_name"]=> string(5) "10340" ["to_ping"]=> string(0) "" ["pinged"]=> string(0) "" ["post_modified"]=> string(19) "2016-04-08 10:30:11" ["post_modified_gmt"]=> string(19) "2016-04-08 09:30:11" ["post_content_filtered"]=> string(0) "" ["post_parent"]=> int(0) ["guid"]=> string(34) "http://localhost:8890/ddp/?p=10340" ["menu_order"]=> int(1) ["post_type"]=> string(13) "nav_menu_item" ["post_mime_type"]=> string(0) "" ["comment_count"]=> string(1) "0" ["filter"]=> string(3) "raw" ["db_id"]=> int(10340) ["menu_item_parent"]=> string(1) "0" ["object_id"]=> string(2) "38" ["object"]=> string(8) "category" ["type"]=> string(8) "taxonomy" ["type_label"]=> string(10) "Catégorie" ["url"]=> string(45) "http://localhost:8890/ddp/category/publicite/" ["title"]=> string(10) "Publicité" ["target"]=> string(0) "" ["attr_title"]=> string(0) "" ["description"]=> string(0) "" ["classes"]=> array(5)
-// 	{ [0]=> string(0) "" [1]=> string(9) "menu-item" [2]=> string(23) "menu-item-type-taxonomy" [3]=> string(25) "menu-item-object-category" [4]=> string(22) "menu-item-has-children" } ["xfn"]=> string(0) "" ["current"]=> bool(false) ["current_item_ancestor"]=> bool(false) ["current_item_parent"]=> bool(false) } object(WP_Post)#3012 (40)
-// 	{ ["ID"]=> int(10341) ["post_author"]=> string(1) "1" ["post_date"]=> string(19) "2016-04-08 10:30:02" ["post_date_gmt"]=> string(19) "2016-04-08 09:30:02" ["post_content"]=> string(1) " " ["post_title"]=> string(0) "" ["post_excerpt"]=> string(0) "" ["post_status"]=> string(7) "publish" ["comment_status"]=> string(6) "closed" ["ping_status"]=> string(6) "closed" ["post_password"]=> string(0) "" ["post_name"]=> string(5) "10341" ["to_ping"]=> string(0) "" ["pinged"]=> string(0) "" ["post_modified"]=> string(19) "2016-04-08 10:30:11" ["post_modified_gmt"]=> string(19) "2016-04-08 09:30:11" ["post_content_filtered"]=> string(0) "" ["post_parent"]=> int(0) ["guid"]=> string(34) "http://localhost:8890/ddp/?p=10341" ["menu_order"]=> int(2) ["post_type"]=> string(13) "nav_menu_item" ["post_mime_type"]=> string(0) "" ["comment_count"]=> string(1) "0" ["filter"]=> string(3) "raw" ["db_id"]=> int(10341) ["menu_item_parent"]=> string(5) "10340" ["object_id"]=> string(1) "1" ["object"]=> string(8) "category" ["type"]=> string(8) "taxonomy" ["type_label"]=> string(10) "Catégorie" ["url"]=> string(46) "http://localhost:8890/ddp/category/non-classe/" ["title"]=> string(11) "Non classé" ["target"]=> string(0) "" ["attr_title"]=> string(0) "" ["description"]=> string(0) "" ["classes"]=> array(4)
-// 		{ [0]=> string(0) "" [1]=> string(9) "menu-item" [2]=> string(23) "menu-item-type-taxonomy" [3]=> string(25) "menu-item-object-category" } ["xfn"]=> string(0) "" ["current"]=> bool(false) ["current_item_ancestor"]=> bool(false) ["current_item_parent"]=> bool(false) } object(WP_Post)#3013 (40)
-// 		{ ["ID"]=> int(10342) ["post_author"]=> string(1) "1" ["post_date"]=> string(19) "2016-04-08 10:30:02" ["post_date_gmt"]=> string(19) "2016-04-08 09:30:02" ["post_content"]=> string(1) " " ["post_title"]=> string(0) "" ["post_excerpt"]=> string(0) "" ["post_status"]=> string(7) "publish" ["comment_status"]=> string(6) "closed" ["ping_status"]=> string(6) "closed" ["post_password"]=> string(0) "" ["post_name"]=> string(5) "10342" ["to_ping"]=> string(0) "" ["pinged"]=> string(0) "" ["post_modified"]=> string(19) "2016-04-08 10:30:11" ["post_modified_gmt"]=> string(19) "2016-04-08 09:30:11" ["post_content_filtered"]=> string(0) "" ["post_parent"]=> int(0) ["guid"]=> string(34) "http://localhost:8890/ddp/?p=10342" ["menu_order"]=> int(3) ["post_type"]=> string(13) "nav_menu_item" ["post_mime_type"]=> string(0) "" ["comment_count"]=> string(1) "0" ["filter"]=> string(3) "raw" ["db_id"]=> int(10342) ["menu_item_parent"]=> string(5) "10340" ["object_id"]=> string(2) "29" ["object"]=> string(8) "category" ["type"]=> string(8) "taxonomy" ["type_label"]=> string(10) "Catégorie" ["url"]=> string(39) "http://localhost:8890/ddp/category/day/" ["title"]=> string(3) "Day" ["target"]=> string(0) "" ["attr_title"]=> string(0) "" ["description"]=> string(0) "" ["classes"]=> array(4)
-// 			{ [0]=> string(0) "" [1]=> string(9) "menu-item" [2]=> string(23) "menu-item-type-taxonomy" [3]=> string(25) "menu-item-object-category" } ["xfn"]=> string(0) "" ["current"]=> bool(false) ["current_item_ancestor"]=> bool(false) ["current_item_parent"]=> bool(false) } object(WP_Post)#3014 (40)
-// 			{ ["ID"]=> int(10343) ["post_author"]=> string(1) "1" ["post_date"]=> string(19) "2016-04-08 10:30:02" ["post_date_gmt"]=> string(19) "2016-04-08 09:30:02" ["post_content"]=> string(1) " " ["post_title"]=> string(0) "" ["post_excerpt"]=> string(0) "" ["post_status"]=> string(7) "publish" ["comment_status"]=> string(6) "closed" ["ping_status"]=> string(6) "closed" ["post_password"]=> string(0) "" ["post_name"]=> string(5) "10343" ["to_ping"]=> string(0) "" ["pinged"]=> string(0) "" ["post_modified"]=> string(19) "2016-04-08 10:30:11" ["post_modified_gmt"]=> string(19) "2016-04-08 09:30:11" ["post_content_filtered"]=> string(0) "" ["post_parent"]=> int(0) ["guid"]=> string(34) "http://localhost:8890/ddp/?p=10343" ["menu_order"]=> int(4) ["post_type"]=> string(13) "nav_menu_item" ["post_mime_type"]=> string(0) "" ["comment_count"]=> string(1) "0" ["filter"]=> string(3) "raw" ["db_id"]=> int(10343) ["menu_item_parent"]=> string(1) "0" ["object_id"]=> string(2) "25" ["object"]=> string(8) "category" ["type"]=> string(8) "taxonomy" ["type_label"]=> string(10) "Catégorie" ["url"]=> string(45) "http://localhost:8890/ddp/category/bon-plans/" ["title"]=> string(11) "Bon plans !" ["target"]=> string(0) "" ["attr_title"]=> string(0) "" ["description"]=> string(0) "" ["classes"]=> array(5)
-// 				{ [0]=> string(0) "" [1]=> string(9) "menu-item" [2]=> string(23) "menu-item-type-taxonomy" [3]=> string(25) "menu-item-object-category" [4]=> string(22) "menu-item-has-children" } ["xfn"]=> string(0) "" ["current"]=> bool(false) ["current_item_ancestor"]=> bool(false) ["current_item_parent"]=> bool(false) } object(WP_Post)#3015 (40)
-// 				{ ["ID"]=> int(10344) ["post_author"]=> string(1) "1" ["post_date"]=> string(19) "2016-04-08 10:30:02" ["post_date_gmt"]=> string(19) "2016-04-08 09:30:02" ["post_content"]=> string(1) " " ["post_title"]=> string(0) "" ["post_excerpt"]=> string(0) "" ["post_status"]=> string(7) "publish" ["comment_status"]=> string(6) "closed" ["ping_status"]=> string(6) "closed" ["post_password"]=> string(0) "" ["post_name"]=> string(5) "10344" ["to_ping"]=> string(0) "" ["pinged"]=> string(0) "" ["post_modified"]=> string(19) "2016-04-08 10:30:11" ["post_modified_gmt"]=> string(19) "2016-04-08 09:30:11" ["post_content_filtered"]=> string(0) "" ["post_parent"]=> int(0) ["guid"]=> string(34) "http://localhost:8890/ddp/?p=10344" ["menu_order"]=> int(5) ["post_type"]=> string(13) "nav_menu_item" ["post_mime_type"]=> string(0) "" ["comment_count"]=> string(1) "0" ["filter"]=> string(3) "raw" ["db_id"]=> int(10344) ["menu_item_parent"]=> string(5) "10343" ["object_id"]=> string(1) "3" ["object"]=> string(8) "category" ["type"]=> string(8) "taxonomy" ["type_label"]=> string(10) "Catégorie" ["url"]=> string(43) "http://localhost:8890/ddp/category/web-2-0/" ["title"]=> string(7) "Web 2.0" ["target"]=> string(0) "" ["attr_title"]=> string(0) "" ["description"]=> string(0) "" ["classes"]=> array(4)
-// 					{ [0]=> string(0) "" [1]=> string(9) "menu-item" [2]=> string(23) "menu-item-type-taxonomy" [3]=> string(25) "menu-item-object-category" } ["xfn"]=> string(0) "" ["current"]=> bool(false) ["current_item_ancestor"]=> bool(false) ["current_item_parent"]=> bool(false) } object(WP_Post)#3016 (40)
-// 					{ ["ID"]=> int(10345) ["post_author"]=> string(1) "1" ["post_date"]=> string(19) "2016-04-08 10:30:02" ["post_date_gmt"]=> string(19) "2016-04-08 09:30:02" ["post_content"]=> string(1) " " ["post_title"]=> string(0) "" ["post_excerpt"]=> string(0) "" ["post_status"]=> string(7) "publish" ["comment_status"]=> string(6) "closed" ["ping_status"]=> string(6) "closed" ["post_password"]=> string(0) "" ["post_name"]=> string(5) "10345" ["to_ping"]=> string(0) "" ["pinged"]=> string(0) "" ["post_modified"]=> string(19) "2016-04-08 10:30:11" ["post_modified_gmt"]=> string(19) "2016-04-08 09:30:11" ["post_content_filtered"]=> string(0) "" ["post_parent"]=> int(0) ["guid"]=> string(34) "http://localhost:8890/ddp/?p=10345" ["menu_order"]=> int(6) ["post_type"]=> string(13) "nav_menu_item" ["post_mime_type"]=> string(0) "" ["comment_count"]=> string(1) "0" ["filter"]=> string(3) "raw" ["db_id"]=> int(10345) ["menu_item_parent"]=> string(5) "10343" ["object_id"]=> string(2) "24" ["object"]=> string(8) "category" ["type"]=> string(8) "taxonomy" ["type_label"]=> string(10) "Catégorie" ["url"]=> string(44) "http://localhost:8890/ddp/category/shopping/" ["title"]=> string(8) "Shopping" ["target"]=> string(0) "" ["attr_title"]=> string(0) "" ["description"]=> string(0) "" ["classes"]=> array(4)
-// 						{ [0]=> string(0) "" [1]=> string(9) "menu-item" [2]=> string(23) "menu-item-type-taxonomy" [3]=> string(25) "menu-item-object-category" } ["xfn"]=> string(0) "" ["current"]=> bool(false) ["current_item_ancestor"]=> bool(false) ["current_item_parent"]=> bool(false) } object(WP_Post)#3017 (40)
-// 						{ ["ID"]=> int(10346) ["post_author"]=> string(1) "1" ["post_date"]=> string(19) "2016-04-08 10:30:02" ["post_date_gmt"]=> string(19) "2016-04-08 09:30:02" ["post_content"]=> string(1) " " ["post_title"]=> string(0) "" ["post_excerpt"]=> string(0) "" ["post_status"]=> string(7) "publish" ["comment_status"]=> string(6) "closed" ["ping_status"]=> string(6) "closed" ["post_password"]=> string(0) "" ["post_name"]=> string(5) "10346" ["to_ping"]=> string(0) "" ["pinged"]=> string(0) "" ["post_modified"]=> string(19) "2016-04-08 10:30:12" ["post_modified_gmt"]=> string(19) "2016-04-08 09:30:12" ["post_content_filtered"]=> string(0) "" ["post_parent"]=> int(0) ["guid"]=> string(34) "http://localhost:8890/ddp/?p=10346" ["menu_order"]=> int(7) ["post_type"]=> string(13) "nav_menu_item" ["post_mime_type"]=> string(0) "" ["comment_count"]=> string(1) "0" ["filter"]=> string(3) "raw" ["db_id"]=> int(10346) ["menu_item_parent"]=> string(1) "0" ["object_id"]=> string(2) "26" ["object"]=> string(8) "category" ["type"]=> string(8) "taxonomy" ["type_label"]=> string(10) "Catégorie" ["url"]=> string(42) "http://localhost:8890/ddp/category/slider/" ["title"]=> string(6) "Slider" ["target"]=> string(0) "" ["attr_title"]=> string(0) "" ["description"]=> string(0) "" ["classes"]=> array(5)
-// 							{ [0]=> string(0) "" [1]=> string(9) "menu-item" [2]=> string(23) "menu-item-type-taxonomy" [3]=> string(25) "menu-item-object-category" [4]=> string(22) "menu-item-has-children" } ["xfn"]=> string(0) "" ["current"]=> bool(false) ["current_item_ancestor"]=> bool(false) ["current_item_parent"]=> bool(false) } object(WP_Post)#3018 (40)
-// 							{ ["ID"]=> int(10347) ["post_author"]=> string(1) "1" ["post_date"]=> string(19) "2016-04-08 10:30:02" ["post_date_gmt"]=> string(19) "2016-04-08 09:30:02" ["post_content"]=> string(1) " " ["post_title"]=> string(0) "" ["post_excerpt"]=> string(0) "" ["post_status"]=> string(7) "publish" ["comment_status"]=> string(6) "closed" ["ping_status"]=> string(6) "closed" ["post_password"]=> string(0) "" ["post_name"]=> string(5) "10347" ["to_ping"]=> string(0) "" ["pinged"]=> string(0) "" ["post_modified"]=> string(19) "2016-04-08 10:30:12" ["post_modified_gmt"]=> string(19) "2016-04-08 09:30:12" ["post_content_filtered"]=> string(0) "" ["post_parent"]=> int(0) ["guid"]=> string(34) "http://localhost:8890/ddp/?p=10347" ["menu_order"]=> int(8) ["post_type"]=> string(13) "nav_menu_item" ["post_mime_type"]=> string(0) "" ["comment_count"]=> string(1) "0" ["filter"]=> string(3) "raw" ["db_id"]=> int(10347) ["menu_item_parent"]=> string(5) "10346" ["object_id"]=> string(2) "95" ["object"]=> string(8) "category" ["type"]=> string(8) "taxonomy" ["type_label"]=> string(10) "Catégorie" ["url"]=> string(41) "http://localhost:8890/ddp/category/night/" ["title"]=> string(5) "Night" ["target"]=> string(0) "" ["attr_title"]=> string(0) "" ["description"]=> string(0) "" ["classes"]=> array(4)
-// 								{ [0]=> string(0) "" [1]=> string(9) "menu-item" [2]=> string(23) "menu-item-type-taxonomy" [3]=> string(25) "menu-item-object-category" } ["xfn"]=> string(0) "" ["current"]=> bool(false) ["current_item_ancestor"]=> bool(false) ["current_item_parent"]=> bool(false) } object(WP_Post)#3019 (40)
-// 								{ ["ID"]=> int(10348) ["post_author"]=> string(1) "1" ["post_date"]=> string(19) "2016-04-08 10:30:02" ["post_date_gmt"]=> string(19) "2016-04-08 09:30:02" ["post_content"]=> string(1) " " ["post_title"]=> string(0) "" ["post_excerpt"]=> string(0) "" ["post_status"]=> string(7) "publish" ["comment_status"]=> string(6) "closed" ["ping_status"]=> string(6) "closed" ["post_password"]=> string(0) "" ["post_name"]=> string(5) "10348" ["to_ping"]=> string(0) "" ["pinged"]=> string(0) "" ["post_modified"]=> string(19) "2016-04-08 10:30:12" ["post_modified_gmt"]=> string(19) "2016-04-08 09:30:12" ["post_content_filtered"]=> string(0) "" ["post_parent"]=> int(0) ["guid"]=> string(34) "http://localhost:8890/ddp/?p=10348" ["menu_order"]=> int(9) ["post_type"]=> string(13) "nav_menu_item" ["post_mime_type"]=> string(0) "" ["comment_count"]=> string(1) "0" ["filter"]=> string(3) "raw" ["db_id"]=> int(10348) ["menu_item_parent"]=> string(5) "10346" ["object_id"]=> string(2) "21" ["object"]=> string(8) "category" ["type"]=> string(8) "taxonomy" ["type_label"]=> string(10) "Catégorie" ["url"]=> string(44) "http://localhost:8890/ddp/category/insolite/" ["title"]=> string(8) "Insolite" ["target"]=> string(0) "" ["attr_title"]=> string(0) "" ["description"]=> string(0) "" ["classes"]=> array(4)
-// 									{ [0]=> string(0) "" [1]=> string(9) "menu-item" [2]=> string(23) "menu-item-type-taxonomy" [3]=> string(25) "menu-item-object-category" } ["xfn"]=> string(0) "" ["current"]=> bool(false) ["current_item_ancestor"]=> bool(false) ["current_item_parent"]=> bool(false) } object(WP_Post)#3020 (40)
-// 									{ ["ID"]=> int(10349) ["post_author"]=> string(1) "1" ["post_date"]=> string(19) "2016-04-08 10:30:02" ["post_date_gmt"]=> string(19) "2016-04-08 09:30:02" ["post_content"]=> string(1) " " ["post_title"]=> string(0) "" ["post_excerpt"]=> string(0) "" ["post_status"]=> string(7) "publish" ["comment_status"]=> string(6) "closed" ["ping_status"]=> string(6) "closed" ["post_password"]=> string(0) "" ["post_name"]=> string(5) "10349" ["to_ping"]=> string(0) "" ["pinged"]=> string(0) "" ["post_modified"]=> string(19) "2016-04-08 10:30:12" ["post_modified_gmt"]=> string(19) "2016-04-08 09:30:12" ["post_content_filtered"]=> string(0) "" ["post_parent"]=> int(0) ["guid"]=> string(34) "http://localhost:8890/ddp/?p=10349" ["menu_order"]=> int(10) ["post_type"]=> string(13) "nav_menu_item" ["post_mime_type"]=> string(0) "" ["comment_count"]=> string(1) "0" ["filter"]=> string(3) "raw" ["db_id"]=> int(10349) ["menu_item_parent"]=> string(1) "0" ["object_id"]=> string(2) "20" ["object"]=> string(8) "category" ["type"]=> string(8) "taxonomy" ["type_label"]=> string(10) "Catégorie" ["url"]=> string(49) "http://localhost:8890/ddp/category/tendancesmode/" ["title"]=> string(14) "Tendances/Mode" ["target"]=> string(0) "" ["attr_title"]=> string(0) "" ["description"]=> string(0) "" ["classes"]=> array(4)
-// 										{ [0]=> string(0) "" [1]=> string(9) "menu-item" [2]=> string(23) "menu-item-type-taxonomy" [3]=> string(25) "menu-item-object-category" } ["xfn"]=> string(0) "" ["current"]=> bool(false) ["current_item_ancestor"]=> bool(false) ["current_item_parent"]=> bool(false) }
+
+add_action( 'admin_menu', 'register_my_custom_menu_page' );
+
+function register_my_custom_menu_page(){
+	add_menu_page( 'Dettachée de Presse', 'Dettachée de Presse', 'manage_options', 'custompage', 'my_custom_menu_page', "dashicons-heart", 30 );
+}
+
+function my_custom_menu_page(){
+  if (isset($_POST['awesome_text'])) {
+        update_option('awesome_text', $_POST['awesome_text']);
+        $value = $_POST['awesome_text'];
+    }
+
+  if (isset($_POST['logo'])) {
+        update_option('logo', $_POST['logo']);
+        $value = $_POST['logo'];
+    }
+    $logo = get_option('logo', 'logo');
+    $value = get_option('awesome_text', 'hey-ho');
+include 'page-templates/customizer/ddp.php';
+
+	// get_template_part('page-templates/customizer/ddp');
+}
+
+// add_action( 'admin_menu', 'register_my_custom_menu_page' );
+//
+// function register_my_custom_menu_page(){
+// 	add_menu_page( 'Cartes de Visite', 'Cartes de Visite', 'manage_options', 'custompage', 'my_custom_menu_page', plugins_url( 'myplugin/images/icon.png' ), 6 );
+// }
+//
+// function my_custom_menu_page(){
+// 	get_template_part('custom-cartes');
+// }
+
+
+
+// function lda_theme_customizer( $wp_customize ) {
+// 	//Logo desktop
+//   $wp_customize->add_section( 'lda_logo_section' , array(
+//     'title'       => __( 'Logo', 'lda' ),
+//     'priority'    => 30,
+//     'description' => 'Upload a logo to replace the default site name and description in the header',
+// 		)
+// 	);
+// 	$wp_customize->add_setting( 'lda_logo' );
+// 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'lda_logo', array(
+//     'label'    => __( 'Logo', 'lda' ),
+//     'section'  => 'lda_logo_section',
+//     'settings' => 'lda_logo',
+// 		) )
+// 	);
+// 	//Logo desktop retina
+//   $wp_customize->add_section( 'lda_logo_retina_section' , array(
+//     'title'       => __( 'Logo retina', 'lda' ),
+//     'priority'    => 30,
+//     'description' => 'Upload a logo to replace the default site name and description in the header',
+// 		)
+// 	);
+// 	$wp_customize->add_setting( 'lda_logo_retina' );
+// 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'lda_logo_retina', array(
+//     'label'    => __( 'Logo retina', 'lda' ),
+//     'section'  => 'lda_logo_retina_section',
+//     'settings' => 'lda_logo_retina',
+// 		) )
+// 	);
+// 	//Logo mobile
+//   $wp_customize->add_section( 'lda_logo_mobile_section' , array(
+//     'title'       => __( 'Logo mobile', 'lda' ),
+//     'priority'    => 30,
+//     'description' => 'Upload a logo to replace the default site name and description in the header',
+// 		)
+// 	);
+// 	$wp_customize->add_setting( 'lda_logo_mobile' );
+// 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'lda_logo_mobile', array(
+//     'label'    => __( 'Logo mobile', 'lda' ),
+//     'section'  => 'lda_logo_mobile_section',
+//     'settings' => 'lda_logo_mobile',
+// 		) )
+// 	);
+// 	//Logo mobile retina
+//   $wp_customize->add_section( 'lda_logo_mobile_retina_section' , array(
+//     'title'       => __( 'Logo mobile retina', 'lda' ),
+//     'priority'    => 30,
+//     'description' => 'Upload a logo to replace the default site name and description in the header',
+// 		)
+// 	);
+// 	$wp_customize->add_setting( 'lda_logo_mobile_retina' );
+// 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'lda_logo_mobile_retina', array(
+//     'label'    => __( 'Logo mobile retina', 'lda' ),
+//     'section'  => 'lda_logo_mobile_retina_section',
+//     'settings' => 'lda_logo_mobile_retina',
+// 		) )
+// 	);
+// }
+// add_action( 'customize_register', 'lda_theme_customizer' );
 
 
 function register_my_widget_theme()  {

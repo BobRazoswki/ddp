@@ -27,17 +27,27 @@ jQuery( document ).ready(function() {
   // Navigation toggle mega menu on hover
   var subMenu       = jQuery(".sub-menu .menu-item, .nav__thumbnails")
   var mainMenuItems = jQuery(".nav__linkWithNoDepth")
-  subMenu.fadeOut("fast");
+  //subMenu.fadeOut("fast");
 
-  jQuery(function() {
-      mainMenuItems.hover(function() {
-          subMenu.fadeIn();
-        },
-        function(){
-          subMenu.fadeOut();
-        }
-     );
+  // jQuery(function() {
+  //     mainMenuItems.hover(function() {
+  //         subMenu.fadeIn();
+  //       },
+  //       function(){
+  //         subMenu.fadeOut();
+  //       }
+  //    );
+  // });
+
+  jQuery('#menu-nav > li').each(function(){
+    if(jQuery(this).find('.sub-menu li ul').length){
+      //alert('yeah!');
+      jQuery(this).find('.sub-menu').first().addClass('multiple');
+    }else{
+      //alert(":'(");
+    }
   });
+
 
 
 

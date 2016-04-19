@@ -6,7 +6,23 @@
 // include_once 'metaboxes/customizer-spec.php';
 // $wpalchemy_media_access = new WPAlchemy_MediaAccess();
 
-add_theme_support( 'post-thumbnails' );
+// add_theme_support( 'post-thumbnails' );
+
+if ( ! isset( $content_width ) ) $content_width = 900;
+
+function custom_theme_setup() {
+	add_theme_support( 'post-thumbnails');
+  add_theme_support( 'automatic-feed-links' );
+  add_theme_support( "title-tag" );
+  add_theme_support( "custom-header");
+  add_theme_support( "custom-background");
+}
+add_action( 'after_setup_theme', 'custom_theme_setup' );
+
+function wpdocs_theme_add_editor_styles() {
+    add_editor_style( 'custom-editor-style.css' );
+}
+add_action( 'admin_init', 'wpdocs_theme_add_editor_styles' );
 
 class description_walker extends Walker_Nav_Menu
 {
@@ -90,7 +106,7 @@ class description_walker extends Walker_Nav_Menu
 add_action( 'admin_menu', 'register_my_custom_menu_page' );
 
 function register_my_custom_menu_page(){
-	add_menu_page( 'Dettachée de Presse', 'Dettachée de Presse', 'manage_options', 'custompage', 'my_custom_menu_page', "dashicons-heart", 30 );
+	add_theme_page( 'Dettach&eacute;e de Presse', 'Dettach&eacute;e de Presse', 'manage_options', 'custompage', 'my_custom_menu_page', "dashicons-heart", 30 );
 }
 
 function my_custom_menu_page(){
@@ -114,7 +130,7 @@ include 'page-templates/customizer/ddp.php';
 // add_action( 'admin_menu', 'register_my_custom_menu_page' );
 //
 // function register_my_custom_menu_page(){
-// 	add_menu_page( 'Cartes de Visite', 'Cartes de Visite', 'manage_options', 'custompage', 'my_custom_menu_page', plugins_url( 'myplugin/images/icon.png' ), 6 );
+// 	add_theme_page( 'Cartes de Visite', 'Cartes de Visite', 'manage_options', 'custompage', 'my_custom_menu_page', plugins_url( 'myplugin/images/icon.png' ), 6 );
 // }
 //
 // function my_custom_menu_page(){
@@ -264,7 +280,7 @@ add_action('wp_enqueue_style', 'wpc_styles');
 function wpc_dashboard_widget_function() {
 	echo
 	"<ul>
-		<li>Une création <a href='http://sweetbid.fr'>SweetBid</a></li>
+		<li>Une cr&eacute;ation <a href='http://sweetbid.fr'>SweetBid</a></li>
 	</ul>";
 }
 
@@ -275,6 +291,6 @@ function wpc_add_dashboard_widgets() {
 add_action('wp_dashboard_setup', 'wpc_add_dashboard_widgets' );
 
 function remove_footer_admin () {
-echo 'Fait avec &#9829; par ton geek préféré :D';
+echo 'Fait avec &#9829; par ton geek pr&eacute;f&eacute;r&eacute; :D';
  }
  add_filter('admin_footer_text', 'remove_footer_admin');

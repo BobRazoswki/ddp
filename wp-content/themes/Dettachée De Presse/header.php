@@ -9,6 +9,7 @@
 <html <?php language_attributes(); ?>>
 <!--<![endif]-->
 <head >
+	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width">
 	<title><?php wp_title( '|', true, 'right' ); ?></title>
 	<link rel="profile" href="http://gmpg.org/xfn/11">
@@ -35,6 +36,7 @@
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
 </script>
+<body <?php //body_class( $class ); ?> >
 <header class="header">
 	<?php get_template_part( 'page-templates/header/header' ); ?>
 	<?php get_template_part( 'page-templates/header/nav' ); ?>

@@ -1,5 +1,5 @@
 <main class="dashboard">
-  <h1 class="dashboard__h1">Dettachée de Presse is powerful</h1>
+  <h1 class="dashboard__h1">Dettach&eacute;e de Presse is powerful</h1>
 
   <article class="dashboard__header">
     <h3 class="dashboard__h3">Header du site</h3>

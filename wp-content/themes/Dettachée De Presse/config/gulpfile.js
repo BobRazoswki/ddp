@@ -1,11 +1,9 @@
-// npm install gulp-rename gulp-sass gulp-bower gulp-autoprefixer gulp-concat gulp-watch gulp-connect gulp-livereload gulp-jsmin gulp-cssmin browser-sync del --save-dev
-
-
+// npm install gulp-install gulp-rename gulp-sass gulp-bower gulp-autoprefixer gulp-concat gulp-watch gulp-connect gulp-livereload gulp-jsmin gulp-cssmin browser-sync del --save-dev
 
 var livereload = require('gulp-livereload');
 
 var gulp       = require("gulp")
-  ,del         = require('del')
+  , del        = require('del')
   , sass       = require("gulp-sass")
   , autoprefix = require("gulp-autoprefixer")
   , concat     = require("gulp-concat")
@@ -141,3 +139,28 @@ gulp.task('bower', function(cb){
 gulp.src(['./bower.json'])
   .pipe(install()
 );
+
+
+
+/*
+"devDependencies": {
+  "browser-sync": "^2.11.2",
+  "del": "^2.2.0",
+  "gulp": "^3.8.11",
+  "gulp-autoprefixer": "^3.1.0",
+  "gulp-bower": "0.0.13",
+  "gulp-concat": "^2.6.0",
+  "gulp-connect": "^3.2.2",
+  "gulp-cssmin": "^0.1.7",
+  "gulp-install": "^0.4.0",
+  "gulp-jsmin": "^0.1.5",
+  "gulp-livereload": "^3.8.1",
+  "gulp-minify-css": "^1.0.0",
+  "gulp-notify": "^2.2.0",
+  "gulp-rename": "^1.2.2",
+  "gulp-ruby-sass": "^1.0.1",
+  "gulp-sass": "^2.2.0",
+  "gulp-uglify": "^1.1.0",
+  "gulp-watch": "^4.3.5"
+}
+*/

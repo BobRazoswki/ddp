@@ -13,22 +13,25 @@
 		<img src="<?php echo $logo_url_store ?>" alt="" />
 	</section>
 
-	<section class="post__submission">
-		<a href="<?php echo site_url(); ?>/soumission-darticle/">Soumettre un article</a>
-	</section>
-
 	<section class="newsletter">
-		<button class="newsletter__button--homme" type="button" name="button__homme">H</button>
-		<button class="newsletter__button--femme" type="button" name="button__femme">F</button>
-		<span id="newsletter__homme">
+		<span class="newsletter__button--container">
+			<button class="newsletter__button--homme" type="button" name="button__homme">H</button>
+			<button class="newsletter__button--femme" type="button" name="button__femme">F</button>
+		</span>
+		<span class="newsletter__homme">
 			<?php
 				if( function_exists( 'ninja_forms_display_form' ) ){ ninja_forms_display_form( 5 ); }
 			?>
 		</span>
-		<span id="newsletter__femme">
+		<span class="newsletter__femme">
 			<?php
 				if( function_exists( 'ninja_forms_display_form' ) ){ ninja_forms_display_form( 6 ); }
 			?>
 		</span>
 	</section>
+
+	<section class="post__submission">
+		<a href="<?php echo site_url(); ?>/soumission-darticle/">Soumettre un article<span class="post__submission--plus">+</span></a>
+	</section>
+
 </article>

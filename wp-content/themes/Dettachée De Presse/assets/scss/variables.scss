@@ -1,51 +1,5 @@
-@mixin border-radius($radius) {
-  -webkit-border-radius: $radius;
-     -moz-border-radius: $radius;
-      -ms-border-radius: $radius;
-       -o-border-radius: $radius;
-          border-radius: $radius;
-}
-
-@mixin transition($transition) {
-  -webkit-transition: $transition;
-     -moz-transition: $transition;
-      -ms-transition: $transition;
-       -o-transition: $transition;
-          transition: $transition;
-}
-
-@mixin transform($transform) {
-  -webkit-transform: $transform;
-     -moz-transform: $transform;
-      -ms-transform: $transform;
-       -o-transform: $transform;
-          transform: $transform;
-}
-
-
-@mixin grid-columns() {
-  $grid: 12;
-  $i: 0;
-  @for $i from (0 + 1) through $grid {
-    &--#{$i} {
-      width: percentage($i / $grid);
-      float: left;
-      position: relative;
-      height: 100%;
-    }
-  }
-}
-
-
-@mixin dividers() {
-  $filters_number: 20;
-  $i: 10;
-  @for $i from (0 + 5) through $filters_number {
-    .divider {
-      &__#{$i} {
-        height: #{$i}px;
-        display: block;
-      }
-    }
-  }
-}
+$bleu-ciel: #A9D7E0;
+$bleu-fonce: #3789A5;
+$white: #fff;
+$gris-fonce: #949797;
+$black: #000;

@@ -1,8 +1,9 @@
 {
-  "name": "Com and See Theme",
+  "name": "SweetBid Theme",
   "version": "1.0.0",
   "authors": [
-    "aortegan <toni.47.ortega@gmail.com>"
+    "aortegan <toni.47.ortega@gmail.com>",
+    "Bob <bobongithub@gmail.com>"
   ],
   "description": "Theme Com and See",
   "license": "MIT",

@@ -3,41 +3,54 @@ jQuery( document ).ready(function() {
   jQuery("#wp-uspcontent-media-buttons").empty();
 
   // Formulaire Newsletter H/F
-  var newsletterFemme       = jQuery("#newsletter__femme");
-  var newsletterHomme       = jQuery("#newsletter__homme");
+  var newsletterFemme       = jQuery(".newsletter__femme");
+  var newsletterHomme       = jQuery(".newsletter__homme");
   var newsletterBoutonHomme = jQuery(".newsletter__button--homme");
   var newsletterBoutonFemme = jQuery(".newsletter__button--femme");
+  var popupContainer        = jQuery("#popup");
+  var popupCrossContainer   = jQuery("#popup__cross--container");
+
 
   newsletterFemme.hide();
-  newsletterBoutonHomme.css("text-decoration", "underline");
+  newsletterBoutonHomme.css("background-color", "#3789A5");
 
   newsletterBoutonHomme.on("click", function(){
-    newsletterBoutonFemme.css("text-decoration", "none");
-    newsletterBoutonHomme.css("text-decoration", "underline");
+    newsletterBoutonFemme.css("background-color", "white");
+    newsletterBoutonHomme.css("background-color", "#3789A5");
     newsletterFemme.hide();
-    newsletterHomme.show();
+    newsletterHomme.fadeIn( "slow", function() {
+    });
   });
+
   newsletterBoutonFemme.on("click", function(){
-    newsletterBoutonHomme.css("text-decoration", "none");
-    newsletterBoutonFemme.css("text-decoration", "underline");
+    newsletterBoutonHomme.css("background-color", "white");
+    newsletterBoutonFemme.css("background-color", "#3789A5");
     newsletterHomme.hide();
-    newsletterFemme.show();
+    newsletterFemme.fadeIn( "slow", function() {
+    });
   });
+
+  popupCrossContainer.on("click", function(){
+    popupContainer.fadeOut( "slow", function() {
+    });
+    console.log("inside");
+  });
+
+  if (jQuery('body > article').hasClass("popup")) {
+    jQuery('html').click(function() {
+      closeNewsletter()
+      alert("Jai clique sur le htnl");
+    });
+
+    jQuery('.popup').click(function(event){
+        event.stopPropagation();
+    });
+  }
 
   // Navigation toggle mega menu on hover
   var subMenu       = jQuery(".sub-menu .menu-item, .nav__thumbnails")
   var mainMenuItems = jQuery(".nav__linkWithNoDepth")
-  //subMenu.fadeOut("fast");
 
-  // jQuery(function() {
-  //     mainMenuItems.hover(function() {
-  //         subMenu.fadeIn();
-  //       },
-  //       function(){
-  //         subMenu.fadeOut();
-  //       }
-  //    );
-  // });
 
   jQuery('#menu-nav > li').each(function(){
     if(jQuery(this).find('.sub-menu li ul').length){
@@ -47,11 +60,4 @@ jQuery( document ).ready(function() {
       //alert(":'(");
     }
   });
-
-
-
-
-
-
-
 });

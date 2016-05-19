@@ -17,7 +17,11 @@
 	<!--[if lt IE 9]>
 		<script src="<?php echo get_template_directory_uri(); ?>/assets/js/html5.min.js"></script>
 	<![endif]-->
-	<?php wp_head(); ?>
+	<?php
+	//	if (is_admin()) {
+	   wp_head();
+	//	}
+	?>
 </head>
 <script>
   window.fbAsyncInit = function() {
@@ -37,6 +41,46 @@
    }(document, 'script', 'facebook-jssdk'));
 </script>
 <body <?php //body_class( $class ); ?> >
+	<?php
+		if (isset($_COOKIE['sitename_newvisitor']) === false) {
+			echo "<article id='popup' class='popup'>";
+			echo "<div id='popup__cross--container' class='popup__cross--container'>";
+				echo "<span class='popup__cross popup__cross--left'></span>";
+				echo "<span class='popup__cross popup__cross--right'></span>";
+			echo "</div>";
+				global $post;
+				$args = array(
+					'posts_per_page' => 3,
+					'category' => 568
+				);
+				echo '<h3 class="popup__title">L\'EMAIL QUI FAIT DU BIEN!</h3>';
+				echo '<ul class="popup__post">';
+					$custom_posts = get_posts($args);
+					foreach($custom_posts as $post) : setup_postdata($post);
+						echo '<li class="popup__post--li">';
+							the_post_thumbnail( 'thumbnail' );
+							echo '<span class="popup__post--title">';
+								the_title();
+							echo '</span>';
+						echo '</li>';
+					endforeach;
+				echo '</ul>';
+				echo '<section class="newsletter">';
+					echo '<h3 class="newsletter__h3">INSCRIVEZ-VOUS À LA NEWSLETTER</h3>';
+					echo '<section class="newsletter__container">';
+						echo '<button class="newsletter__button--homme" type="button" name="button__homme">H</button>';
+						echo '<button class="newsletter__button--femme" type="button" name="button__femme">F</button>';
+							echo '<span class="newsletter__homme">';
+									if( function_exists( 'ninja_forms_display_form' ) ){ ninja_forms_display_form( 5 ); }
+							echo '</span>';
+							echo '<span class="newsletter__femme">';
+									if( function_exists( 'ninja_forms_display_form' ) ){ ninja_forms_display_form( 6 ); }
+							echo '</span>';
+						echo '</section>';
+				echo '</section>';
+			echo '</article>';
+		}
+	?>
 <header class="header">
 	<?php get_template_part( 'page-templates/header/header' ); ?>
 	<?php get_template_part( 'page-templates/header/nav' ); ?>

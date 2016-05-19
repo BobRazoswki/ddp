@@ -17,6 +17,7 @@ function custom_theme_setup() {
   add_theme_support( "custom-header");
   add_theme_support( "custom-background");
 }
+
 add_action( 'after_setup_theme', 'custom_theme_setup' );
 
 function wpdocs_theme_add_editor_styles() {
@@ -270,10 +271,16 @@ function load_custom_wp_admin_style() {
 }
 
 add_action( 'admin_enqueue_scripts', 'load_custom_wp_admin_style' );
-
 add_action('wp_enqueue_scripts', 'wpc_styles');
 add_action('wp_enqueue_style', 'wpc_styles');
 
+
+function set_newuser_cookie() {
+	if ( !is_admin() && !isset($_COOKIE['sitename_newvisitor'])) {
+		setcookie( 'sitename_newvisitor', 1, time()+3600*24*100, COOKIEPATH, COOKIE_DOMAIN, false);
+	}
+}
+add_action( 'init', 'set_newuser_cookie');
 
 /** Customization SweetBid **/
 

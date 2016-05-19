@@ -1,0 +1,103 @@
+.newsletter {
+  // top: -90px;
+  width: 100%;
+  text-align: right;
+  float: right;
+  position: relative;
+
+  & input#ninja_forms_field_5, input#ninja_forms_field_6 {
+    width: 150px;
+    font-size: 15px;
+  }
+
+  &__homme {
+    position: relative;
+    top: -96px;
+  }
+
+  &__femme {
+    position: relative;
+    top: -88px;
+  }
+
+  &__button {
+    &--homme, &--femme {
+      background-color: $white;
+      color: $bleu-ciel;
+      display: inline-block;
+      position: relative;
+      border: none;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      z-index: 9;
+    }
+
+    &--container {
+      border: 2px solid $bleu-ciel;
+      position: relative;
+      display: inline-block;
+      height: 40px;
+      max-width: 85px;
+      top: -93px;
+    }
+  }
+}
+
+#newsletter {
+  &__homme, &__femme {
+    display: inline-block;
+  }
+}
+// .ninja-forms-cont, .ninja-forms-form-wrap {
+//     position: relative;
+//     min-height: 74px;
+//     height: 74px;
+// }
+
+
+.field-wrap, #ninja_forms_required_items {
+    margin-bottom: 0px;
+}
+
+div#ninja_forms_form_5_all_fields_wrap, div#ninja_forms_form_6_all_fields_wrap {
+    position: relative;
+    display: flex;
+    vertical-align: middle;
+}
+
+div#ninja_forms_field_10_div_wrap, div#ninja_forms_field_9_div_wrap {
+    margin-top: 15px;
+}
+
+.field-wrap.label-left .ninja-forms-field, .field-wrap.label-left .ninja-forms-star-rating-control {
+    margin-top: 14px;
+}
+
+.ninja-forms-cont {
+    position: relative;
+    display: inline-block;
+}
+
+input#ninja_forms_field_5, input#ninja_forms_field_6 {
+    height: 40px;
+    border: none;
+    padding-left: 16px;
+    width: 20vw;
+    margin-left: 8px;
+}
+
+
+input#ninja_forms_field_9, input#ninja_forms_field_10 {
+    border: none;
+    background: $black;
+    color: $white;
+    height: 40px;
+    margin-top: -1px;
+    width: 50px;
+    font-size: 18px;
+}
+
+input#ninja_forms_field_9 {
+    margin-top: -10px;
+}

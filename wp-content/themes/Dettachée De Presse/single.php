@@ -64,12 +64,7 @@ get_header();
 
  </div>
 
-<div
-  class="fb-like"
-  data-share="true"
-  data-width="450"
-  data-show-faces="true">
-</div>
 <?php
+echo do_shortcode('[ajax_load_more post_type="post" category="brand-factory,dossier-youtube,market-com" scroll_distance="1" posts_per_page="20" button_label="Voir plus d\'article Dettachée" button_loading_label="Voir plus d\'article Dettachée" container_type="div"]');
 get_footer();
  ?>

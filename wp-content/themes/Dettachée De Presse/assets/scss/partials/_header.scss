@@ -8,40 +8,32 @@
     width: 150px;
   }
 
-  &__ddp img {
+  &__ddp {
+    & a {
       width: 200px;
+      height: auto;
+      display: block;
+      top: 30px;
+      position: relative;
+      cursor: pointer;
+      z-index: 9;
+    }
+
+    & img {
+      display: block;
+      width: 100%;
+    }
   }
-
 }
 
-.header__navigation {
-    top: -70px;
-    display: block;
-    position: relative;
-}
+.header {
+  height: 170px;
 
-// BLOC USP
-.post__submission {
-    position: relative;
-    float: right;
-    top: -80px;
-}
-
-// BLOC NEWSLETTER
-.newsletter {
-  top: -70px;
-  width: 100%;
-  text-align: right;
-  float: right;
-  position: relative;
-}
-
-#newsletter {
-
-  &__homme, &__femme {
-    display: inline-block;
+  &__navigation {
+      top: -70px;
+      display: block;
+      position: relative;
   }
-
 }
 
 .hp-wrap, .ninja-forms-required-items, .ninja-forms-req-symbol strong {

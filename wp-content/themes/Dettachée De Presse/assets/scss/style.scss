@@ -27,6 +27,10 @@ body {
 	line-height: 1;
 	font-family: 'josefin_slabregular';
 }
+
+input {
+	font-family: 'josefin_slabregular';
+}
 ol, ul {
 	list-style: none;
 }
@@ -42,8 +46,25 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+.size-auto,
+.size-full,
+.size-large,
+.size-medium,
+.size-thumbnail {
+	max-width: 100%;
+	height: auto;
+}
+@import "mixins";
+@import "variables";
+@import "partials/popup";
 @import "partials/header";
 @import "partials/footer";
 @import "partials/navigation";
 @import "partials/category";
+@import "partials/content";
+@import "partials/sidebar";
+@import "partials/newsletter";
+@import "partials/post_submission";
+@import "partials/slider";
 @import "partials/default";

@@ -80,7 +80,7 @@ function usp_license_page() {
 						<tr valign="top">	
 							<th scope="row" valign="top"><?php _e('License Key', 'usp'); ?></th>
 							<td>
-								<input id="usp_license_key" name="usp_license_key" type="hidden" value="<?php esc_attr_e($license); ?>" />
+								<input type="hidden" id="usp_license_key" name="usp_license_key" value="<?php esc_attr_e($license); ?>" />
 								<div class="usp-license-activated">
 									<code><?php esc_attr_e($license); ?></code><br /><small><?php _e('Your USP Pro License is active.', 'usp'); ?></small>
 								</div>

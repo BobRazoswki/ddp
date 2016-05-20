@@ -1,0 +1,25 @@
+.last__post {
+
+  figcaption {
+      position: absolute;
+      display: block;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      text-align: center;
+      color: white;
+      text-transform: uppercase;
+  }
+
+  img {
+      width: auto;
+      height: auto;
+      max-height: 260px;
+      max-width: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      position: relative;
+
+  }
+}

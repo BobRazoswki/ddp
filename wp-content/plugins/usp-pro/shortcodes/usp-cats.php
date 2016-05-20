@@ -16,7 +16,8 @@ if (!defined('ABSPATH')) die();
 		cats        = specifies any default cats that should always be include with the form (comma separated)
 		size        = specifies value for the size attribute of the select tag when using the select menu
 		multiple    = specifies whether users should be allowed to select multiple categories
-		include     = overrides global cats to specify local cats (comma-separated list of cat IDs), OR specifies to include all non-empty cats via "all", OR all cats including empty via "all_include_empty"
+		include     = overrides global cats to specify local cats (comma-separated list of cat IDs), 
+					  OR specifies to include all non-empty cats via "all", OR all cats including empty via "all_include_empty"
 		exclude     = specifies any cats that should be excluded from the form (comma separated)
 		custom      = any attributes or custom code
 		fieldset    = enable auto-fieldset: true, false, or custom class name for fieldset (default true)
@@ -79,7 +80,7 @@ function usp_input_category($args) {
 	}
 	
 	// attributes
-	$field = 'usp_error_6';
+	$field       = 'usp_error_6';
 	$placeholder = usp_placeholder($args, $field);
 	$required    = usp_required($args);
 	$label       = usp_label($args, $field);
@@ -98,7 +99,7 @@ function usp_input_category($args) {
 	
 	// input class
 	$class = isset($args['class']) ? 'usp-input,usp-input-category,'. $args['class'] : 'usp-input,usp-input-category';
-	$classes = usp_classes($class, '6');
+	$classes = usp_classes($class, $field);
 	
 	// hidden cats
 	$cats = isset($args['cats']) ? usp_cats($args['cats']) : '';
@@ -154,18 +155,19 @@ function usp_input_category($args) {
 	// display cats
 	if (isset($usp_general['hidden_cats']) && !empty($usp_general['hidden_cats'])) {
 		
-		return (!empty($cats)) ? '<input name="usp-cats-default" value="'. $cats .'" type="hidden" />'. "\n" : '';
+		return (!empty($cats)) ? '<input type="hidden" name="usp-cats-default" value="'. esc_attr($cats) .'" />'. "\n" : '';
 		
 	} else {
 		
 		if ($display_cats == 'checkbox') {
 			
-			$content = (!empty($label)) ? '<label for="'. $name .'[]" class="usp-label usp-label-category">'. $label .'</label>'. "\n" : '';
+			$content = (!empty($label)) ? '<div class="usp-label usp-label-category">'. esc_html($label) .'</div>'. "\n" : '';
 
 			if (isset($usp_general['cats_nested']) && !empty($usp_general['cats_nested'])) {
 				
 				$content .= '<style type="text/css">';
-				$content .= '.usp-cat { display: block; } .usp-cat-0 { margin-left: 0; } .usp-cat-1 { margin-left: 20px; } .usp-cat-2 { margin-left: 40px; } .usp-cat-3 { margin-left: 60px; } .usp-cat-4 { margin-left: 80px; }';
+				$content .= '.usp-cat { display: block; } .usp-cat-0 { margin-left: 0; } .usp-cat-1 { margin-left: 20px; } ';
+				$content .= '.usp-cat-2 { margin-left: 40px; } .usp-cat-3 { margin-left: 60px; } .usp-cat-4 { margin-left: 80px; }';
 				$content .= '</style>'. "\n";
 			}
 			foreach ($cat_array as $cat) {
@@ -187,17 +189,19 @@ function usp_input_category($args) {
 				elseif ($cat_level == 'great_grandchild') $level = '3';
 				elseif ($cat_level == 'great_great_grandchild') $level = '4';
 				
-				$content .= '<span class="usp-checkbox usp-cat usp-cat-'. $level .'">';
-				$content .= '<input type="checkbox" name="'. $name .'[]" value="'. $cat['id'] .'" data-required="'. $required .'" class="'. $classes .'"'. $checked .' '. $custom .'/> '. esc_html(get_cat_name($cat['id']));
-				$content .= '</span>'. "\n";
+				$content .= '<label for="'. esc_attr($name) .'" class="usp-checkbox usp-cat usp-cat-'. esc_attr($level) .'">';
+				$content .= '<input type="checkbox" name="'. esc_attr($name) .'[]" id="'. esc_attr($name) .'" value="'. esc_attr($cat['id']) .'" ';
+				$content .= 'data-required="'. esc_attr($required) .'" class="'. esc_attr($classes) .'"'. $checked .' '. $custom .'/> ';
+				$content .= esc_html(get_cat_name($cat['id'])) .'</label>'. "\n";
+				
 			}
 			
 		} else {
 			
-			$content = (!empty($label)) ? '<label for="'. $name . $brackets .'" class="usp-label usp-label-category">'. $label .'</label>'. "\n" : '';
+			$content  = (!empty($label)) ? '<label for="'. esc_attr($name) .'" class="usp-label usp-label-category">'. esc_html($label) .'</label>'. "\n" : '';
 			
-			$content .= '<select name="'. $name . $brackets .'" '. $parsley .'data-required="'. $required .'"'. $size . $multiple .' class="'. $classes .' usp-select"'. $custom .'>'. "\n";
-			$content .= $default_html;
+			$content .= '<select name="'. esc_attr($name) . $brackets .'" id="'. esc_attr($name) .'" '. $parsley .'data-required="'. esc_attr($required) .'"';
+			$content .= $size . $multiple .' class="'. esc_attr($classes) .' usp-select"'. $custom .'>'. "\n" . $default_html;
 			
 			foreach ($cat_array as $cat) {
 				
@@ -225,15 +229,15 @@ function usp_input_category($args) {
 					elseif ($cat_level == 'great_great_grandchild') $indent = '&emsp;&emsp;&emsp;&emsp;';
 				}
 				
-				$content .= '<option value="'. $cat['id'] .'"'. $selected .'>'. $indent . esc_html(get_cat_name($cat['id'])) .'</option>'. "\n";
+				$content .= '<option value="'. esc_attr($cat['id']) .'"'. $selected .'>'. $indent . esc_html(get_cat_name($cat['id'])) .'</option>'. "\n";
 			}
 			
 			$content .= '</select>'. "\n";
 		}
 		
 		// hidden fields
-		if ($required == 'true') $content .= '<input name="'. $name .'-required" value="1" type="hidden" />'. "\n";
-		if (!empty($cats)) $content .= '<input name="usp-cats-default" value="'. $cats .'" type="hidden" />'. "\n";
+		if ($required == 'true') $content .= '<input type="hidden" name="'. esc_attr($name) .'-required" value="1" />'. "\n";
+		if (!empty($cats))       $content .= '<input type="hidden" name="usp-cats-default" value="'. esc_attr($cats) .'" />'. "\n";
 		
 		return $fieldset_before . $content . $fieldset_after;
 	}

@@ -259,8 +259,8 @@ function usp_meta_callback($post) {
 		$value = isset($custom_field[2]) ? $custom_field[2] : __('undefined', 'usp'); ?>
 	
 		<tr class="usp-meta-box">
-			<td class="usp-meta-name"><label for="<?php echo $key; ?>" class="usp-meta-label"><?php echo $label; ?></label></td>
-			<td class="usp-meta-value"><input name="<?php echo $key; ?>" id="<?php echo $key; ?>" class="usp-meta-input" type="text" value="<?php echo $value; ?>" /></td>
+			<td class="usp-meta-name"><label for="<?php echo esc_attr($key); ?>" class="usp-meta-label"><?php echo esc_html($label); ?></label></td>
+			<td class="usp-meta-value"><input name="<?php echo esc_attr($key); ?>" id="<?php echo esc_attr($key); ?>" class="usp-meta-input" type="text" value="<?php echo esc_attr($value); ?>" /></td>
 		</tr>
 	
 	<?php endforeach; ?>

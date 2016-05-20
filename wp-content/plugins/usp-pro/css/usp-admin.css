@@ -1,7 +1,11 @@
 /* USP Pro - Admin CSS */
 
 .settings_page_usp_options    h1.usp-title, 
-.plugins_page_usp-pro-license h1.usp-title { margin: 0 0 8px 0; padding: 8px 0 8px 55px; text-shadow: 1px 1px 1px rgba(255,255,255,0.5); background: transparent url(../img/usp-icon-44x44.png) no-repeat left center; }
+.plugins_page_usp-pro-license h1.usp-title {
+	margin: 0 0 8px 0; padding: 8px 0 8px 55px; text-shadow: 1px 1px 1px rgba(255,255,255,0.5); 
+	background-color: transparent; background-image: url(../img/usp-icon-88x88.png);
+	background-repeat: no-repeat; background-position: left center; background-size: 44px 44px;
+	}
 .settings_page_usp_options    h1.usp-title span,
 .plugins_page_usp-pro-license h1.usp-title span { color: #c7c7c7; }
 

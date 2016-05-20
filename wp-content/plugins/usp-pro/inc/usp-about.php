@@ -36,8 +36,8 @@ endif;
 */
 if (!function_exists('usp_about_wp')) : 
 function usp_about_wp() {
-	global $wp_version, $wpdb, $current_user;
-	get_currentuserinfo();
+	global $wp_version, $wpdb;
+	$current_user = wp_get_current_user();
 	if (current_user_can('manage_options')) {
 		$default = __('Undefined', 'usp');
 		$current_theme = wp_get_theme();
@@ -181,14 +181,21 @@ function usp_about_server() {
 		$max_execution_time = ini_get('max_execution_time'); 
 		if ($max_execution_time > 1000) $max_execution_time /= 1000;
 		
+		$server_software  = isset($_SERVER['SERVER_SOFTWARE'])   && !empty($_SERVER['SERVER_SOFTWARE'])   ? $_SERVER['SERVER_SOFTWARE']   : $default;
+		$server_signature = isset($_SERVER['SERVER_SIGNATURE'])  && !empty($_SERVER['SERVER_SIGNATURE'])  ? $_SERVER['SERVER_SIGNATURE']  : $default;
+		$server_name      = isset($_SERVER['SERVER_NAME'])       && !empty($_SERVER['SERVER_NAME'])       ? $_SERVER['SERVER_NAME']       : $default;
+		$server_address   = isset($_SERVER['SERVER_ADDR'])       && !empty($_SERVER['SERVER_ADDR'])       ? $_SERVER['SERVER_ADDR']       : $default;
+		$server_port      = isset($_SERVER['SERVER_PORT'])       && !empty($_SERVER['SERVER_PORT'])       ? $_SERVER['SERVER_PORT']       : $default;
+		$server_gateway   = isset($_SERVER['GATEWAY_INTERFACE']) && !empty($_SERVER['GATEWAY_INTERFACE']) ? $_SERVER['GATEWAY_INTERFACE'] : $default;
+		
 		$wp_server = '<ul>';
 		$wp_server .= '<li><strong>' . __('Server Operating System:', 'usp') . ' </strong> ' . php_uname() . '</li>';
-		$wp_server .= '<li><strong>' . __('Server Software:', 'usp') . ' </strong>' . isset($_SERVER['SERVER_SOFTWARE']) && !empty($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : $default . '</li>';
-		$wp_server .= '<li><strong>' . __('Server Signature:', 'usp') . ' </strong>' . isset($_SERVER['SERVER_SIGNATURE']) && !empty($_SERVER['SERVER_SIGNATURE']) ? $_SERVER['SERVER_SIGNATURE'] : $default . '</li>';
-		$wp_server .= '<li><strong>' . __('Server Name:', 'usp') . ' </strong>' . isset($_SERVER['SERVER_NAME']) && !empty($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $default . '</li>';
-		$wp_server .= '<li><strong>' . __('Server Address:', 'usp') . ' </strong>' . isset($_SERVER['SERVER_ADDR']) && !empty($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : $default . '</li>';
-		$wp_server .= '<li><strong>' . __('Server Port:', 'usp') . ' </strong>' . isset($_SERVER['SERVER_PORT']) && !empty($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : $default . '</li>';
-		$wp_server .= '<li><strong>' . __('Server Gateway:', 'usp') . ' </strong>' . isset($_SERVER['GATEWAY_INTERFACE']) && !empty($_SERVER['GATEWAY_INTERFACE']) ? $_SERVER['GATEWAY_INTERFACE'] : $default . '</li>';
+		$wp_server .= '<li><strong>' . __('Server Software:', 'usp') . ' </strong>' . $server_software . '</li>';
+		$wp_server .= '<li><strong>' . __('Server Signature:', 'usp') . ' </strong>' . $server_signature . '</li>';
+		$wp_server .= '<li><strong>' . __('Server Name:', 'usp') . ' </strong>' . $server_name . '</li>';
+		$wp_server .= '<li><strong>' . __('Server Address:', 'usp') . ' </strong>' . $server_address . '</li>';
+		$wp_server .= '<li><strong>' . __('Server Port:', 'usp') . ' </strong>' . $server_port . '</li>';
+		$wp_server .= '<li><strong>' . __('Server Gateway:', 'usp') . ' </strong>' . $server_gateway . '</li>';
 		$wp_server .= '<li><strong>' . __('PHP Version:', 'usp') . ' </strong>' . PHP_VERSION . '</li>';
 		$wp_server .= '<li><strong>' . __('Zend Version:', 'usp') . ' </strong> ' . zend_version() . '</li>';
 		$wp_server .= '<li><strong>' . __('Platform:', 'usp') . ' </strong> ' . (PHP_INT_SIZE * 8) . '-bit' . '</li>';
@@ -229,18 +236,20 @@ endif;
 if (!function_exists('usp_about_user')) : 
 function usp_about_user() {
 	if (current_user_can('manage_options')) {
-		global $current_user;
-		get_currentuserinfo();
-		$default = __('Undefined', 'usp');
+		
+		$current_user = wp_get_current_user();
 		$user_name = $current_user->user_login;
 		$user_display = $current_user->display_name;
 		$user_email = $current_user->user_email;
+		
 		$user_ip = usp_get_ip();
-		$user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : $default;
-		$user_ident = isset($_SERVER['REMOTE_IDENT']) ? $_SERVER['REMOTE_IDENT'] : $default;
-		$user_port = isset($_SERVER["REMOTE_PORT"]) ? $_SERVER["REMOTE_PORT"] : $default;
-		$user_prot = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : $default;
-		$user_http = isset($_SERVER['HTTP_CONNECTION']) ? $_SERVER['HTTP_CONNECTION'] : $default;
+		$default = __('Undefined', 'usp');
+		
+		$user_agent     = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT']            : $default;
+		$remote_address = isset($_SERVER['REMOTE_ADDR'])     ? gethostbyaddr($_SERVER['REMOTE_ADDR']) : $default;
+		$user_port      = isset($_SERVER['REMOTE_PORT'])     ? $_SERVER['REMOTE_PORT']                : $default;
+		$user_prot      = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL']            : $default;
+		$user_http      = isset($_SERVER['HTTP_CONNECTION']) ? $_SERVER['HTTP_CONNECTION']            : $default;
 		
 		$wp_user = '<ul>';
 		$wp_user .= '<li><strong>' . __('Login/Username:', 'usp') . ' </strong> ' . $user_name . '</li>';
@@ -248,7 +257,7 @@ function usp_about_user() {
 		$wp_user .= '<li><strong>' . __('Email Address:', 'usp') . ' </strong> ' . $user_email . '</li>';
 		$wp_user .= '<li><strong>' . __('IP Address:', 'usp') . ' </strong> ' . $user_ip . '</li>';
 		$wp_user .= '<li><strong>' . __('User Agent:', 'usp') . ' </strong> ' . $user_agent . '</li>';
-		$wp_user .= '<li><strong>' . __('Remote Identity:', 'usp') . ' </strong> ' . $user_ident . '</li>';
+		$wp_user .= '<li><strong>' . __('Remote Address:', 'usp') . ' </strong> ' . $remote_address . '</li>';
 		$wp_user .= '<li><strong>' . __('Remote Port:', 'usp') . ' </strong> ' . $user_port . '</li>';
 		$wp_user .= '<li><strong>' . __('Server Protocol:', 'usp') . ' </strong> ' . $user_prot . '</li>';
 		$wp_user .= '<li><strong>' . __('HTTP Connection:', 'usp') . ' </strong> ' . $user_http . '</li>';

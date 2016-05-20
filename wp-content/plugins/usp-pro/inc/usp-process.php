@@ -2,58 +2,90 @@
 
 if (!defined('ABSPATH')) die();
 
-/*
-	Class: Process submitted forms
-*/
 if (!class_exists('USP_Pro_Process')) {
+	
 	class USP_Pro_Process {
+		
 		public function __construct() {
+			
 			add_action('init', array(&$this, 'init'));
-			//
+			add_action('admin_init', array(&$this, 'admin_init'));
+			
 			require_once (ABSPATH . '/wp-admin/includes/media.php');
 			require_once (ABSPATH . '/wp-admin/includes/file.php');
 			require_once (ABSPATH . '/wp-admin/includes/image.php');
 			
 			require_once(dirname(__FILE__) .'/usp-contact.php');
+			
 		}
 		public function init() {
+			
 			add_action('parse_request', array(&$this, 'insert_post'));
+			add_action('parse_request', array(&$this, 'reset_form'));
+			add_filter('query_vars', array(&$this, 'add_query_vars'));
+			
+		}
+		public function admin_init() {
+			
 			add_action('new_to_publish', array(&$this, 'send_email_approval'));
 			add_action('draft_to_publish', array(&$this, 'send_email_approval'));
 			add_action('pending_to_publish', array(&$this, 'send_email_approval'));
-			add_filter('query_vars', array(&$this, 'add_query_vars'));
-			add_action('trash_post', array(&$this, 'send_email_denied'), 1, 1);
-			add_action('trash_usp_post', array(&$this, 'send_email_denied'), 1, 1); // cpt
-			add_action('transition_post_status', array(&$this, 'send_email_future'), 10, 3);
+			
+			add_action('new_to_future', array(&$this, 'send_email_scheduled'));
+			add_action('draft_to_future', array(&$this, 'send_email_scheduled'));
+			add_action('pending_to_future', array(&$this, 'send_email_scheduled'));
+			
+			if (isset($_GET['post']) && !empty($_GET['post'])) { 
+				
+				$post_id = is_array($_GET['post']) ? current($_GET['post']) : $_GET['post'];
+				$post_id = sanitize_text_field($post_id);
+				$post_type = get_post_type($post_id);
+				
+				add_action('trash_'. $post_type, array(&$this, 'send_email_denied'), 1, 1);
+				
+			}
+			
+			add_action('transition_post_status', array(&$this, 'send_email_future'), 10, 3); // 
+			
 		}
 		public function insert_post() {
+			
 			global $usp_admin, $usp_general;
 			
-			$use_author    = $usp_general['use_author'];
-			$assign_author = $usp_general['assign_author'];
-			
-			$args = $this->get_field_val();
-			do_action('usp_insert_post_before', $args);
-			
-			$fields       = $args['fields'];
-			$errors       = $args['errors'];
-			$contact      = $args['contact'];
-			$register     = $args['register'];
-			$post_submit  = $args['post_submit'];
-			$logged_id    = $args['logged_id'];
-			$logged_cats  = $args['logged_cats'];
-			$default_tags = $args['default_tags'];
-			$default_cats = $args['default_cats'];
-			$usp_redirect = $args['usp_redirect'];
-			$custom_type  = $args['usp_custom_type'];
-			$contact_ids  = $args['contact_ids'];
-			
-			$errors_active = $errors;
-			$errors_display = array();
-			
 			if (!isset($_POST['usp_form_submit']) || !isset($_POST['PHPSESSID']) || !empty($_POST['usp-verify']) || !wp_verify_nonce($_POST['usp_form_submit'], 'usp_form_submit')) {
+				
 				return false;
+				
 			} else {
+				
+				$args = $this->get_field_val();
+				do_action('usp_insert_post_before', $args);
+				
+				$submitted_form = $_POST['usp_form_submit'];
+				if ($submitted_form) $this->set_session_vars();
+				
+				$session_check  = $_POST['PHPSESSID'];
+				if ($session_check) $this->check_session();
+				
+				$use_author     = $usp_general['use_author'];
+				$assign_author  = $usp_general['assign_author'];
+				
+				$fields         = $args['fields'];
+				$errors         = $args['errors'];
+				$contact        = $args['contact'];
+				$register       = $args['register'];
+				$post_submit    = $args['post_submit'];
+				$logged_id      = $args['logged_id'];
+				$logged_cats    = $args['logged_cats'];
+				$default_tags   = $args['default_tags'];
+				$default_cats   = $args['default_cats'];
+				$usp_redirect   = $args['usp_redirect'];
+				$custom_type    = $args['usp_custom_type'];
+				$contact_ids    = $args['contact_ids'];
+				
+				$errors_active  = $errors;
+				$errors_display = array();
+				
 				$user_id        = $assign_author;
 				$redirect_type  = 'redirect_failure';
 				$include_path   = ABSPATH . 'wp-admin/includes/user.php';
@@ -63,12 +95,6 @@ if (!class_exists('USP_Pro_Process')) {
 				$error_mail     = '';
 				$check_id       = '';
 				$post_id        = '';
-				
-				$submitted_form = $_POST['usp_form_submit'];
-				if ($submitted_form) $this->set_session_vars();
-				
-				$session_check = $_POST['PHPSESSID'];
-				if ($session_check) $this->check_session();
 				
 				$errors_display = array();
 				foreach ($errors_active as $error) {
@@ -150,14 +176,18 @@ if (!class_exists('USP_Pro_Process')) {
 		}
 		// REGISTER
 		public function register_user($fields) {
+			
 			global $usp_general, $wp_version;
+			
 			$usp_role = $usp_general['assign_role'];
+			$usp_role = apply_filters('usp_register_user_role', $usp_role);
+			
 			$user_id = $usp_general['assign_author'];
 			$usp_pass = $this->generate_password($fields);
 			$error_register = '';
 			$usp_user = array(
 				'role'          => $usp_role,
-				'user_pass'     => $usp_pass, 
+				'user_pass'     => $usp_pass, // dep.
 				'user_login'    => $fields['usp_author'],
 				'user_email'    => $fields['usp_email'], 
 				'user_url'      => $fields['usp_url'],
@@ -511,9 +541,11 @@ if (!class_exists('USP_Pro_Process')) {
 			if (!empty($fields['usp_subject'])) $post_subject   = add_post_meta($post_id, 'usp-subject', $fields['usp_subject']);
 			if (!empty($fields['usp_email']))   $post_email     = add_post_meta($post_id, 'usp-email', $fields['usp_email']);
 			if (!empty($fields['usp_url']))     $post_url       = add_post_meta($post_id, 'usp-url', $fields['usp_url']);
+			if (!empty($fields['usp_agree']))   $post_agree     = add_post_meta($post_id, 'usp-agree', apply_filters('usp_custom_agree_terms', 'true'));
 			
 			$is_submission = add_post_meta($post_id, 'is_submission', true);
-			$has_post_id = add_post_meta($post_id, 'usp-post-id', $post_id);
+			$has_post_id   = add_post_meta($post_id, 'usp-post-id', $post_id);
+			$has_post_time = add_post_meta($post_id, 'usp-post-time', apply_filters('usp_post_meta_submit_time_format', get_the_time('l, F j, Y @ h:i:s a', $post_id)));
 			
 			if (isset($usp_general['enable_stats']) && !empty($usp_general['enable_stats'])) {
 				$stats = $this->get_user_stats();
@@ -552,24 +584,36 @@ if (!class_exists('USP_Pro_Process')) {
 						
 						if (!empty($file_data['tmp_name'][$i])) $file_local = file_get_contents($file_data['tmp_name'][$i]);
 						else continue;
+						
 						if (!empty($file_data['name'][$i])) $file_name = basename($file_data['name'][$i]);
 						else continue;
 						
-						if (!isset($alt[$i]))       $alt[$i]        = '';
-						if (!isset($caption[$i]))   $caption[$i]    = '';
-						if (!isset($desc[$i]))      $desc[$i]       = '';
-						if (empty($mediatitle[$i])) $mediatitle[$i] = apply_filters('usp_mediatitle_default', sanitize_file_name($file_name));
-						if (empty($filename[$i]))   $filename[$i]   = apply_filters('usp_filename_default',   sanitize_file_name($file_name));
+						$post_title = preg_replace('/\.[^.]+$/', '', basename($file_name));
 						
-						$file_path = '/';
-						if (defined('USP_UPLOAD_DIR')) $file_path = USP_UPLOAD_DIR;
-					
+						if (!isset($alt[$i]))        $alt[$i]        = apply_filters('usp_alt_default',        '');
+						if (!isset($caption[$i]))    $caption[$i]    = apply_filters('usp_caption_default',    '');
+						if (!isset($desc[$i]))       $desc[$i]       = apply_filters('usp_desc_default',       '');
+						if (!isset($mediatitle[$i])) $mediatitle[$i] = apply_filters('usp_mediatitle_default', sanitize_file_name($post_title), $file_data);
+						if (!isset($filename[$i]))   $filename[$i]   = apply_filters('usp_filename_default',   sanitize_file_name($post_title), $file_data);
+						
+						$file_path = defined('USP_UPLOAD_DIR') ? USP_UPLOAD_DIR : '/';
+						
 						$upload_dir = wp_upload_dir();
-						if (wp_mkdir_p($upload_dir['path'])) $file = $upload_dir['path'] . $file_path . $file_name;
-						else $file = $upload_dir['basedir'] . $file_path . $file_name;
+						
+						if (wp_mkdir_p($upload_dir['path'])) {
+							
+							$file = $upload_dir['path'] . $file_path . $file_name;
+							$guid = $upload_dir['url']  . $file_path . $file_name;
+							
+						} else {
+							
+							$file = $upload_dir['basedir'] . $file_path . $file_name;
+							$guid = $upload_dir['baseurl'] . $file_path . $file_name;
+							
+						}
 						
 						$bytes = file_put_contents($file, $file_local);
-						//@chmod($file, 0644);
+						// @chmod($file, 0644);
 						
 						$wp_filetype = wp_check_filetype($file_name, null);
 						$attachment = array(
@@ -578,7 +622,8 @@ if (!class_exists('USP_Pro_Process')) {
 							'post_title'     => $mediatitle[$i],
 							'post_content'   => $desc[$i],
 							'post_excerpt'   => $caption[$i],
-							'post_status'    => 'inherit'
+							'post_status'    => 'inherit',
+							'guid'           => $guid,
 						);
 						$attach_id = wp_insert_attachment($attachment, $file, $post_id);
 						$attach_data = wp_generate_attachment_metadata($attach_id, $file);
@@ -599,32 +644,97 @@ if (!class_exists('USP_Pro_Process')) {
 								if ($file_data['key'][$i] == '0') $file_key = $l;
 								else $file_key = $file_data['key'][$i];
 							}
-							if (isset($file_data['key'][$i])) add_post_meta($post_id, 'usp-file-'. $file_key, wp_get_attachment_url($attach_id));
-							else add_post_meta($post_id, 'usp-file', wp_get_attachment_url($attach_id));
+							
+							$add_fields = $this->add_files_fields($attach_id, $file_data['field'][$i], $file_key, $post_id);
 							
 							if (!empty($alt[$i])) update_post_meta($attach_id, '_wp_attachment_image_alt', $alt[$i]);
 							
 							if (!empty($alt[$i]))        add_post_meta($post_id, 'usp-alt-'.        $file_key, $alt[$i]);
 							if (!empty($desc[$i]))       add_post_meta($post_id, 'usp-desc-'.       $file_key, $desc[$i]);
 							if (!empty($caption[$i]))    add_post_meta($post_id, 'usp-caption-'.    $file_key, $caption[$i]);
-							if (!empty($mediatitle[$i])) add_post_meta($post_id, 'usp-mediatitle-'. $file_key, $mediatitle[$i]);
-							if (!empty($filename[$i]))   add_post_meta($post_id, 'usp-filename-'.   $file_key, $filename[$i]);
+							
+							if (!empty($mediatitle[$i]) && $mediatitle[$i] !== $post_title) add_post_meta($post_id, 'usp-mediatitle-'. $file_key, $mediatitle[$i]);
+							if (!empty($filename[$i])   && $filename[$i]   !== $post_title) add_post_meta($post_id, 'usp-filename-'.   $file_key, $filename[$i]);
 							
 							do_action('usp_insert_attachments_loop', $attach_id);
+							
 						} else {
+							
 							wp_delete_attachment($attach_id);
 							return false;
+							
 						}
+						
 						$loop_count++;
+						
 					}
+					
 				} else {
+					
 					return false;
+					
 				}
+				
 				if (isset($_FILES)) unset($_FILES);
+				
 			} else {
+				
 				return false;
+				
 			}
+			
 			return true;
+			
+		}
+		public function add_files_fields($attach_id, $file_field, $file_key, $post_id) {
+			
+			global $usp_advanced;
+			
+			$custom = usp_merge_custom_fields();
+			
+			$prefix = (isset($usp_advanced['custom_prefix']) && !empty($usp_advanced['custom_prefix'])) ? trim($usp_advanced['custom_prefix']) : 'null___';
+			
+			$field  = (isset($file_field) && !empty($file_field)) ? sanitize_text_field($file_field) : 'usp-file';
+			$key    = (isset($file_key)   && !empty($file_key))   ? sanitize_text_field($file_key)   : 'null';
+			
+			$value  = $field .'-'. $key;
+			
+			// regular files single
+			if (stripos($field, 'usp-file-single') !== false) {
+				
+				$value = apply_filters('usp_file_name_primary_single', 'usp-file-single', $key);
+				
+			// regular files multiple
+			} elseif (stripos($field, 'usp-files') !== false) {
+				
+				$value = apply_filters('usp_file_name_primary_multiple', 'usp-file-'. $key, $key);
+				
+			// custom prefix files
+			} elseif (stripos($field, $prefix) !== false) {
+				
+				$value = apply_filters('usp_file_name_custom_prefix', $field .'-'. $key, $key);
+				
+			// custom fields files
+			} elseif (preg_match("/^usp_custom_file_([0-9]+)$/i", $field)) {
+				
+				$value = apply_filters('usp_file_name_custom_field', 'usp-file-'. $key, $key);
+				
+			// custom custom files
+			} else {
+				
+				foreach ($custom as $c) {
+					
+					if (stripos($field, $c) !== false) {
+						
+						$value = apply_filters('usp_file_name_custom_custom', $field .'-'. $key, $key);
+						break;
+						
+					}
+				}
+			}
+			
+			add_post_meta($post_id, $value, wp_get_attachment_url($attach_id));
+			
 		}
 		public function post_categories($user_cats, $logged_cats, $default_cats, $post_id, $post_type) {
 			global $usp_general;
@@ -704,10 +814,13 @@ if (!class_exists('USP_Pro_Process')) {
 		public function send_email_alert($user) {
 			do_action('usp_send_email_alert_before', $user);
 			
-			$post_id = false; if (isset($user['post_id'])) $post_id = $user['post_id'];
+			$post_id = false; 
+			if (isset($user['post_id'])) $post_id = $user['post_id'];
 			
 			$args = $this->get_email_info($post_id);
 			$vars = $this->get_email_vars('submit', $args, $user);
+			
+			$vars = apply_filters('usp_send_email_alert_vars', $vars);
 			
 			$is_submit = (bool) get_post_meta($post_id, 'is_submission', true);
 			if (!$is_submit) return false;
@@ -734,13 +847,15 @@ if (!class_exists('USP_Pro_Process')) {
 			return apply_filters('usp_send_email_alert', $post_id);
 		}
 		// APPROVAL ALERTS
-		public function send_email_approval($post) { // post object
+		public function send_email_approval($post) { // post object or post id
 			do_action('usp_send_email_approval_before', $post);
 			
-			$post_id = $post->ID; 
+			$post_id = is_object($post) ? $post->ID : $post;
 			
 			$args = $this->get_email_info($post_id);
 			$vars = $this->get_email_vars('approved', $args);
+			
+			$vars = apply_filters('usp_send_email_approval_vars', $vars);
 			
 			$is_submit = (bool) get_post_meta($post_id, 'is_submission', true);
 			if (!$is_submit) return false;
@@ -774,15 +889,14 @@ if (!class_exists('USP_Pro_Process')) {
 			$args = $this->get_email_info($post_id);
 			$vars = $this->get_email_vars('denied', $args);
 			
+			$vars = apply_filters('usp_send_email_denied_vars', $vars);
+			
 			$is_submit = (bool) get_post_meta($post_id, 'is_submission', true);
 			if (!$is_submit) return false;
 			
-			$cpt = get_post_type($post_id);
-			if ($cpt == 'usp_post') {
-				if (did_action('trash_usp_post') !== 1) return false;
-			} else {
-				if (did_action('trash_post') !== 1) return false;
-			}
+			$post_type = get_post_type($post_id);
+			if (did_action('trash_'. $post_type) !== 1) return false;
+			
 			if ($vars['send_user'] || $vars['send_admin']) {
 				
 				if ($vars['form_submit'] && $vars['send_mail'] !== 'no_mail') {
@@ -802,6 +916,40 @@ if (!class_exists('USP_Pro_Process')) {
 				}
 			}
 			return apply_filters('usp_send_email_denied', $post_id);
+		}
+		// SCHEDULED ALERTS
+		public function send_email_scheduled($post) { // post object
+			do_action('usp_send_email_scheduled_before', $post);
+			
+			$post_id = $post->ID; 
+			
+			$args = $this->get_email_info($post_id);
+			$vars = $this->get_email_vars('scheduled', $args);
+			
+			$vars = apply_filters('usp_send_email_scheduled_vars', $vars);
+			
+			$is_submit = (bool) get_post_meta($post_id, 'is_submission', true);
+			if (!$is_submit) return false;
+			
+			if ($vars['send_user'] || $vars['send_admin']) {
+				
+				if ($vars['form_submit'] && $vars['send_mail'] !== 'no_mail') {
+					
+					if (!wp_is_post_revision($post_id)) {
+							
+						do_action('usp_send_email_scheduled_during', $vars);
+						
+						if ($vars['send_mail'] == 'wp_mail') {
+							if ($vars['send_user'])  wp_mail($vars['user_email'], $vars['subject_user'], $vars['message_user'], $vars['headers']);
+							if ($vars['send_admin']) wp_mail($vars['admin_email'], $vars['subject_admin'], $vars['message_admin'], $vars['headers'] . $vars['bcc']);
+						} else {
+							if ($vars['send_user'])  mail($vars['user_email'], $vars['subject_user'], $vars['message_user'], $vars['headers']);
+							if ($vars['send_admin']) mail($vars['admin_email'], $vars['subject_admin'], $vars['message_admin'], $vars['headers'] . $vars['bcc']);
+						}
+					}
+				}
+			}
+			return apply_filters('usp_send_email_scheduled', $post_id);
 		}
 		public function send_email_future($new_status, $old_status, $post) {
 			$post_id = $post->ID;
@@ -875,6 +1023,20 @@ if (!class_exists('USP_Pro_Process')) {
 					
 					$form_submit = true;
 				}
+				
+				elseif ($action == 'scheduled') {
+					$subject_user  = $usp_admin['scheduled_subject'];
+					$subject_admin = $usp_admin['scheduled_subject_admin'];
+					$message_user  = html_entity_decode(stripslashes($usp_admin['scheduled_message']));
+					$message_admin = html_entity_decode(stripslashes($usp_admin['scheduled_message_admin']));
+					$carbon_copies = trim(esc_attr($usp_admin['cc_scheduled']));
+					if ($usp_admin['send_scheduled_user'])  $send_user  = true;
+					if ($usp_admin['send_scheduled_admin']) $send_admin = true;
+					
+					$form_submit = true;
+				}
+				
+				
 				$message_user  = $this->regex_filter($message_user, $args);
 				$message_admin = $this->regex_filter($message_admin, $args);
 				
@@ -968,19 +1130,22 @@ if (!class_exists('USP_Pro_Process')) {
 		public static function regex_filter($string, $args) {
 			$string = trim($string);
 			
-			$blog_url     = $args['blog_url'];
-			$blog_name    = $args['blog_name'];
-			$admin_name   = $args['admin_name'];
-			$admin_email  = $args['admin_email'];
-			$user_name    = $args['user_name'];
-			$user_email   = $args['user_email'];
-			$post_title   = $args['post_title'];
-			$post_date    = $args['post_date'];
-			$post_url     = $args['post_url'];
-			$post_id      = $args['post_id'];
-			$post_object  = $args['post_object'];
-			$post_content = $args['post_content'];
-			$post_custom  = $args['post_custom'];
+			$blog_url       = $args['blog_url'];
+			$blog_name      = $args['blog_name'];
+			$admin_name     = $args['admin_name'];
+			$admin_email    = $args['admin_email'];
+			$user_name      = $args['user_name'];
+			$user_email     = $args['user_email'];
+			$post_title     = $args['post_title'];
+			$post_date      = $args['post_date'];
+			$post_url       = $args['post_url'];
+			$post_id        = $args['post_id'];
+			$post_object    = $args['post_object'];
+			$post_content   = $args['post_content'];
+			$post_custom    = $args['post_custom'];
+			$post_submitted = get_post_meta($post_id, 'usp-post-time') ? get_post_meta($post_id, 'usp-post-time', true) : $post_date;
+			$post_schedule  = apply_filters('usp_alert_shortcut_schedule_format', get_the_time('l, F j, Y @ h:i:s a', $post_id)); 
+			$post_defined   = apply_filters('usp_alert_shortcut_defined_replacement', usp_get_meta($post_id, 'usp-custom-reject')); // ;)
 			
 			if (is_numeric($post_id)) {
 				$post_object = get_post($post_id);
@@ -1000,13 +1165,25 @@ if (!class_exists('USP_Pro_Process')) {
 				if (isset($post_custom['usp-email']))     unset($post_custom['usp-email']);
 				//
 				foreach ($post_custom as $key => $value) {
+					
 					if (is_array($value)) {
+						
 						foreach ($value as $k => $v) {
+							
 							$custom_fields .= $key .': '. $v ."\n";
+							
+							$string = preg_replace("/%%__" . preg_quote($key) . "%%/", $v, $string);
+							
 						}
+						
 					} else {
+						
 						$custom_fields .= $key .': '. $value ."\n";
+						
+						$string = preg_replace("/%%__" . preg_quote($key) . "%%/", $value, $string);
+						
 					}
+					
 				}
 			}
 			
@@ -1023,6 +1200,9 @@ if (!class_exists('USP_Pro_Process')) {
 			$patterns[9]  = "/%%post_id%%/";
 			$patterns[10] = "/%%post_content%%/";
 			$patterns[11] = "/%%post_custom%%/";
+			$patterns[12] = "/%%post_submitted_date%%/";
+			$patterns[13] = "/%%post_scheduled_date%%/";
+			$patterns[14] = apply_filters('usp_alert_shortcut_defined_pattern', "/%%post_reject_reason%%/"); // ;)
 			
 			$replacements = array();
 			$replacements[0]  = $blog_url;
@@ -1037,10 +1217,13 @@ if (!class_exists('USP_Pro_Process')) {
 			$replacements[9]  = $post_id;
 			$replacements[10] = $post_content;
 			$replacements[11] = $custom_fields;
+			$replacements[12] = $post_submitted; 
+			$replacements[13] = $post_schedule;
+			$replacements[14] = $post_defined;
 			
-			$return = html_entity_decode(preg_replace($patterns, $replacements, $string));
+			$string = html_entity_decode(preg_replace($patterns, $replacements, $string));
 			
-			return apply_filters('usp_regex_filter', $return);
+			return apply_filters('usp_regex_filter', $string);
 		}
 		public function generate_password($fields, $length = 16) {
 			
@@ -1062,12 +1245,36 @@ if (!class_exists('USP_Pro_Process')) {
 			return apply_filters('usp_challenge_question', $return);
 		}
 		public function submission_redirect($usp_redirect, $args, $post_id) {
+			
 			global $usp_general, $usp_advanced;
 			
 			$errors_cleared = $this->get_query_vars();
 			
 			if (isset($args['errors_display']) && !empty($args['errors_display'])) $errors_display = $args['errors_display'];
 			else $errors_display = false;
+			
+			if ($errors_display) {
+				
+				$e = array();
+				
+				foreach ($errors_display as $key => $value) {
+					
+					if (stripos($value, 'usp_error_8') !== false) {
+						
+						parse_str($value, $array);
+						
+						$e[] = $array;
+						
+						unset($errors_display[$key]);
+						
+					}
+				}
+				
+				$new_array = isset($e[0]) ? $e[0] : array(); 
+				
+				$errors_display = array_merge($errors_display, $new_array);
+				
+			}
 			
 			if (isset($args['redirect_type']) && !empty($args['redirect_type'])) $redirect_type = $args['redirect_type'];
 			else $redirect_type = false;
@@ -1190,9 +1397,14 @@ if (!class_exists('USP_Pro_Process')) {
 						$usp_files[$key][] = $value;
 					}
 				}
-				if (!empty($_POST['usp-file-required-'.$match[1]])) {
+				if (!empty($_POST['usp-file-required-single'])) {
+					$usp_files['req'][] = 'required';
+					$usp_files['min'][] = $files_key .'|1';
+					
+				} elseif (!empty($_POST['usp-file-required-'.$match[1]])) {
 					$usp_files['req'][] = 'required';
 					$usp_files['min'][] = $files_key .'|'. $_POST['usp-file-required-'.$match[1]];
+					
 				} else {
 					$usp_files['req'][] = 'optional';
 					$usp_files['min'][] = $files_key .'|'. $usp_uploads['min_files'];
@@ -1204,7 +1416,7 @@ if (!class_exists('USP_Pro_Process')) {
 				}
 				$usp_files['key'][] = $match[1];
 				$usp_files['types'][] = $this->custom_allowed_file_types('usp-file-types');
-				$usp_files['field'][] = $files_key;
+				$usp_files['field'][] = $files_key;	
 			}	
 			return $usp_files;
 		}
@@ -1302,8 +1514,11 @@ if (!class_exists('USP_Pro_Process')) {
 		}
 		//
 		public function process_files() {
+			
 			global $usp_uploads, $usp_advanced;
-			$usp_files = array(); $error_8 = '';
+			
+			$usp_files = array(); 
+			$error_8   = array();
 			
 			$custom_custom = usp_merge_custom_fields();
 			
@@ -1311,36 +1526,40 @@ if (!class_exists('USP_Pro_Process')) {
 			if (isset($usp_advanced['custom_prefix']) && !empty($usp_advanced['custom_prefix'])) $prefix = $usp_advanced['custom_prefix'];
 			
 			if (isset($_FILES) && !empty($_FILES)) {
+				
 				foreach ($_FILES as $files_key => $files_value) {
 					
-					if (isset($_POST['usp-file-key'])) {
+					if ($files_key === 'usp-files') {
+						
+						$usp_files = $this->get_usp_files_data($usp_files, $files_key, $files_value);
+						
+					} elseif ($files_key === 'usp-file-single') {
 						
 						$usp_files = $this->get_file_key_data($usp_files, $files_key, $files_value);
 						
-					} else {
-						if ($files_key == 'usp-files') {
-							
-							$usp_files = $this->get_usp_files_data($usp_files, $files_key, $files_value);
-							
-						} elseif (in_array($files_key, $custom_custom)) {
-							
-							$usp_files = $this->get_custom_custom_files_data($usp_files, $files_key, $files_value);
-							
-						} elseif (preg_match("/^usp_custom_file_([0-9a-z_-]+)$/i", $files_key, $match) || preg_match("/^$prefix([0-9a-z_-]+)$/i", $files_key, $match)) {
-							
-							$usp_files = $this->get_custom_files_data($usp_files, $files_key, $files_value, $match, $prefix);
-						}
+					} elseif (in_array($files_key, $custom_custom)) {
+						
+						$usp_files = $this->get_custom_custom_files_data($usp_files, $files_key, $files_value);
+						
+					} elseif (
+						preg_match("/^usp_custom_file_([0-9a-z_-]+)$/i", $files_key, $match) || 
+						preg_match("/^". preg_quote($prefix) ."([0-9a-z_-]+)$/i", $files_key, $match)
+					) {
+						
+						$usp_files = $this->get_custom_files_data($usp_files, $files_key, $files_value, $match, $prefix);
+						
 					}
-					
-					$global_allow = $this->global_allowed_file_types();
 					
 					foreach ($usp_files as $key => $value) {
 						
 						if (isset($key)) ${$key} = $value;
 					}
+					
 				}
 				
 				$usp_files = apply_filters('usp_files_combined_array', $usp_files);
+				
+				$global_allow = $this->global_allowed_file_types();
 				
 				//
 				$loop = 0;
@@ -1352,8 +1571,7 @@ if (!class_exists('USP_Pro_Process')) {
 						
 						// check required
 						if ($req[$i] == 'required') {
-							$error_8 = 'usp_error_8'. $suffix;
-							break;
+							$error_8[] = 'usp_error_8'. $suffix;
 						}
 						
 					} else {
@@ -1363,51 +1581,49 @@ if (!class_exists('USP_Pro_Process')) {
 						$extension = $filetype['ext'];
 						
 						if (empty($extension) || (stripos($name[$i],'.php') !== false)) {
-							$error_8 = 'usp_error_8a'. $suffix;
-							break;
+							$error_8[] = 'usp_error_8a'. $suffix;
 						}
-						if (in_array(strtolower($extension), $global_allow)) {
-							if (!empty($types[$i])) {
-								if (!in_array(strtolower($extension), $types[$i])) {
-									$error_8 = 'usp_error_8a'. $suffix;
-									break;
-								}
+						
+						if (empty($types[$i])) {
+							
+							if (!in_array(strtolower($extension), $global_allow)) {
+								$error_8[] = 'usp_error_8a'. $suffix;
 							}
+							
 						} else {
-							$error_8 = 'usp_error_8a'. $suffix;
-							break;
+							
+							if (!in_array(strtolower($extension), $types[$i])) {
+								$error_8[] = 'usp_error_8a'. $suffix;
+							}
+							
 						}
 						
 						// check dimensions
 						if (is_uploaded_file($tmp_name[$i]) && @exif_imagetype($tmp_name[$i]) !== false) {
 							$image = getimagesize($tmp_name[$i]);
 							if ($image === false || !$this->check_dimensions($image[0], $image[1])) {
-								$error_8 = 'usp_error_8b'. $suffix;
-								break;
+								$error_8[] = 'usp_error_8b'. $suffix;
 							}
 						}
 						
 						// check max size
 						if (!empty($size[$i])) {
 							if (intval($size[$i]) > $usp_uploads['max_size']) {
-								$error_8 = 'usp_error_8c'. $suffix;
-								break;
+								$error_8[] = 'usp_error_8c'. $suffix;
 							}
 						}
 						
 						// check min size
 						if (!empty($size[$i])) {
 							if (intval($size[$i]) < $usp_uploads['min_size']) {
-								$error_8 = 'usp_error_8d'. $suffix;
-								break;
+								$error_8[] = 'usp_error_8d'. $suffix;
 							}
 						}
 						
 						// check errors
 						if (!empty($error[$i])) {
 							if ($req[$i] == 'required') {
-								$error_8 = 'usp_error_8e'. $suffix;
-								break;
+								$error_8[] = 'usp_error_8e'. $suffix;
 							}
 						}
 						
@@ -1422,24 +1638,38 @@ if (!class_exists('USP_Pro_Process')) {
 								$usp_files['name'][$i] = date('Y-m-d') . '_' . uniqid() . '_' . $usp_files['name'][$i];
 							}
 							if (strlen($usp_files['name'][$i]) > 250) {
-								$error_8 = 'usp_error_8f'. $suffix;
-								break;
+								$error_8[] = 'usp_error_8f'. $suffix;
 							}
 						}
+						
+						//check square image
+						if (
+							isset($usp_uploads['square_image']) && $usp_uploads['square_image'] && 
+							is_uploaded_file($tmp_name[$i]) && exif_imagetype($tmp_name[$i]) !== false
+						) {
+							$image = getimagesize($tmp_name[$i]);
+							if ($image === false || !($this->check_square($image[0], $image[1]))) {
+								$error_8[] = 'usp_error_8i'. $suffix;
+							}
+						}
+						
 					}
+					
 					$loop++;
+					
 				}
 				//
 				
 				if (empty($error_8)) {
-					$min_files = $this->get_min_max_files($usp_files['min']);
-					$max_files = $this->get_min_max_files($usp_files['max']);
+					
+					$min_files = $this->get_min_max_files(array_unique($usp_files['min']));
+					$max_files = $this->get_min_max_files(array_unique($usp_files['max']));
 					
 					if ($min_files > 0) {
-						if ($loop < $min_files) $error_8 = 'usp_error_8g';
+						if ($loop < $min_files) $error_8[] = 'usp_error_8g';
 					}
 					if ($max_files > 0) {
-						if ($loop > $max_files) $error_8 = 'usp_error_8h';
+						if ($loop > $max_files) $error_8[] = 'usp_error_8h';
 					}
 				}
 				
@@ -1447,20 +1677,27 @@ if (!class_exists('USP_Pro_Process')) {
 				
 				foreach ($_POST as $key => $value) {
 					if ($key == 'usp-files-required') {
-						$error_8 = 'usp_error_8';
+						$error_8[] = 'usp_error_8';
 						
 					} elseif (preg_match("/^usp-file-required-([0-9]+)$/i", $key, $match)) {
-						$error_8 = 'usp_error_8-'. $match[1];
-						break;
+						$error_8[] = 'usp_error_8-'. $match[1];
 						
 					} elseif (preg_match("/^usp_custom_file_([0-9a-z_-]+)-required$/i", $key, $match)) {
-						$error_8 = 'usp_error_8-'. $match[1];
-						break;
+						$error_8[] = 'usp_error_8-'. $match[1];
+						
 					}
 				}
 			}
+			
 			$process_files = array('files' => $usp_files, 'error' => $error_8);
+			
 			return apply_filters('usp_process_files', $process_files);
+			
+		}
+		public function check_square($width, $height) {
+			global $usp_uploads;
+			$square = ($width === $height);
+			return $square;
 		}
 		public function check_dimensions($width, $height) {
 			global $usp_uploads;
@@ -1493,7 +1730,7 @@ if (!class_exists('USP_Pro_Process')) {
 			$custom_prefix = $usp_advanced['custom_prefix'];
 			$custom_merged = usp_merge_custom_fields();
 			//
-			if (!isset($_SESSION)) session_start();
+			if (usp_is_session_started() === false) session_start();
 			if (isset($_POST)) $_POST = stripslashes_deep($_POST);
 			//
 			foreach ($_POST as $key => $value) {
@@ -1532,7 +1769,7 @@ if (!class_exists('USP_Pro_Process')) {
 			}
 		}
 		public function check_session() {
-			if ($_COOKIE['PHPSESSID'] == session_id()) {
+			if (isset($_POST['PHPSESSID']) && $_POST['PHPSESSID'] == session_id()) {
 				return true;
 			} else {
 				session_unset();
@@ -1541,7 +1778,7 @@ if (!class_exists('USP_Pro_Process')) {
 		}
 		public function clear_session_vars() {
 			global $usp_general;
-			if (!isset($_SESSION)) session_start();
+			if (usp_is_session_started() === false) session_start();
 			if (isset($usp_general['sessions_scope']) && empty($usp_general['sessions_scope'])) {
 				$this->unset_session();
 			}
@@ -1565,18 +1802,36 @@ if (!class_exists('USP_Pro_Process')) {
 
 			$address = usp_get_ip();
 
-			if (isset($_SERVER['HTTP_USER_AGENT'])) $agent = esc_url($_SERVER['HTTP_USER_AGENT']);
+			if (isset($_SERVER['HTTP_USER_AGENT'])) $agent = sanitize_text_field($_SERVER['HTTP_USER_AGENT']);
 			else $agent = __('undefined', 'usp');
 
 			$stats = array('usp-time' => $time, 'usp-request' => $request, 'usp-referer' => $referer, 'usp-address' => $address, 'usp-agent' => $agent);
 			return apply_filters('usp_get_user_stats', $stats);
 		}
+		public function reset_form() {
+			
+			if (isset($_GET['usp_reset_form'])) {
+				
+				$protocol = is_ssl() ? 'https://' : 'http://';
+				$request  = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+				
+				$redirect = str_replace('?usp_reset_form=true', '', $request);
+				$redirect = str_replace('&usp_reset_form=true', '', $redirect);
+				
+				wp_redirect(esc_url_raw($redirect));
+				exit;
+				
+			}
+			
+		}
 		public function get_field_val() {
+			
 			global $usp_general, $usp_advanced, $usp_admin;
 			
 			do_action('usp_get_field_val_before', $_POST);
 			
-			if ((isset($_POST['usp_form_submit']) && empty($_POST['usp-verify']) && wp_verify_nonce($_POST['usp_form_submit'], 'usp_form_submit')) || isset($_GET['usp_reset_form'])) {
+			if (isset($_POST['usp_form_submit']) && empty($_POST['usp-verify']) && wp_verify_nonce($_POST['usp_form_submit'], 'usp_form_submit')) {
+				
 				// AUTHOR NAME
 				$error_1 = '';
 				if (isset($_POST['usp-name']) && !empty($_POST['usp-name'])) {
@@ -1586,6 +1841,7 @@ if (!class_exists('USP_Pro_Process')) {
 					if (isset($_POST['usp-name-required'])) $error_1 = 'usp_error_1';
 					$usp_author = '';
 				}
+				
 				// POST URL
 				$error_2 = '';
 				if (isset($_POST['usp-url']) && !empty($_POST['usp-url'])) {
@@ -1594,6 +1850,7 @@ if (!class_exists('USP_Pro_Process')) {
 					if (isset($_POST['usp-url-required'])) $error_2 = 'usp_error_2';
 					$usp_url = '';
 				}
+				
 				// POST TITLE
 				$error_3 = '';
 				if (isset($_POST['usp-title']) && !empty($_POST['usp-title'])) {
@@ -1602,6 +1859,7 @@ if (!class_exists('USP_Pro_Process')) {
 					if (isset($_POST['usp-title-required'])) $error_3 = 'usp_error_3';
 					$usp_title = '';
 				}
+				
 				// POST TAGS
 				$error_4 = '';
 				if (isset($_POST['usp-tags']) && !empty($_POST['usp-tags'])) {
@@ -1665,6 +1923,7 @@ if (!class_exists('USP_Pro_Process')) {
 					if (isset($_POST['usp-category-required'])) $error_6 = 'usp_error_6';
 					$usp_category = '';
 				}
+				
 				// CAT COMBOS
 				$usp_cat_combos = array();
 				if (isset($_POST['usp-cat-combo-1']) && !empty($_POST['usp-cat-combo-1'])) {
@@ -1695,6 +1954,7 @@ if (!class_exists('USP_Pro_Process')) {
 						$usp_category = $usp_cat_combos;
 					}
 				}
+				
 				// POST TAX
 				$error_14 = array();
 				$usp_taxonomy = array();
@@ -1738,10 +1998,10 @@ if (!class_exists('USP_Pro_Process')) {
 							if (preg_match("/$term/i", $usp_content)) $content_filter = 'usp_content_filter';
 						}
 					}
-					if (isset($usp_general['character_min']) && $usp_general['character_min'] !== '0') {
+					if (isset($usp_general['character_min']) && !empty($usp_general['character_min'])) {
 						if (strlen($usp_content) < (int) $usp_general['character_min']) $error_7 = 'usp_error_7a';
 					}
-					if (isset($usp_general['character_max']) && $usp_general['character_max'] !== '0') {
+					if (isset($usp_general['character_max']) && !empty($usp_general['character_max'])) {
 						if (strlen($usp_content) > (int) $usp_general['character_max']) $error_7 = 'usp_error_7b';
 					}
 				} else {
@@ -1751,8 +2011,22 @@ if (!class_exists('USP_Pro_Process')) {
 				
 				// POST FILES
 				$process_files = $this->process_files();
-				$usp_files = $process_files['files'];
-				$error_8 = $process_files['error'];
+				
+				if (isset($process_files['files'])) $usp_files = $process_files['files'];
+				
+				if (isset($process_files['error'])) {
+					
+					$error_8 = '';
+					
+					foreach ($process_files['error'] as $files_error) {
+						
+						$error_8 .= $files_error .'='. $files_error .'&';
+						
+					}
+					
+					$error_8 = rtrim($error_8, '&');
+					
+				}
 				
 				// POST EMAIL
 				$error_9 = '';
@@ -1763,6 +2037,7 @@ if (!class_exists('USP_Pro_Process')) {
 					if (isset($_POST['usp-email-required'])) $error_9 = 'usp_error_9';
 					$usp_email = '';
 				}
+				
 				// POST SUBJECT
 				$error_10 = '';
 				if (isset($_POST['usp-subject']) && !empty($_POST['usp-subject'])) {
@@ -1772,6 +2047,7 @@ if (!class_exists('USP_Pro_Process')) {
 					if (isset($_POST['usp-subject-required'])) $error_10 = 'usp_error_10';
 					$usp_subject = '';
 				}
+				
 				// POST FORMAT
 				$error_15 = '';
 				if (isset($_POST['usp-custom-format']) && !empty($_POST['usp-custom-format'])) {
@@ -1780,6 +2056,7 @@ if (!class_exists('USP_Pro_Process')) {
 					if (isset($_POST['usp-custom-format-required'])) $error_15 = 'usp_error_15';
 					$usp_format = '';
 				}
+				
 				// ALT CAPTION DESC TITLE NAME
 				$error_11 = ''; $usp_alt        = array();
 				$error_12 = ''; $usp_caption    = array();
@@ -1855,6 +2132,16 @@ if (!class_exists('USP_Pro_Process')) {
 						}
 					}
 				}
+				
+				// AGREE TO TERMS
+				$error_18 = '';
+				if (isset($_POST['usp-agree']) && !empty($_POST['usp-agree'])) {
+					$usp_agree = sanitize_text_field($_POST['usp-agree']);
+				} else {
+					if (isset($_POST['usp-agree-required'])) $error_18 = 'usp_error_18';
+					$usp_agree = '';
+				}
+				
 				// CUSTOM FIELDS
 				$usp_custom = array();
 				$usp_required = array();
@@ -1863,6 +2150,7 @@ if (!class_exists('USP_Pro_Process')) {
 				if (isset($usp_advanced['custom_prefix']) && !empty($usp_advanced['custom_prefix'])) $prefix = $usp_advanced['custom_prefix'];
 				//
 				if (isset($_POST) && !empty($_POST)) {
+					
 					foreach ($_POST as $key => $value) {
 						
 						if ((preg_match("/^usp-custom-([0-9a-z_-]+)$/i", $key, $match)) || (preg_match("/^$prefix([0-9a-z_-]+)?$/i", $key, $match))) {
@@ -1870,11 +2158,19 @@ if (!class_exists('USP_Pro_Process')) {
 							if (strpos($match[0], 'usp-custom-') !== false) $field = 'usp-custom-';
 							else $field = $prefix;
 							
-							$excludes = array('-nicename', '-displayname', '-nickname', '-firstname', '-lastname', '-description', '-password', '-format', '-type', '-caption', '-desc', '-alt', '-mediatitle', '-filename');
+							$excludes = array(
+								'-nicename', '-displayname', '-nickname', '-firstname', '-lastname', '-description', 
+								'-password', '-format', '-type', '-caption', '-desc', '-alt', '-mediatitle', '-filename'
+							);
+							
 							foreach ($excludes as $exclude) {
+								
 								if (strpos($match[0], $exclude) !== false) continue 2;
+								
 							}
+							
 							if (strpos($match[1], '-required') === false) {
+								
 								if (is_array($value)) {
 									foreach ($value as $val) {
 										if (!empty($val)) $usp_custom[$field . $match[1]][] = htmlspecialchars($val, ENT_QUOTES, get_option('blog_charset', 'UTF-8'));
@@ -1882,33 +2178,55 @@ if (!class_exists('USP_Pro_Process')) {
 								} else {
 									if (!empty($value)) $usp_custom[$field . $match[1]] = htmlspecialchars($value, ENT_QUOTES, get_option('blog_charset', 'UTF-8'));
 								}
+								
 							} else {
+								
 								$required = substr_replace($match[1], '', -9);
 								$usp_required['usp_required_'. $key] = $required;
+								
 							}
 						}
 					}
+					
 					foreach ($usp_required as $key => $value) {
-						//
+						
 						if (isset($usp_files['field'])) {
 							foreach ($usp_files['field'] as $field) {
-								if (strpos($field, $prefix) !== false) continue 2;
+								
+								if (strpos($key, $prefix) !== false) { 
+									
+									if (strpos($key, $field) !== false) continue 2;
+									
+								}
 							}
 						}
-						if (strpos($error_8, $prefix) !== false) continue;
-						//
+						
+						if (strpos($key, $prefix) !== false) { 
+							
+							if (strpos($error_8, $value) !== false) continue;
+							
+						}
+						
 						if (strpos($key, 'usp-custom-') !== false) {
+							
 							$error_prefix = 'usp_error_custom_';
 							$field = 'usp-custom-';
+							
 						} else {
+							
 							$error_prefix = 'usp_error_'. $prefix;
 							$field = $prefix;
+							
 						}
+						
 						if (empty($usp_custom[$field . $value])) {
+							
 							$usp_error_custom[$error_prefix . $value] = $error_prefix . $value;
+							
 						}
 					}
 				}
+				
 				// CUSTOM CUSTOM
 				$usp_custom_custom   = array();
 				$usp_custom_required = array();
@@ -1948,6 +2266,7 @@ if (!class_exists('USP_Pro_Process')) {
 						if (empty($usp_custom_custom[$key])) $usp_ccf_error['usp_ccf_error_'. $key] = 'usp_ccf_error_'. $key;
 					}
 				}
+				
 				// CUSTOM USER
 				$error_a = '';
 				if (isset($_POST['usp-custom-nicename']) && !empty($_POST['usp-custom-nicename'])) {
@@ -1998,6 +2317,7 @@ if (!class_exists('USP_Pro_Process')) {
 					if (isset($_POST['usp-custom-password-required'])) $error_g = 'usp_error_g';
 					$usp_password = '';
 				}
+				
 				// OTHERS
 				$form_error = '';
 				$form_id = '';
@@ -2061,57 +2381,47 @@ if (!class_exists('USP_Pro_Process')) {
 				
 				// PROCESS
 				$fields = array(
-							'usp_author'   => $usp_author, 
-							'usp_url'      => $usp_url, 
-							'usp_title'    => $usp_title, 
-							'usp_tags'     => $usp_tags, 
-							'usp_captcha'  => $usp_captcha, 
-							'usp_category' => $usp_category, 
-							'usp_taxonomy' => $usp_taxonomy,
-							'usp_content'  => $usp_content, 
-							'usp_files'    => $usp_files, 
-							'usp_email'    => $usp_email, 
-							'usp_subject'  => $usp_subject, 
-							'usp_format'   => $usp_format,
-							
-							'usp_alt'        => $usp_alt, 
-							'usp_caption'    => $usp_caption, 
-							'usp_desc'       => $usp_desc, 
-							'usp_mediatitle' => $usp_mediatitle,
-							'usp_filename'   => $usp_filename,
-							
-							'usp_custom'        => $usp_custom,
-							'usp_custom_custom' => $usp_custom_custom,
-							
-							'usp_nicename'    => $usp_nicename, 
-							'usp_displayname' => $usp_displayname, 
-							'usp_nickname'    => $usp_nickname, 
-							'usp_firstname'   => $usp_firstname, 
-							'usp_lastname'    => $usp_lastname, 
-							'usp_description' => $usp_description,
-							'usp_password'    => $usp_password,
-							
-							'usp_form_id'     => $form_id
-							);
+					'usp_author'   => $usp_author, 
+					'usp_url'      => $usp_url, 
+					'usp_title'    => $usp_title, 
+					'usp_tags'     => $usp_tags, 
+					'usp_captcha'  => $usp_captcha, 
+					'usp_category' => $usp_category, 
+					'usp_taxonomy' => $usp_taxonomy,
+					'usp_content'  => $usp_content, 
+					'usp_files'    => $usp_files, 
+					'usp_email'    => $usp_email, 
+					'usp_subject'  => $usp_subject, 
+					'usp_format'   => $usp_format,
+					'usp_agree'    => $usp_agree,
+					
+					'usp_alt'        => $usp_alt, 
+					'usp_caption'    => $usp_caption, 
+					'usp_desc'       => $usp_desc, 
+					'usp_mediatitle' => $usp_mediatitle,
+					'usp_filename'   => $usp_filename,
+					
+					'usp_custom'        => $usp_custom,
+					'usp_custom_custom' => $usp_custom_custom,
+					
+					'usp_nicename'    => $usp_nicename, 
+					'usp_displayname' => $usp_displayname, 
+					'usp_nickname'    => $usp_nickname, 
+					'usp_firstname'   => $usp_firstname, 
+					'usp_lastname'    => $usp_lastname, 
+					'usp_description' => $usp_description,
+					'usp_password'    => $usp_password,
+					
+					'usp_form_id'     => $form_id
+				);
+				
 				$errors = array(
-							$error_1, $error_2, $error_3, $error_4, $error_5, $error_6, $error_7, $error_8, $error_9, $error_10, $error_11, $error_12, $error_13, $error_14, $error_15, $error_16, $error_17, 
-							$error_a, $error_b, $error_c, $error_d, $error_e, $error_f, $error_g,
-							$usp_error_custom, $usp_ccf_error, $form_error, $content_filter,
-							);
-				if (isset($_GET['usp_reset_form'])) {
-					
-					$this->unset_session();
-					foreach ($errors as $error) unset($error);
-					
-					$protocol = is_ssl() ? 'https://' : 'http://';
-					$request  = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-					
-					$redirect = str_replace('?usp_reset_form=true', '', $request);
-					$redirect = str_replace('&usp_reset_form=true', '', $redirect);
-					
-					wp_redirect(esc_url_raw($redirect));
-					exit;
-				}
+					$error_1, $error_2, $error_3, $error_4, $error_5, $error_6, $error_7, $error_8, $error_9, $error_10, 
+					$error_11, $error_12, $error_13, $error_14, $error_15, $error_16, $error_17, $error_18, 
+					$error_a, $error_b, $error_c, $error_d, $error_e, $error_f, $error_g,
+					$usp_error_custom, $usp_ccf_error, $form_error, $content_filter,
+				);
+				
 				$args = array(
 					'fields'          => $fields, 
 					'errors'          => $errors, 
@@ -2126,10 +2436,10 @@ if (!class_exists('USP_Pro_Process')) {
 					'usp_custom_type' => $custom_type,
 					'contact_ids'     => $contact_ids
 				);
+				
 				return apply_filters('usp_get_field_val', $args);
+				
 			}
 		}
 	}
 }
-
-

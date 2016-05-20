@@ -6,9 +6,8 @@
 	Ref: https://digwp.com/2010/12/login-register-password-code/
 */
 if (!function_exists('display_usp_login')) : 
-function display_usp_login() { 
-	global $current_user;
-	get_currentuserinfo();
+function display_usp_login() {
+	$current_user = wp_get_current_user();
 	if (isset($current_user)) {
 		$user = $current_user->user_login;
 		$id =  $current_user->ID;
@@ -52,7 +51,7 @@ function display_usp_login() {
 		.usp-login .usp-sep { padding: 0 3px; }
 	</style>
 	
-	<?php if (!current_user_can('read')) : ?>
+	<?php if (!is_user_logged_in()) : ?>
 	
 	<script>
 		jQuery(document).ready(function($) {
@@ -97,17 +96,17 @@ function display_usp_login() {
 				
 				<form method="post" action="<?php echo home_url(); ?>/wp-login.php">
 					<div class="username">
-						<label for="user_login"><?php _e('Username', 'usp'); ?>: </label>
-						<input type="text" name="log" value="">
+						<label for="log"><?php _e('Username', 'usp'); ?>: </label>
+						<input name="log" id="log" type="text" value="">
 					</div>
 					<div class="password">
-						<label for="user_pass"><?php _e('Password', 'usp'); ?>: </label>
-						<input type="password" name="pwd" value="" autocomplete="off">
+						<label for="pwd"><?php _e('Password', 'usp'); ?>: </label>
+						<input name="pwd" id="pwd" type="password" value="" autocomplete="off">
 					</div>
 					<div class="login_fields">
 						<div class="rememberme">
 							<label for="rememberme">
-								<input type="checkbox" name="rememberme" value="forever" checked="checked" id="rememberme"> <?php _e('Remember me', 'usp'); ?>
+								<input name="rememberme" id="rememberme" type="checkbox" value="forever" checked="checked"> <?php _e('Remember me', 'usp'); ?>
 							</label>
 						</div>
 						<input type="submit" name="user-submit" value="<?php _e('Login', 'usp'); ?>" class="user-submit">
@@ -123,11 +122,11 @@ function display_usp_login() {
 				<form method="post" action="<?php echo site_url('wp-login.php?action=register', 'login_post') ?>">
 					<div class="username">
 						<label for="user_login"><?php _e('Username', 'usp'); ?>: </label>
-						<input type="text" name="user_login" value="">
+						<input name="user_login" id="user_login" type="text" value="">
 					</div>
 					<div class="password">
 						<label for="user_email"><?php _e('Your Email', 'usp'); ?>: </label>
-						<input type="text" name="user_email" value="">
+						<input name="user_email" id="user_email" type="text" value="">
 					</div>
 					<div class="login_fields">
 						<input type="submit" name="user-submit" value="<?php _e('Sign up!', 'usp'); ?>" class="user-submit">
@@ -143,7 +142,7 @@ function display_usp_login() {
 				<form method="post" action="<?php echo site_url('wp-login.php?action=lostpassword', 'login_post') ?>">
 					<div class="username">
 						<label for="user_login"><?php _e('Username or Email', 'usp'); ?>: </label>
-						<input type="text" name="user_login" value="">
+						<input name="user_login" id="user_login" type="text" value="">
 					</div>
 					<div class="login_fields">
 						<input type="submit" name="user-submit" value="<?php _e('Reset my password', 'usp'); ?>" class="user-submit">

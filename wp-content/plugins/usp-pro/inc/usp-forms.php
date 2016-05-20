@@ -217,6 +217,23 @@ if (!class_exists('USP_Pro_Forms')) {
 					$alt = 'classic';
 					$this->add_custom_fields($postID, $alt);
 				}
+				$existing_demo_6 = get_page_by_title('Starter Form Demo', ARRAY_A, 'usp_form');
+				if (!$existing_demo_6) {
+					$starter_demo = array(
+						'comment_status' => 'closed',
+						'ping_status'    => 'closed',
+						'post_content'   => $starter_form,
+						'post_name'      => 'starter',
+						'post_status'    => 'draft',
+						'post_title'     => 'Starter Form Demo',
+						'post_type'      => 'usp_form',
+					);
+					$postID = wp_insert_post($starter_demo);
+					$shortcode = '[usp_form id="starter"]';
+					add_post_meta($postID, 'usp_shortcode', $shortcode, true);
+					$alt = 'starter';
+					$this->add_custom_fields($postID, $alt);
+				}
 			}
 		}
 		public function add_columns($columns) {
@@ -293,7 +310,7 @@ if (!class_exists('USP_Pro_Forms')) {
 		public function default_quicktags($qtInit) {
 			if (get_post_type() == strtolower(self::POST_TYPE)) {
 				// $defaults = array('strong,em,link,block,del,ins,img,ul,ol,li,code,more,close,dfw');
-				$qtInit['buttons'] = 'link,img,ul,ol,li,dfw'; // remove: strong,em,block,del,ins,code,more,close
+				$qtInit['buttons'] = 'link,img'; // remove: strong,em,block,del,ins,ul,ol,li,code,more,close,dfw
 			}
 			return $qtInit;
 		}
@@ -311,11 +328,10 @@ if (!class_exists('USP_Pro_Forms')) {
 		}
 		public function form_filter($content) {
 			global $post, $usp_advanced;
-			$classes = 'usp-pro usp-form-' . $post->ID;
-			$args = array('classes' => $classes, 'id' => $post->ID);
 			
-			if (isset($_GET['usp_success'])) $success = true;
-			else $success = false;
+			$classes   = 'usp-pro usp-form-'. $post->ID;
+			$args      = array('classes' => $classes, 'id' => $post->ID);
+			$success   = isset($_GET['usp_success']) ? true : false;
 			$form_wrap = usp_form_wrap($args, $success);
 			
 			if (get_post_type() == strtolower(self::POST_TYPE)) {
@@ -346,13 +362,20 @@ if (!class_exists('USP_Pro_Forms')) {
 		public function add_custom_fields($postID, $alt = null) {
 			global $usp_advanced;
 			if ($postID) {
-				if ($alt == 'register') {
+				if ($alt === 'register') {
 					add_post_meta($postID, '[usp_custom_field form="register" id="1"]', 'name#nicename|for#nicename|label#Nicename|placeholder#Nicename', true);
 					add_post_meta($postID, '[usp_custom_field form="register" id="2"]', 'name#displayname|for#displayname|label#Display Name|placeholder#Display Name', true);
 					add_post_meta($postID, '[usp_custom_field form="register" id="3"]', 'name#nickname|for#nickname|label#Nickname|placeholder#Nickname', true);
 					add_post_meta($postID, '[usp_custom_field form="register" id="4"]', 'name#firstname|for#firstname|label#First Name|placeholder#First Name', true);
 					add_post_meta($postID, '[usp_custom_field form="register" id="5"]', 'name#lastname|for#lastname|label#Last Name|placeholder#Last Name', true);
 					add_post_meta($postID, '[usp_custom_field form="register" id="6"]', 'name#description|for#description|label#Description|placeholder#Description', true);
+				} elseif ($alt === 'starter') {
+					add_post_meta($postID, '[usp_custom_field form="starter" id="1"]', 'field#input_checkbox|desc#Checkboxes|checkboxes#Option 1:Option 2:Option 3|checkboxes_checked#Option 1|data-required#false', true);
+					add_post_meta($postID, '[usp_custom_field form="starter" id="2"]', 'field#input_radio|desc#Radio Field|radio_inputs#Option 1:Option 2:Option 3|radio_checked#Option 1|data-required#false', true);
+					add_post_meta($postID, '[usp_custom_field form="starter" id="3"]', 'field#select|label#Select Field|options#null:Option 1:Option 2:Option 3|option_default#Please Select..|option_select#null|data-required#false', true);
+					add_post_meta($postID, '[usp_custom_field form="starter" id="4"]', 'label#Text Field|placeholder#Text Field|data-required#false', true);
+					add_post_meta($postID, '[usp_custom_field form="starter" id="5"]', 'field#textarea|label#Textarea|placeholder#Textarea|data-required#false', true);
+					add_post_meta($postID, '[usp_custom_field form="starter" id="6"]', 'field#input_file|label#Custom Files|multiple#true|data-required#false', true);
 				} else {
 					if (isset($usp_advanced['custom_fields']) && is_numeric($usp_advanced['custom_fields'])) {
 						$max = 1 + intval($usp_advanced['custom_fields']);
@@ -518,8 +541,8 @@ endif;
 */
 if (!function_exists('usp_form_wrap')) : 
 function usp_form_wrap($args, $success) {
-	global $usp_general, $usp_advanced, $usp_style, $current_user;
-	get_currentuserinfo();
+	global $usp_general, $usp_advanced, $usp_style;
+	$current_user = wp_get_current_user();
 	
 	if ($args) {
 		$form_id = $args['id'];
@@ -536,7 +559,8 @@ function usp_form_wrap($args, $success) {
 		
 		if (isset($usp_style['form_style']) && $usp_style['form_style'] !== 'disable') {
 			$form_style = "\n" . '<style type="text/css">' . "\n";
-			if     ($usp_style['form_style'] == 'minimal' && isset($usp_style['style_min']))    $form_style .= $usp_style['style_min'];
+			if     ($usp_style['form_style'] == 'simple'  && isset($usp_style['style_simple'])) $form_style .= $usp_style['style_simple'];
+			elseif ($usp_style['form_style'] == 'minimal' && isset($usp_style['style_min']))    $form_style .= $usp_style['style_min'];
 			elseif ($usp_style['form_style'] == 'small'   && isset($usp_style['style_small']))  $form_style .= $usp_style['style_small'];
 			elseif ($usp_style['form_style'] == 'large'   && isset($usp_style['style_large']))  $form_style .= $usp_style['style_large'];
 			elseif ($usp_style['form_style'] == 'custom'  && isset($usp_style['style_custom'])) $form_style .= $usp_style['style_custom'];
@@ -582,11 +606,14 @@ function usp_form_wrap($args, $success) {
 		} else {
 			$submit_button = '';
 		}
-
+		
+		$custom_output = apply_filters('usp_form_custom_output', '');
+		$custom_output = empty($custom_output) ? '' : $custom_output . "\n";
+		
 		$error_message = usp_display_errors();
 		$success_message = usp_display_success();
 
-		if (!isset($_SESSION)) session_start();
+		if (usp_is_session_started() === false) session_start();
 		$session_verify = '<input type="hidden" name="PHPSESSID" value="'. session_id() .'" />'. "\n";
 		$user_verify = '<input type="text" name="usp-verify" id="verify" value="" style="display:none;" class="exclude" />'. "\n";
 		$wp_nonce = wp_nonce_field('usp_form_submit', 'usp_form_submit', false, false). "\n";
@@ -604,7 +631,7 @@ function usp_form_wrap($args, $success) {
 		
 		$form_wrap = array(
 				'form_before' => $form_style . $form_css . $custom_before . $form_info . $form_wrap_before . $error_message . $success_message . $form_before,
-				'form_after'  => $submit_button . $form_hidden_before . $hidden_inputs . $form_hidden_after . $form_after . $form_wrap_after . $custom_after . $form_script . $form_js,
+				'form_after'  => $submit_button . $custom_output . $form_hidden_before . $hidden_inputs . $form_hidden_after . $form_after . $form_wrap_after . $custom_after . $form_script . $form_js,
 			);
 		if ($success && $usp_advanced['success_form'] == '0') {
 			$form_wrap = array(
@@ -644,7 +671,11 @@ function usp_display_errors() {
 	else $captcha_type = __('Challenge Question', 'usp');
 	
 	wp_parse_str(wp_strip_all_tags($_SERVER['QUERY_STRING']), $params);
+	
 	if ($params) {
+		
+		if (isset($params['usp_form'])) unset($params['usp_form']);
+		
 		foreach ($params as $key => $value) {
 			
 			if (preg_match("/^usp_error_([0-9]+)$/i", $key)) {
@@ -672,8 +703,13 @@ function usp_display_errors() {
 				} elseif (preg_match("/^usp_error_$custom_prefix([0-9a-z_-]+)?$/i", $key, $match)) {
 					$custom_error = $custom_prefix . $match[1];
 				}
-				if (!empty($custom_error)) $errors[] = $usp_more['custom_field_before'] . $custom_error . $usp_more['custom_field_after'];
+				
+				if (!empty($custom_error)) {
+					$errors[] = $usp_more['custom_field_before'] . $custom_error . $usp_more['custom_field_after'];
+					$custom_error = '';
+				}
 			}
+			
 			if ($key == 'usp_error_form') {
 				$errors[] = $usp_more['form_allowed'];
 			}
@@ -706,6 +742,8 @@ function usp_display_errors() {
 			if (preg_match("/^usp_error_8d-([0-9a-z_-]+)$/i", $key)) $errors[] = $usp_more['file_min_size'];
 			if (preg_match("/^usp_error_8e-([0-9a-z_-]+)$/i", $key)) $errors[] = $usp_more['file_required'];
 			if (preg_match("/^usp_error_8f-([0-9a-z_-]+)$/i", $key)) $errors[] = $usp_more['file_name'];
+			if (preg_match("/^usp_error_8i-([0-9a-z_-]+)$/i", $key)) $errors[] = $usp_more['file_square'];
+			
 		} 
 		
 		if (!empty($errors)) {
@@ -725,7 +763,9 @@ function usp_display_errors() {
 			$error_message .= '</div>';
 		}
 	}
+	
 	return $error_message;
+	
 }
 endif;
 
@@ -775,19 +815,32 @@ endif;
 if (!function_exists('usp_get_form_id')) : 
 function usp_get_form_id($form_id) {
 	global $post, $wpdb;
+	
 	if ($form_id) {
+		
 		if (is_numeric($form_id)) { // id from id
+			
 			$form_id = $form_id;
+			
 		} else { // id from slug
-			$prefix = $wpdb->prefix;
-			$current_id = $wpdb->get_var($wpdb->prepare("SELECT ID FROM ". $prefix ."posts WHERE post_name = '%s' AND post_type = 'usp_form'", $form_id));
-			if ($current_id) $form_id = $current_id;
+			
+			$args = apply_filters('usp_forms_get_form_id', array('name' => $form_id, 'post_type' => 'usp_form', 'posts_per_page' => 1));
+			$get_forms = get_posts($args);
+			$current_id = intval($get_forms[0]->ID);
+			
+			if (!empty($current_id)) $form_id = $current_id;
 			else $form_id = __('error:usp_get_form_id:1:', 'usp') . $current_id;
+			
 		}
+		
 	} else {
-		$form_id = __('error:usp_get_form_id:2:', 'usp') . $form_id;	
+		
+		$form_id = __('error:usp_get_form_id:2:', 'usp') . $form_id;
+		
 	}
+	
 	return $form_id;
+	
 }
 endif;
 
@@ -931,8 +984,8 @@ function usp_label($args, $field) {
 		if ($args['label'] == 'null') $label = '';
 		else $label = trim($args['label']);
 	} else {
-		if ($field == 'captcha_question') {
-			$label = $usp_general[$field];
+		if ($field == 'usp_error_5') {
+			$label = isset($usp_general['captcha_question']) ? $usp_general['captcha_question'] : '';
 		} else {
 			if (isset($usp_advanced[$field]) && !empty($usp_advanced[$field])) {
 				$label = $usp_advanced[$field];
@@ -1000,8 +1053,8 @@ function usp_placeholder($args, $field) {
 		if ($args['placeholder'] == 'null') $placeholder = '';
 		else $placeholder = trim($args['placeholder']);
 	} else {
-		if ($field == 'captcha_question') {
-			$placeholder = isset($usp_general[$field]) ? $usp_general[$field] : '';
+		if ($field == 'usp_error_5') {
+			$placeholder = isset($usp_general['captcha_question']) ? $usp_general['captcha_question'] : '';
 		} else {
 			$placeholder = isset($usp_advanced[$field]) ? $usp_advanced[$field] : '';
 		}
@@ -1018,20 +1071,36 @@ endif;
 */
 if (!function_exists('usp_classes')) : 
 function usp_classes($args, $field = '') {
+	
 	$error = '';
+	
 	wp_parse_str(wp_strip_all_tags($_SERVER['QUERY_STRING']), $vars);
+	
 	if ($vars) {
-		if ($field !== 'submit') {
+		
+		$ignore = array('carbon', 'fieldset', 'form', 'remember', 'reset', 'submit');
+		
+		if (!in_array($field, $ignore)) {
+			
 			foreach ($vars as $var) {
-				if (preg_match("/^usp_error_$field([a-z_-]+)?$/i", $var)) {
+				
+				if (preg_match("/^". preg_quote($field) ."$/i", $var)) {
+					
 					$error = 'usp-error-field usp-error-primary ';
 					
-				} elseif (preg_match("/^usp_error_8([0-9a-z-]+)$/i", $var)) {
+				} elseif (preg_match("/^". preg_quote($field) ."([a-z])?--usp-files--([0-9]+)$/i", $var)) {
+					
 					$error = 'usp-error-field usp-error-file ';
-				}		
+					
+				} elseif (preg_match("/^". preg_quote($field) ."([a-z])?--usp-file-single--([0-9]+)$/i", $var)) {
+					
+					$error = 'usp-error-field usp-error-file ';
+					
+				}
 			}
 		}
 	}
+	
 	if (isset($args) && !empty($args)) {
 		$class_string = trim($args);
 		$class_pieces = explode(",", $class_string);
@@ -1044,7 +1113,9 @@ function usp_classes($args, $field = '') {
 		$classes = '';	
 	}
 	$classes = $error . $classes;
+	
 	return $classes;
+	
 }
 endif;
 

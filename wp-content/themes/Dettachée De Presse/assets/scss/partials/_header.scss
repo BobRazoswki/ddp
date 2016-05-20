@@ -1,0 +1,41 @@
+// BLOC LOGO
+.logo {
+
+  &__store img {
+    position: absolute;
+    top: 0;
+    left: calc(50% - 75px);
+    width: 150px;
+  }
+
+  &__ddp {
+    & a {
+      width: 200px;
+      height: auto;
+      display: block;
+      top: 30px;
+      position: relative;
+      cursor: pointer;
+      z-index: 9;
+    }
+
+    & img {
+      display: block;
+      width: 100%;
+    }
+  }
+}
+
+.header {
+  height: 170px;
+
+  &__navigation {
+      top: -70px;
+      display: block;
+      position: relative;
+  }
+}
+
+.hp-wrap, .ninja-forms-required-items, .ninja-forms-req-symbol strong {
+  display: none;
+}

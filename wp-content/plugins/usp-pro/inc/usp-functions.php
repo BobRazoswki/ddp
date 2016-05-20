@@ -2,7 +2,7 @@
 
 if (!defined('ABSPATH')) die();
 
-if (!isset($_SESSION)) session_start();
+if (usp_is_session_started() === false) session_start();
 
 include (dirname(__FILE__) .'/usp-login.php');
 
@@ -1515,4 +1515,123 @@ function usp_user_shortcode_image($attr) {
 add_shortcode('image', 'usp_user_shortcode_image');
 endif;
 
+
+/*
+	Function: shortcode to display a list of all user submitted posts
+	Bonus: includes any posts submitted by the free version of USP :)
+	Shortcode: 
+		[usp_pro_display_posts userid="1"]                : displays all submitted posts by registered user with ID = 1
+		[usp_pro_display_posts userid="Pat Smith"]        : displays all submitted posts by author name "Pat Smith"
+		[usp_pro_display_posts userid="all"]              : displays all submitted posts by all users/authors
+		[usp_pro_display_posts userid="all" numposts="5"] : limit to 5 posts
+		[usp_pro_display_posts  display="excerpt"]        : display excerpt
+*/
+if (!function_exists('usp_pro_display_posts')) : 
+function usp_pro_display_posts($attr, $content = null) {
+	
+	extract(shortcode_atts(array(
+		
+		'userid'   => 'all',
+		'numposts' => -1,
+		'display'  => 'title',
+		
+	), $attr));
+	
+	$post_type = apply_filters('usp_shortcode_display_posts_type', 'any');
+	
+	if (ctype_digit($userid)) {
+		
+		$args = array(
+			'author'         => $userid,
+			'posts_per_page' => $numposts,
+			'post_type'      => $post_type,
+			'meta_key'       => 'is_submission',
+			'meta_value'     => '1'
+		);
+		
+	} elseif ($userid === 'all') {
+		
+		$args = array(
+			'posts_per_page' => $numposts,
+			'post_type'      => $post_type,
+			'meta_key'       => 'is_submission',
+			'meta_value'     => '1'
+		);
+		
+	} else {
+		
+		$args = array(
+			'posts_per_page' => $numposts,
+			'post_type'      => $post_type,
+			
+			'meta_query' => array(
+				
+				'relation' => 'AND',
+				
+				array(
+					'key'    => 'is_submission',
+					'value'  => '1'
+				),
+				array(
+					'key'    => 'user_submit_name',
+					'value'  => $userid
+				)
+			)
+		);
+		
+	}
+	
+	global $post;
+	
+	$submitted_posts = get_posts($args);
+	
+	$display_posts  = '<div class="usp-pro-display-posts">';
+	$display_posts .= ($display !== 'content' && $display !== 'excerpt' && $display !== 'thumb') ? '<ul>' : '';
+	
+	foreach ($submitted_posts as $post) {
+		
+		setup_postdata($post);
+		
+		$permalink = get_the_permalink();
+		$posttitle = get_the_title();
+		$excerpt   = get_the_excerpt();
+		$content   = apply_filters('the_content', get_the_content());
+		$title     = apply_filters('usp_shortcode_display_posts_title', __('View full post', 'usp'));
+		$thumb     = get_the_post_thumbnail(get_the_id(), apply_filters('usp_shortcode_display_posts_size', 'thumbnail'));
+		
+		$display_posts .= apply_filters('usp_shortcode_display_posts_before', '<div class="usp-pro-display-posts-wrap">', $permalink, $posttitle, $excerpt, $content, $title, $thumb);
+		
+		if ($display === 'content') {
+			
+			$display_posts .= '<div class="usp-pro-display-posts-title"><strong><a href="'. $permalink .'" title="'. $title .'">'. $posttitle .'</a></strong></div>';
+			$display_posts .= '<div class="usp-pro-display-posts-content">'. $content .'</div>';
+			
+		} elseif ($display === 'excerpt') {
+			
+			$display_posts .= '<div class="usp-pro-display-posts-title"><strong><a href="'. $permalink .'" title="'. $title .'">'. $posttitle .'</a></strong></div>';
+			$display_posts .= '<div class="usp-pro-display-posts-content">'. $excerpt .'</div>';
+		
+		} elseif ($display === 'thumb') {
+			
+			$display_posts .= $thumb;
+			
+		} else {
+			
+			$display_posts .= '<li><a href="'. $permalink .'" title="'. $title .'">'. $posttitle .'</a></li>';
+		}
+		
+		$display_posts .= apply_filters('usp_shortcode_display_posts_after', '</div>', $permalink, $posttitle, $excerpt, $content, $title, $thumb);
+		
+	}
+	
+	$display_posts .= ($display !== 'content' && $display !== 'excerpt' && $display !== 'thumb') ? '</ul>' : '';
+	$display_posts .= '</div>';
+	
+	wp_reset_postdata();
+	
+	return $display_posts;
+	
+}
+add_shortcode('usp_pro_display_posts', 'usp_pro_display_posts');
+endif;
 

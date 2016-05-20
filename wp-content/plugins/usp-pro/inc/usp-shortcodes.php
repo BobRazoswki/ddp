@@ -2,7 +2,7 @@
 
 if (!defined('ABSPATH')) die();
 
-if (!isset($_SESSION)) session_start();
+if (usp_is_session_started() === false) session_start();
 
 require_once(dirname(dirname(__FILE__)) .'/shortcodes/usp-cats.php');
 require_once(dirname(dirname(__FILE__)) .'/shortcodes/usp-tags.php');
@@ -17,9 +17,13 @@ require_once(dirname(dirname(__FILE__)) .'/shortcodes/usp-tax.php');
 */
 if (!function_exists('usp_fieldset_open')) : 
 function usp_fieldset_open($args) {
-	$class = 'usp-fieldset,' . $args['class'];
-	$classes = usp_classes($class);
+	
+	$class = isset($args['class']) ? 'usp-fieldset,'. $args['class'] : 'usp-fieldset';
+	
+	$classes = usp_classes($class, 'fieldset');
+	
 	return '<fieldset class="'. $classes .'">'. "\n";
+	
 }
 add_shortcode('usp_fieldset', 'usp_fieldset_open');
 function usp_fieldset_close() { return '</fieldset>'. "\n"; }
@@ -41,8 +45,8 @@ endif;
 */
 if (!function_exists('usp_input_name')) : 
 function usp_input_name($args) {
-	global $current_user;
-	get_currentuserinfo();
+	
+	$current_user = wp_get_current_user();
 	
 	if ($current_user->ID) $value = $current_user->user_login;
 	elseif (isset($_SESSION['usp_form_session']['usp-name']) && isset($_COOKIE['remember'])) $value = $_SESSION['usp_form_session']['usp-name'];
@@ -53,9 +57,14 @@ function usp_input_name($args) {
 	if (isset($args['custom'])) $custom = sanitize_text_field($args['custom']) .' ';
 	else $custom = '';
 	
+	$field = 'usp_error_1';
+	
+	$placeholder = usp_placeholder($args, $field);
+	$label = usp_label($args, $field);
+	
 	if (isset($args['class'])) $class = 'usp-input,usp-input-name,' . $args['class'];
 	else $class = 'usp-input,usp-input-name';
-	$classes = usp_classes($class, '1');
+	$classes = usp_classes($class, $field);
 	
 	if (isset($args['fieldset'])) $fieldset_custom = sanitize_text_field($args['fieldset']);
 	else $fieldset_custom = '';
@@ -63,10 +72,6 @@ function usp_input_name($args) {
 	$fieldset = usp_fieldset($fieldset_custom);
 	$fieldset_before = $fieldset['fieldset_before'];
 	$fieldset_after = $fieldset['fieldset_after'];
-	
-	$field = 'usp_error_1';
-	$placeholder = usp_placeholder($args, $field);
-	$label = usp_label($args, $field);
 	
 	$required = usp_required($args);
 	if ($required == 'true') $parsley = 'required="required" ';
@@ -77,8 +82,8 @@ function usp_input_name($args) {
 	if (empty($label)) $content = '';
 	else $content = '<label for="usp-name" class="usp-label usp-label-name">'. $label .'</label>'. "\n";
 	
-	$content .= '<input name="usp-name" type="text" value="'. esc_attr($value) .'" data-required="'. $required .'" '. $parsley .'maxlength="'. $max .'" placeholder="'. $placeholder .'" class="'. $classes .'" '. $custom .'/>'. "\n";
-	if ($required == 'true') $content .= '<input name="usp-name-required" value="1" type="hidden" />'. "\n";
+	$content .= '<input name="usp-name" id="usp-name" type="text" value="'. esc_attr($value) .'" data-required="'. $required .'" '. $parsley .'maxlength="'. $max .'" placeholder="'. $placeholder .'" class="'. $classes .'" '. $custom .'/>'. "\n";
+	if ($required == 'true') $content .= '<input type="hidden" name="usp-name-required" value="1" />'. "\n";
 	return $fieldset_before . $content . $fieldset_after;
 }
 add_shortcode('usp_name', 'usp_input_name');
@@ -105,9 +110,14 @@ function usp_input_url($args) {
 	if (isset($args['custom'])) $custom = sanitize_text_field($args['custom']) .' ';
 	else $custom = '';
 	
+	$field = 'usp_error_2';
+	
+	$placeholder = usp_placeholder($args, $field);
+	$label = usp_label($args, $field);
+	
 	if (isset($args['class'])) $class = 'usp-input,usp-input-url,' . $args['class'];
 	else $class = 'usp-input,usp-input-url';
-	$classes = usp_classes($class, '2');
+	$classes = usp_classes($class, $field);
 	
 	if (isset($args['fieldset'])) $fieldset_custom = sanitize_text_field($args['fieldset']);
 	else $fieldset_custom = '';
@@ -115,10 +125,7 @@ function usp_input_url($args) {
 	$fieldset = usp_fieldset($fieldset_custom);
 	$fieldset_before = $fieldset['fieldset_before'];
 	$fieldset_after = $fieldset['fieldset_after'];
-
-	$field = 'usp_error_2';
-	$placeholder = usp_placeholder($args, $field);
-	$label = usp_label($args, $field);
+	
 	$required = usp_required($args);
 	if ($required == 'true') $parsley = 'required="required" ';
 	else $parsley = '';
@@ -126,8 +133,8 @@ function usp_input_url($args) {
 
 	if (empty($label)) $content = '';
 	else $content  = '<label for="usp-url" class="usp-label usp-label-url">'. $label .'</label>'. "\n";
-	$content .= '<input name="usp-url" type="text" value="'. esc_url($value) .'" data-required="'. $required .'" '. $parsley .'maxlength="'. $max .'" placeholder="'. $placeholder .'" class="'. $classes .'" '. $custom .'/>'. "\n";
-	if ($required == 'true') $content .= '<input name="usp-url-required" value="1" type="hidden" />'. "\n";
+	$content .= '<input name="usp-url" id="usp-url" type="text" value="'. esc_url($value) .'" data-required="'. $required .'" '. $parsley .'maxlength="'. $max .'" placeholder="'. $placeholder .'" class="'. $classes .'" '. $custom .'/>'. "\n";
+	if ($required == 'true') $content .= '<input type="hidden" name="usp-url-required" value="1" />'. "\n";
 	return $fieldset_before . $content . $fieldset_after;
 }
 add_shortcode('usp_url', 'usp_input_url');
@@ -154,9 +161,14 @@ function usp_input_title($args) {
 	if (isset($args['custom'])) $custom = sanitize_text_field($args['custom']) .' ';
 	else $custom = '';
 	
+	$field = 'usp_error_3';
+	
+	$placeholder = usp_placeholder($args, $field);
+	$label = usp_label($args, $field);
+	
 	if (isset($args['class'])) $class = 'usp-input,usp-input-title,' . $args['class'];
 	else $class = 'usp-input,usp-input-title';
-	$classes = usp_classes($class, '3');
+	$classes = usp_classes($class, $field);
 	
 	if (isset($args['fieldset'])) $fieldset_custom = sanitize_text_field($args['fieldset']);
 	else $fieldset_custom = '';
@@ -164,10 +176,7 @@ function usp_input_title($args) {
 	$fieldset = usp_fieldset($fieldset_custom);
 	$fieldset_before = $fieldset['fieldset_before'];
 	$fieldset_after = $fieldset['fieldset_after'];
-
-	$field = 'usp_error_3';
-	$placeholder = usp_placeholder($args, $field);
-	$label = usp_label($args, $field);
+	
 	$required = usp_required($args);
 	if ($required == 'true') $parsley = 'required="required" ';
 	else $parsley = '';
@@ -175,8 +184,8 @@ function usp_input_title($args) {
 
 	if (empty($label)) $content = '';
 	else $content  = '<label for="usp-title" class="usp-label usp-label-title">'. $label .'</label>'. "\n";
-	$content .= '<input name="usp-title" type="text" value="'. esc_attr($value) .'" data-required="'. $required .'" '. $parsley .'maxlength="'. $max .'" placeholder="'. $placeholder .'" class="'. $classes .'" '. $custom .'/>'. "\n";
-	if ($required == 'true') $content .= '<input name="usp-title-required" value="1" type="hidden" />'. "\n";
+	$content .= '<input name="usp-title" id="usp-title" type="text" value="'. esc_attr($value) .'" data-required="'. $required .'" '. $parsley .'maxlength="'. $max .'" placeholder="'. $placeholder .'" class="'. $classes .'" '. $custom .'/>'. "\n";
+	if ($required == 'true') $content .= '<input type="hidden" name="usp-title-required" value="1" />'. "\n";
 	return $fieldset_before . $content . $fieldset_after;
 }
 add_shortcode('usp_title', 'usp_input_title');
@@ -204,9 +213,14 @@ function usp_input_captcha($args) {
 	if (isset($args['custom'])) $custom = sanitize_text_field($args['custom']) .' ';
 	else $custom = '';
 	
+	$field = 'usp_error_5';
+	
+	$placeholder = usp_placeholder($args, $field);
+	$label = usp_label($args, $field);
+	
 	if (isset($args['class'])) $class = 'usp-input,usp-input-captcha,' . $args['class'];
 	else $class = 'usp-input,usp-input-captcha';
-	$classes = usp_classes($class, '5');
+	$classes = usp_classes($class, $field);
 
 	if (isset($args['fieldset'])) $fieldset_custom = sanitize_text_field($args['fieldset']);
 	else $fieldset_custom = '';
@@ -214,10 +228,7 @@ function usp_input_captcha($args) {
 	$fieldset = usp_fieldset($fieldset_custom);
 	$fieldset_before = $fieldset['fieldset_before'];
 	$fieldset_after = $fieldset['fieldset_after'];
-
-	$field = 'captcha_question'; // overrides usp_error_5
-	$placeholder = usp_placeholder($args, $field);
-	$label = usp_label($args, $field);
+	
 	$max = usp_max_att($args, '99');
 	
 	$recaptcha_public  = isset($usp_general['recaptcha_public'])  ? $usp_general['recaptcha_public']  : '';
@@ -228,11 +239,12 @@ function usp_input_captcha($args) {
 		
 		if ($recaptcha_version === 'v1') {
 			
+			$id = 'recaptcha_response_field';
 			$captcha = '<script type="text/javascript" src="https://www.google.com/recaptcha/api/challenge?k='. $recaptcha_public .'"></script>
 			<noscript>
 				<iframe src="https://www.google.com/recaptcha/api/noscript?k='. $recaptcha_public .'" height="300" width="500" frameborder="0"></iframe><br>
 				<textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
-				<input type="hidden" name="recaptcha_response_field" value="manual_challenge">
+				<input type="hidden" name="recaptcha_response_field" id="'. $id .'" value="manual_challenge">
 			</noscript>'. "\n";
 			
 		} elseif ($recaptcha_version === 'v2') {
@@ -240,20 +252,22 @@ function usp_input_captcha($args) {
 			$captcha_params = apply_filters('usp_captcha_params', '');
 			$captcha_atts   = apply_filters('usp_captcha_atts',   '');
 			
+			$id = 'g-recaptcha-response';
 			$captcha = '<script src="https://www.google.com/recaptcha/api.js'. $captcha_params .'" async defer></script>
 			<div class="g-recaptcha" '. $captcha_atts .' data-sitekey="'. $recaptcha_public .'"></div>'. "\n";
 		}
 	} else {
 		
-		$captcha = '<input name="usp-captcha" type="text" value="'. esc_attr($value) .'" data-required="true" required="required" maxlength="'. $max .'" placeholder="'. $placeholder .'" class="'. $classes .'" '. $custom .'/>'. "\n";
+		$id = 'usp-captcha';
+		$captcha = '<input name="usp-captcha" id="'. $id .'" type="text" value="'. esc_attr($value) .'" data-required="true" required="required" maxlength="'. $max .'" placeholder="'. $placeholder .'" class="'. $classes .'" '. $custom .'/>'. "\n";
 	}
 	
 	$captcha = apply_filters('usp_captcha_output', $captcha);
 	
 	if (empty($label)) $content = '';
-	else $content  = '<label for="usp-captcha" class="usp-label usp-label-captcha">'. $label .'</label>'. "\n";
+	else $content  = '<label for="'. $id .'" class="usp-label usp-label-captcha">'. $label .'</label>'. "\n";
 	
-	if ($required == 'true') $required = '<input name="usp-captcha-required" value="1" type="hidden" />'. "\n";
+	if ($required == 'true') $required = '<input type="hidden" name="usp-captcha-required" value="1" />'. "\n";
 	
 	return $fieldset_before . $content . $captcha . $required . $fieldset_after;
 }
@@ -284,9 +298,14 @@ function usp_input_content($args) {
 	if (isset($args['custom'])) $custom = ' '. sanitize_text_field($args['custom']);
 	else $custom = '';
 	
-	if (isset($args['class'])) $class = 'usp-input,usp-input-content,' . $args['class'];
-	else $class = 'usp-input,usp-input-content';
-	$classes = usp_classes($class, '7');
+	$field = 'usp_error_7';
+	
+	$placeholder = usp_placeholder($args, $field);
+	$label = usp_label($args, $field);
+	
+	if (isset($args['class'])) $class = 'usp-input,usp-textarea,usp-input-content,' . $args['class'];
+	else $class = 'usp-input,usp-textarea,usp-input-content';
+	$classes = usp_classes($class, $field);
 	
 	if (isset($args['fieldset'])) $fieldset_custom = sanitize_text_field($args['fieldset']);
 	else $fieldset_custom = '';
@@ -295,9 +314,6 @@ function usp_input_content($args) {
 	$fieldset_before = $fieldset['fieldset_before'];
 	$fieldset_after = $fieldset['fieldset_after'];
 	
-	$field = 'usp_error_7';
-	$placeholder = usp_placeholder($args, $field);
-	$label = usp_label($args, $field);
 	$required = usp_required($args);
 	if ($required == 'true') $parsley = 'required="required" ';
 	else $parsley = '';
@@ -336,9 +352,9 @@ function usp_input_content($args) {
 		$get_wp_editor = ob_get_clean();
 		$content .= $get_wp_editor;
 	} else {
-		$content .= '<textarea name="usp-content" rows="'. $rows .'" cols="'. $cols .'" maxlength="'. $max .'" data-required="'. $required .'" '. $parsley .'placeholder="'. $placeholder .'" class="'. $classes .'"'. $custom .'>'. esc_html($value) .'</textarea>'. "\n";
+		$content .= '<textarea name="usp-content" id="usp-content" rows="'. $rows .'" cols="'. $cols .'" maxlength="'. $max .'" data-required="'. $required .'" '. $parsley .'placeholder="'. $placeholder .'" class="'. $classes .'"'. $custom .'>'. esc_html($value) .'</textarea>'. "\n";
 	}
-	if ($required == 'true') $content .= '<input name="usp-content-required" value="1" type="hidden" />'. "\n";
+	if ($required == 'true') $content .= '<input type="hidden" name="usp-content-required" value="1" />'. "\n";
 	return $fieldset_before . $content . $fieldset_after;
 }
 add_shortcode('usp_content', 'usp_input_content');
@@ -377,14 +393,19 @@ function usp_input_files($args) {
 	if (isset($args['files_max']) && is_numeric($args['files_max'])) $files_max = $args['files_max'];
 	else $files_max = $usp_uploads['max_files'];
 	
+	$field = 'usp_error_8';
+	
+	$placeholder = usp_placeholder($args, $field);
+	$label = usp_label($args, $field);
+	
 	if (isset($args['class'])) $class = 'usp-input,usp-input-files,' . $args['class'];
 	else $class = 'usp-input,usp-input-files';
-	$classes = usp_classes($class, '8');
+	$classes = usp_classes($class, $field);
 	
 	if (isset($args['fieldset'])) $fieldset_custom = sanitize_text_field($args['fieldset']);
 	else $fieldset_custom = '';
 	
-	if (isset($args['preview_off'])) $preview = '<input name="usp-file-preview" value="1" type="hidden" />'. "\n";
+	if (isset($args['preview_off'])) $preview = '<input type="hidden" name="usp-file-preview" value="1" />'. "\n";
 	else $preview = '';
 	
 	$fieldset = usp_fieldset($fieldset_custom);
@@ -400,12 +421,11 @@ function usp_input_files($args) {
 	} else {
 		$file_types = '';
 	}
-
-	$field = 'usp_error_8';
-	$placeholder = usp_placeholder($args, $field);
-	$label = usp_label($args, $field);
+	
 	$required = usp_required($args);
 	$max = usp_max_att($args, '255');
+	
+	if ($required === 'true' && empty($files_min)) $files_min = '1';
 	
 	$key = 'single';
 	if (isset($args['key']) && is_numeric($args['key'])) $key = $args['key'];
@@ -425,61 +445,63 @@ function usp_input_files($args) {
 		if ($usp_uploads['min_files'] < 1) $number_files = 1;
 		else $number_files = $usp_uploads['min_files'];
 		//
-		$content = '';
+		
+		$content = '<div id="usp-files-wrap" class="usp-files">'. "\n";
+		
 		if ($multiple) {
 			
-			$content .= '<div id="usp-files" class="usp-files">'. "\n";
-			
-			if (empty($label)) $content .= '';
-			else               $content .= '<label for="usp-files[]" class="usp-label usp-label-files">'. $label .'</label>'. "\n";
+			$content .= empty($label) ? '' : '<label for="usp-files" class="usp-label usp-label-files">'. $label .'</label>'. "\n";
 			
 			$content .= '<div class="usp-input-wrap">'. "\n";
 			
 			if (empty($method)) {
-				for ( $i = 1; $i <= $number_files; $i++ ) {
-					$content .= '<input name="usp-files[]" type="file" maxlength="'. $max .'" data-required="'. $required .'" data-file="1" placeholder="'. $placeholder .'" class="'. $classes .' add-another multiple" '. $custom .'/>'. "\n";
+				
+				for ($i = 1; $i <= $number_files; $i++) {
+					
+					$content .= '<input name="usp-files[]" id="usp-files" type="file" maxlength="'. $max .'" data-required="'. $required .'" data-file="1" placeholder="'. $placeholder .'" class="'. $classes .' add-another multiple" '. $custom .'/>'. "\n";
+				
 				}
+				
 				$content .= '<div class="usp-add-another"><a href="#">'. $link .'</a></div>'. "\n";
+			
 			} else {
-				$content .= '<input name="usp-files[]" type="file" maxlength="'. $max .'" data-required="'. $required .'" placeholder="'. $placeholder .'" class="'. $classes .' select-file multiple"'. $method .' id="usp-multiple-files" '. $custom .'/>'. "\n";
+				
+				$content .= '<input name="usp-files[]" id="usp-files" type="file" maxlength="'. $max .'" data-required="'. $required .'" placeholder="'. $placeholder .'" class="'. $classes .' select-file multiple"'. $method .' '. $custom .'/>'. "\n";
+				
 			}
 			
 			$content .= '</div>'. "\n";
-			$content .= '<input name="usp-file-limit" class="usp-file-limit" value="'. $files_max .'" type="hidden" />'. "\n";
-			$content .= '<input name="usp-file-count" class="usp-file-count" value="1" type="hidden" />'. "\n";
+			$content .= '<input type="hidden" name="usp-file-limit" class="usp-file-limit" value="'. $files_max .'" />'. "\n";
+			$content .= '<input type="hidden" name="usp-file-count" class="usp-file-count" value="1" />'. "\n";
 			
-			if (!empty($file_types)) $content .= '<input name="usp-file-types" value="'. $file_types .'" type="hidden" />'. "\n";
-			if ($required == 'true') $content .= '<input name="usp-files-required" value="'. $files_min .'" type="hidden" />'. "\n";
-			
-			$content .= $preview;
-			$content .= '</div>'. "\n";
+			if (!empty($file_types)) $content .= '<input type="hidden" name="usp-file-types" value="'. $file_types .'" />'. "\n";
+			if ($required == 'true') $content .= '<input type="hidden" name="usp-files-required" value="'. $files_min .'" />'. "\n";
 			
 		} else {
 			
-			$content .= '<div id="usp-file" class="usp-file">'. "\n";
+			$content .= empty($label) ? '' : '<label for="usp-file-'. $key .'" class="usp-label usp-label-files usp-label-file usp-label-file-'. $key .'">'. $label .'</label>'. "\n";
 			
-			if (empty($label))  $content .= '';
-			else                $content .= '<label for="usp-file-'. $key .'" class="usp-label usp-label-files usp-label-file usp-label-file-'. $key .'">'. $label .'</label>'. "\n";
+			$method_class = empty($method) ? ' add-another single-file' : ' select-file single-file';
 			
-			if (empty($method)) $method_class = ' add-another single-file';
-			else                $method_class = ' select-file single-file';
+			$content .= '<input name="usp-file-'. $key .'" id="usp-file-'. $key .'" type="file" maxlength="'. $max .'" data-required="'. $required .'" placeholder="'. $placeholder .'" class="'. $classes .' usp-input-file usp-input-file-'. $key . $method_class .'" '. $custom .'/>'. "\n";
 			
-			$content .= '<input name="usp-file-'. $key .'" type="file" maxlength="'. $max .'" data-required="'. $required .'" placeholder="'. $placeholder .'" class="'. $classes .' usp-input-file usp-input-file-'. $key . $method_class .'" '. $custom .'/>'. "\n";
-			$content .= '<input name="usp-file-key" value="'. $key .'" type="hidden" />'. "\n";
+			$content .= '<input type="hidden" name="usp-file-key" value="'. $key .'" />'. "\n";
 			
-			if (!empty($file_types)) $content .= '<input name="usp-file-types" value="'. $file_types .'" type="hidden" />'. "\n";
-			if ($required == 'true') $content .= '<input name="usp-file-required-'. $key .'" value="'. $files_min .'" type="hidden" />'. "\n";
+			if (!empty($file_types)) $content .= '<input type="hidden" name="usp-file-types" value="'. $file_types .'" />'. "\n";
+			if ($required == 'true') $content .= '<input type="hidden" name="usp-file-required-'. $key .'" value="'. $files_min .'" />'. "\n";
 			
-			$content .= $preview;
-			$content .= '</div>'. "\n";
 		}
 		
-		$content .= '<div class="usp-preview"></div>'. "\n";
+		$content .= $preview .'</div>'. "\n" .'<div class="usp-preview"></div>'. "\n";
 		
 	} else {
-		return __('File uploads not currently allowed. Please check your settings or contact the site administrator.', 'usp');
+		
+		return __('File uploads not allowed. Please check your settings or contact the site administrator.', 'usp');
+		
 	}
+	
 	return $fieldset_before . $content . $fieldset_after;
+	
 }
 add_shortcode('usp_files', 'usp_input_files');
 endif;
@@ -508,7 +530,7 @@ function usp_remember($args) {
 	
 	if (isset($args['class'])) $class = 'usp-remember,usp-input,usp-input-remember,' . $args['class'];
 	else $class = 'usp-remember,usp-input,usp-input-remember';
-	$classes = usp_classes($class);
+	$classes = usp_classes($class, 'remember');
 	
 	if (isset($args['fieldset'])) $fieldset_custom = sanitize_text_field($args['fieldset']);
 	else $fieldset_custom = '';
@@ -522,7 +544,7 @@ function usp_remember($args) {
 	$label = '<label for="usp-remember" class="usp-label usp-label-remember">'. $label_text .'</label>'. "\n";
 	
 	$content = '';
-	$content .= '<input name="usp-remember" id="usp-remember" type="checkbox" data-required="true" class="'. $classes .'" value="1"'. $checked .' '. $custom .'/> '. "\n". $label;
+	$content .= '<input name="usp-remember" id="usp-remember" type="checkbox" data-required="true" class="'. $classes .'" value="1"'. $checked .' '. $custom .'/> '. $label;
 	
 	return $fieldset_before . $content . $fieldset_after;
 }
@@ -578,8 +600,8 @@ endif;
 */
 if (!function_exists('usp_input_email')) : 
 function usp_input_email($args) {
-	global $current_user;
-	get_currentuserinfo();
+	
+	$current_user = wp_get_current_user();
 	
 	if ($current_user->user_email) $value = $current_user->user_email;
 	elseif (isset($_SESSION['usp_form_session']['usp-email']) && isset($_COOKIE['remember'])) $value = $_SESSION['usp_form_session']['usp-email'];
@@ -590,9 +612,14 @@ function usp_input_email($args) {
 	if (isset($args['custom'])) $custom = sanitize_text_field($args['custom']) .' ';
 	else $custom = '';
 	
+	$field = 'usp_error_9';
+	
+	$placeholder = usp_placeholder($args, $field);
+	$label = usp_label($args, $field);
+	
 	if (isset($args['class'])) $class = 'usp-input,usp-input-email,' . $args['class'];
 	else $class = 'usp-input,usp-input-email';
-	$classes = usp_classes($class, '9');
+	$classes = usp_classes($class, $field);
 	
 	if (isset($args['fieldset'])) $fieldset_custom = sanitize_text_field($args['fieldset']);
 	else $fieldset_custom = '';
@@ -600,10 +627,7 @@ function usp_input_email($args) {
 	$fieldset = usp_fieldset($fieldset_custom);
 	$fieldset_before = $fieldset['fieldset_before'];
 	$fieldset_after = $fieldset['fieldset_after'];
-
-	$field = 'usp_error_9';
-	$placeholder = usp_placeholder($args, $field);
-	$label = usp_label($args, $field);
+	
 	$required = usp_required($args);
 	if ($required == 'true') $parsley = 'required="required" ';
 	else $parsley = '';
@@ -611,8 +635,8 @@ function usp_input_email($args) {
 
 	if (empty($label)) $content = '';
 	else $content  = '<label for="usp-email" class="usp-label usp-label-email">'. $label .'</label>'. "\n";
-	$content .= '<input name="usp-email" type="text" value="'. esc_attr($value) .'" data-required="'. $required .'" '. $parsley .'maxlength="'. $max .'" placeholder="'. $placeholder .'" class="'. $classes .'" '. $custom .'/>'. "\n";
-	if ($required == 'true') $content .= '<input name="usp-email-required" value="1" type="hidden" />'. "\n";
+	$content .= '<input name="usp-email" id="usp-email" type="text" value="'. esc_attr($value) .'" data-required="'. $required .'" '. $parsley .'maxlength="'. $max .'" placeholder="'. $placeholder .'" class="'. $classes .'" '. $custom .'/>'. "\n";
+	if ($required == 'true') $content .= '<input type="hidden" name="usp-email-required" value="1" />'. "\n";
 	return $fieldset_before . $content . $fieldset_after;
 }
 add_shortcode('usp_email', 'usp_input_email');
@@ -639,9 +663,14 @@ function usp_input_subject($args) {
 	if (isset($args['custom'])) $custom = sanitize_text_field($args['custom']) .' ';
 	else $custom = '';
 	
+	$field = 'usp_error_10';
+	
+	$placeholder = usp_placeholder($args, $field);
+	$label = usp_label($args, $field);
+	
 	if (isset($args['class'])) $class = 'usp-input,usp-input-subject,'. $args['class'];
 	else $class = 'usp-input,usp-input-subject';
-	$classes = usp_classes($class, '10');
+	$classes = usp_classes($class, $field);
 	
 	if (isset($args['fieldset'])) $fieldset_custom = sanitize_text_field($args['fieldset']);
 	else $fieldset_custom = '';
@@ -649,10 +678,7 @@ function usp_input_subject($args) {
 	$fieldset = usp_fieldset($fieldset_custom);
 	$fieldset_before = $fieldset['fieldset_before'];
 	$fieldset_after = $fieldset['fieldset_after'];
-
-	$field = 'usp_error_10';
-	$placeholder = usp_placeholder($args, $field);
-	$label = usp_label($args, $field);
+	
 	$required = usp_required($args);
 	if ($required == 'true') $parsley = 'required="required" ';
 	else $parsley = '';
@@ -660,8 +686,8 @@ function usp_input_subject($args) {
 
 	if (empty($label)) $content = '';
 	else $content  = '<label for="usp-subject" class="usp-label usp-label-subject">'. $label .'</label>'. "\n";
-	$content .= '<input name="usp-subject" type="text" value="'. esc_attr($value) .'" data-required="'. $required .'" '. $parsley .'maxlength="'. $max .'" placeholder="'. $placeholder .'" class="'. $classes .'" '. $custom .'/>'. "\n";
-	if ($required == 'true') $content .= '<input name="usp-subject-required" value="1" type="hidden" />'. "\n";
+	$content .= '<input name="usp-subject" id="usp-subject" type="text" value="'. esc_attr($value) .'" data-required="'. $required .'" '. $parsley .'maxlength="'. $max .'" placeholder="'. $placeholder .'" class="'. $classes .'" '. $custom .'/>'. "\n";
+	if ($required == 'true') $content .= '<input type="hidden" name="usp-subject-required" value="1" />'. "\n";
 	return $fieldset_before . $content . $fieldset_after;
 }
 add_shortcode('usp_subject', 'usp_input_subject');
@@ -681,7 +707,7 @@ if (!function_exists('usp_reset_button')) :
 function usp_reset_button($args) {
 	if (isset($args['class'])) $class = 'usp-reset-button,' . $args['class'];
 	else $class = 'usp-reset-button';
-	$classes = usp_classes($class);
+	$classes = usp_classes($class, 'reset');
 	
 	if (isset($args['custom'])) $custom = ' '. sanitize_text_field($args['custom']);
 	else $custom = '';
@@ -714,7 +740,7 @@ function usp_cc($args) {
 	global $usp_admin;
 	if (isset($args['class'])) $class = 'usp-contact-cc,' . $args['class'];
 	else $class = 'usp-contact-cc';
-	$classes = usp_classes($class);
+	$classes = usp_classes($class, 'carbon');
 	
 	if (isset($args['custom'])) $custom = ' '. sanitize_text_field($args['custom']);
 	else $custom = '';
@@ -745,10 +771,72 @@ function usp_redirect($args) {
 	if (isset($args['url']) && !empty($args['url'])) $url = esc_url(trim($args['url']));
 	else $url = '';
 	
-	if (!empty($url)) return '<input name="usp-redirect" type="hidden" value="'. $url .'"'. $custom .' />'. "\n";
+	if (!empty($url)) return '<input type="hidden" name="usp-redirect" value="'. $url .'"'. $custom .' />'. "\n";
 	else return '<!-- please check URL shortcode attribute -->'. "\n";
 }
 add_shortcode('usp_redirect', 'usp_redirect');
+endif;
+
+/*
+	Shortcode: Agree to Terms Checkbox
+	Returns HTML/CSS/JS for a required checkbox
+	Syntax: [usp_agree label="" toggle="" terms="" custom="" style="" script="" alert="" class="" fieldset=""]
+	Attributes:
+		label    = (optional) label text for the required checkbox (default: I agree to the terms)
+		toggle   = (optional) text used for the toggle-terms link (default: Show/hide terms)
+		terms    = (optional) text used for the terms information (default: Put terms here.)
+		custom   = (optional) custom attributes for the required checkbox (default: none)
+		style    = (optional) custom CSS for the required checkbox (default: none)
+		script   = (optional) custom JavaScript for the required checkbox (default: none)
+		alert    = (optional) enable the JavaScript alert: enter text to enable or leave blank to disable (default: blank)
+		class    = (optional) custom classes for the required checkbox (default: none)
+		fieldset = (optional) enable auto-fieldset: true, false, or custom class name (default true)
+*/
+if (!function_exists('usp_required')) : 
+function usp_agree($args) {
+	
+	$field = 'usp_error_18';
+	
+	$label = usp_label($args, $field);
+	
+	$value =(isset($_SESSION['usp_form_session']['usp-agree']) && isset($_COOKIE['remember'])) ? $_SESSION['usp_form_session']['usp-agree'] : '';
+	
+	$checked = ($value === 'on') ? 'checked' : '';
+	
+	$toggle = (isset($args['toggle']) && !empty($args['toggle'])) ? sanitize_text_field($args['toggle']) : __('Show/hide terms', 'usp');
+	$terms  = (isset($args['terms'])  && !empty($args['terms']))  ? sanitize_text_field($args['terms'])  : __('Put terms here.', 'usp');
+	$terms  = str_replace('{', '<', $terms);
+	$terms  = str_replace('}', '>', $terms);
+	
+	$custom = isset($args['custom']) ? sanitize_text_field($args['custom']) : '';
+	$style  = isset($args['style'])  ? sanitize_text_field($args['style'])  : '';
+	$script = isset($args['script']) ? sanitize_text_field($args['script']) : '';
+	$alert  = isset($args['alert'])  ? sanitize_text_field($args['alert'])  : '';
+	
+	$alert_script = (!empty($alert)) ? '$(".usp-submit").click(function(){ if (!$(".usp-input-agree").prop("checked")) { alert("'. $alert .'"); return false; } });' : '';
+	
+	$class = isset($args['class']) ? 'usp-agree,'. sanitize_text_field($args['class']) : 'usp-agree';
+	$classes = usp_classes($class, $field);
+	
+	$fieldset_custom = isset($args['fieldset']) ? sanitize_text_field($args['fieldset']) : ''; 
+	$fieldset = usp_fieldset($fieldset_custom);
+	$fieldset_before = $fieldset['fieldset_before'];
+	$fieldset_after  = $fieldset['fieldset_after'];
+	
+	$content  = (!empty($style)) ? '<style>'. $style .'</style>'. "\n" : '';
+	$content .= '<script>jQuery(document).ready(function($){ $(".usp-agree-terms").hide();'. $alert_script . $script .' });</script>'. "\n";
+	$content .= '<div class="'. $classes .'">'. "\n";
+	$content .= '<input name="usp-agree" id="usp-agree" type="checkbox" required="required" data-required="true" class="usp-input usp-input-agree" '. $custom .' '. $checked .' /> ';
+	$content .= '<label for="usp-agree" class="usp-label usp-label-agree">'. $label .'</label>'. "\n";
+	$content .= '<input type="hidden" name="usp-agree-required" value="1" />'. "\n";
+	$content .= '<div class="usp-agree-toggle">'. $toggle .'</div>'. "\n";
+	$content .= '<div class="usp-agree-terms">'. $terms .'</div>'. "\n";
+	$content .= '</div>'. "\n";
+	
+	return $fieldset_before . $content . $fieldset_after;
+	
+}
+add_shortcode('usp_agree', 'usp_agree');
 endif;
 
 /*
@@ -804,7 +892,7 @@ if (!class_exists('USP_Custom_Fields')) {
 						
 					$fieldset = usp_fieldset_custom($field_atts['fieldset'], $field_atts['field_class']);
 					
-					if (in_array($field_atts['name'], $custom_merged) || preg_match("/^$custom_prefix/i", $field_atts['name'])) $prefix = '';
+					if ((in_array($field_atts['name'], $custom_merged)) || (stripos($field_atts['name'], $custom_prefix) !== false)) $prefix = '';
 					else $prefix = 'usp-custom-';
 					
 					$checked = ''; $selected = ''; $class = ''; $class_label = ''; $label_custom = '';
@@ -832,7 +920,7 @@ if (!class_exists('USP_Custom_Fields')) {
 							unset($field_atts['data-required']);
 						} else {
 							if ($field_atts['field'] !== 'input_file') {
-								$field_hidden = '<input name="'. $prefix . $field_atts['name'] .'-required" value="1" type="hidden" />'. "\n";
+								$field_hidden = '<input type="hidden" name="'. $prefix . $field_atts['name'] .'-required" value="1" />'. "\n";
 							}
 						}
 						$parsley = ' required="required"'; 
@@ -845,36 +933,37 @@ if (!class_exists('USP_Custom_Fields')) {
 					$get_wp_editor = $this->usp_custom_field_wp_editor($field_atts);
 					if (!empty($get_wp_editor)) return $fieldset['fieldset_before'] . $get_wp_editor . $field_hidden . $fieldset['fieldset_after'];
 					
+					$label_for = !is_numeric($field_atts['for']) ? $prefix . $field_atts['for'] : $prefix . $field_atts['name'];
 					
+					$max_att   = (isset($field_atts['max']) && !empty($field_atts['max'])) ? ' max="'. $field_atts['max'] .'"' : '';
 					
 					$error      = $this->usp_custom_field_errors($id, $field_atts, $custom_prefix);
 					$checkboxes = $this->usp_custom_fields_checkboxes($field_atts, $prefix, $select_array);
 					$radio      = $this->usp_custom_fields_radio($field_atts, $prefix);
 					$options    = $this->usp_custom_fields_select($field_atts);
-					$files      = $this->usp_custom_fields_files($field_atts, $prefix, $class_label, $label_custom);
+					$files      = $this->usp_custom_fields_files($field_atts, $prefix, $class_label, $label_custom, $error);
 					
 					
 					
 					//
 					switch ($field_atts['field']) {
 						case 'input':
-							$field_start = '<input name="'. $prefix . $field_atts['name'] .'" ';
+							$field_start = '<input name="'. $prefix . $field_atts['name'] .'" id="'. $label_for .'"'. $max_att .' ';
 							$field_end   = 'class="'. $error . $class .'usp-input usp-input-custom usp-form-'. $form .'"'. $checked . $selected . $parsley .' />';
 							$label_class = 'class="'. $class_label .'usp-label usp-label-input usp-label-custom usp-form-'. $form;
 						break;
 						case 'textarea':
-							$field_start = '<textarea name="'. $prefix . $field_atts['name'] .'" ';
+							$field_start = '<textarea name="'. $prefix . $field_atts['name'] .'" id="'. $label_for .'"'. $max_att .' ';
 							$field_end   = 'class="'. $error . $class .'usp-input usp-textarea usp-form-'. $form .'" rows="'. $field_atts['rows'] .'" cols="'. $field_atts['cols'] .'"'. $parsley .'>'. $field_atts['value'] .'</textarea>';
 							$label_class = 'class="'. $class_label .'usp-label usp-label-textarea usp-label-custom usp-form-'. $form;
 							unset($field_atts['type']);
 						break;
 						case 'select':
-							$field_start = '<select name="'. $prefix . $field_atts['name'] . $select_array .'" ';
+							$field_start = '<select name="'. $prefix . $field_atts['name'] . $select_array .'" id="'. $label_for .'" ';
 							$field_end   = 'class="'. $error . $class .'usp-input usp-select usp-form-'. $form .'"'. $parsley . $multiple .'>'. $options .'</select>';
 							$label_class = 'class="'. $class_label .'usp-label usp-label-select usp-label-custom usp-form-'. $form;
 							unset($field_atts['type'], $field_atts['value'], $field_atts['multiple'], $field_atts['placeholder']);
 						break;
-						
 						case 'input_checkbox':
 							$field_start = '<div class="'. $error . $class .'usp-input usp-checkboxes usp-form-'. $form .'">';
 							$field_end   = $checkboxes .'</div>';
@@ -887,8 +976,8 @@ if (!class_exists('USP_Custom_Fields')) {
 							$label_class = '';
 							unset($field_atts['type'], $field_atts['value'], $field_atts['placeholder'], $field_atts['data-required']);
 						break;
-						case 'input_file': 
-							$field_start = '<div id="'. $prefix . $field_atts['name'] .'-files" class="'. $error . $class .'usp-files">'. $files['start'];
+						case 'input_file':
+							$field_start = '<div id="'. $prefix . $field_atts['name'] .'-files" class="'. $class .'usp-files">'. $files['start'];
 							$field_end   = $files['end'] .'</div>'. "\n". '<div class="usp-preview"></div>';
 							$label_class = '';
 							unset($field_atts['type'], $field_atts['value']);
@@ -900,7 +989,7 @@ if (!class_exists('USP_Custom_Fields')) {
 					//
 					
 					if ($field_atts['field'] == 'input_checkbox' || $field_atts['field'] == 'input_radio' || $field_atts['field'] == 'input_file') $label = '';
-					else $label = '<label for="'. $prefix . $field_atts['for'] . $select_array .'" '. $label_class .'"'. $label_custom . '>'. $field_atts['label'] .'</label>' . "\n";
+					else $label = '<label for="'. $label_for .'" '. $label_class .'"'. $label_custom . '>'. $field_atts['label'] .'</label>' . "\n";
 					
 					if (isset($field_atts['label']) && $field_atts['label'] == 'null') $label = '';
 					if (isset($field_atts['placeholder']) && $field_atts['placeholder'] == 'null') unset($field_atts['placeholder']);
@@ -920,8 +1009,8 @@ if (!class_exists('USP_Custom_Fields')) {
 		function usp_custom_field_cookies($id, $value) {
 			$get_value = '';
 			if (isset($_COOKIE['remember'])) {
-				preg_match("/name#([0-9a-z_-]+)/i",        $value[0], $name);
-				preg_match("/checkboxes#([0-9a-z:_-]+)/i", $value[0], $checkbox);
+				preg_match("/name#([0-9a-z_-]+)/i",         $value[0], $name);
+				preg_match("/checkboxes#([0-9a-z: _-]+)/i", $value[0], $checkbox);
 				
 				if (!empty($name[1])) {
 					if (isset($_SESSION['usp_form_session']['usp-custom-'. $name[1]])) {
@@ -980,7 +1069,7 @@ if (!class_exists('USP_Custom_Fields')) {
 				'field'              => 'input',                           // type of field
 				'type'               => 'text',                            // type of input, valid when field = input
 				'name'               => $id,                               // field name, should equal for attribute
-				'value'              => esc_attr($get_value),              // field value
+				'value'              => $get_value,                        // field value
 				'data-required'      => 'true',                            // required + data-required atts
 				'placeholder'        => __('Example Input ', 'usp') . $id, // placeholder
 				'class'              => '',                                // field class
@@ -1052,7 +1141,9 @@ if (!class_exists('USP_Custom_Fields')) {
 			
 			$custom_att_names = array();
 			$custom_att_values = array();
+			
 			foreach ($field_atts as $key => $value) {
+				
 				if (preg_match("/^custom_/i", $key)) {
 					$b = explode(":", $value);
 					if (isset($b[0])) $custom_att_names[]  = $b[0];
@@ -1103,32 +1194,105 @@ if (!class_exists('USP_Custom_Fields')) {
 			}
 		}
 		function usp_custom_field_errors($id, $field_atts, $custom_prefix) {
+			
 			$error = '';
+			
+			$field = isset($field_atts['name']) ? $field_atts['name'] : 'undefined';
+			
 			wp_parse_str(wp_strip_all_tags($_SERVER['QUERY_STRING']), $vars);
+			
 			if ($vars) {
+				
 				foreach ($vars as $key => $value) {
-					if (preg_match("/^usp_error_custom_([0-9a-z_-]+)$/i", $key, $match)) {
-						if (($match[1] == $id) || ($match[1] == $field_atts['name'])) $error = 'usp-error-field usp-error-custom ';
+					
+					// CUSTOM PREFIX
+					
+					if (preg_match("/^usp_error_". preg_quote($custom_prefix) ."([0-9a-z_-]+)?$/i", $key, $match)) {
 						
+						if ($custom_prefix . $match[1] === $field) {
+							
+							$error = 'usp-error-field usp-error-custom-prefix ';
+							
+						}
+						
+					} elseif (preg_match("/^usp_error_8([a-z])?--". preg_quote($custom_prefix) ."([0-9a-z_-]+)--([0-9]+)$/i", $key, $match)) {
+						
+						if ($custom_prefix . $match[2] === $field) {
+							
+							$error = 'usp-error-field usp-error-custom-prefix usp-error-file ';
+							
+						}
+						
+					// CUSTOM CUSTOM
+					
+					} elseif (preg_match("/^usp_ccf_error_". preg_quote($field) ."$/i", $key)) {
+						
+						$error = 'usp-error-field usp-error-custom-custom ';
+						
+						
+					} elseif (preg_match("/^usp_error_8([a-z])?--". preg_quote($field) ."--([0-9]+)$/i", $key)) {
+						
+						$error = 'usp-error-field usp-error-custom-custom usp-error-file ';
+						
+						
+					// CUSTOM FIELDS
+					
+					} elseif (preg_match("/^usp_error_custom_([0-9a-z_-]+)$/i", $key, $match)) {
+						
+						if (($match[1] === $id) || ($match[1] === $field)) {
+							
+							$error = 'usp-error-field usp-error-custom ';
+							
+						}
+						
+					} elseif (preg_match("/^usp_error_8([a-z])?--usp_custom_file_([0-9]+)--([0-9]+)$/i", $key, $match)) {
+						
+						if (($match[2] === $id) || ($match[2] === $field)) {
+							
+							$error = 'usp-error-field usp-error-custom usp-error-file ';
+							
+						}
+						
+					// USER REGISTER
+					
 					} elseif (preg_match("/^usp_error_([a-g]+)$/i", $key, $match)) {
-						$user_fields = array('a' => 'nicename', 'b' => 'displayname', 'c' => 'nickname', 'd' => 'firstname', 'e' => 'lastname', 'f' => 'description', 'g' => 'password');
-						foreach ($user_fields as $k => $v) {
-							if (($field_atts['name'] == $v) && ($match[1] == $k)) $error = 'usp-error-field usp-error-register ';
-						}
-					} elseif (preg_match("/^usp_error_(11|12|13)$/i", $key, $match)) {
-						$user_fields = array('11' => 'alt', '12' => 'caption', '13' => 'desc');
-						foreach ($user_fields as $k => $v) {
-							if ((strpos($field_atts['name'], $v) !== false) && (strpos($k, $match[1]) !== false)) $error = 'usp-error-field usp-error-meta ';
-						}
-					} elseif (preg_match("/^usp_ccf_error_([0-9a-z_-]+)$/i", $key, $match)) {
-						if ($match[1] == $field_atts['name']) $error = 'usp-error-field usp-error-custom-custom ';
+						 
+						$user_fields = array('a'=>'nicename', 'b'=>'displayname', 'c'=>'nickname', 'd'=>'firstname', 'e'=>'lastname', 'f'=>'description', 'g'=>'password');
 						
-					} elseif (preg_match("/^usp_error_$custom_prefix([0-9a-z_-]+)?$/i", $key, $match)) {
-						if ($custom_prefix . $match[1] == $field_atts['name']) $error = 'usp-error-field usp-error-custom-prefix ';
-					}
+						foreach ($user_fields as $k => $v) {
+							
+							if ($v === $field && $k === $match[1]) {
+								
+								$error = 'usp-error-field usp-error-register ';
+								
+							}
+							
+						}
+						
+					// META & MISC.
+					
+					} elseif (preg_match("/^usp_error_(11|12|13|15|16|17)$/i", $key, $match)) {
+						
+						$user_fields = array('11'=>'alt', '12'=>'caption', '13'=>'desc', '15'=>'format', '16'=>'mediatitle', '17'=>'filename');
+						
+						foreach ($user_fields as $k => $v) {
+							
+							if ((strpos($field, $v) !== false) && (strpos($k, $match[1]) !== false)) {
+								
+								$error = 'usp-error-field usp-error-meta ';
+								
+							}
+							
+						}
+						
+					} 
+					
 				}
+				
 			}
+			
 			return apply_filters('usp_custom_field_errors', $error);
+			
 		}
 		function usp_custom_field_unset($field_atts) {
 			if (!empty($field_atts)) {
@@ -1162,7 +1326,8 @@ if (!class_exists('USP_Custom_Fields')) {
 					$field_atts['files_max'],
 					$field_atts['multiple'],
 					$field_atts['preview_off'],
-					$field_atts['max']
+					$field_atts['max'],
+					$field_atts['desc']
 				);
 			}
 			return apply_filters('usp_custom_field_unset', $field_atts);
@@ -1174,6 +1339,8 @@ if (!class_exists('USP_Custom_Fields')) {
 				foreach ($options_array as $option) {
 					$option = trim($option);
 					$option_value = strtolower(trim(str_replace(' ', '_', $option)));
+					$option_value = apply_filters('usp_custom_fields_select_value', $option_value);
+					
 					$selected = false;
 					$option_selected = '';
 					if (isset($field_atts['option_select']) && strtolower($option) == strtolower($field_atts['option_select'])) $selected = true;
@@ -1203,15 +1370,18 @@ if (!class_exists('USP_Custom_Fields')) {
 			
 			if ($field_atts['field'] == 'input_checkbox') {
 				
-				$checkboxes_array = array(); $required_single = array(); $checked_array = array(); $required = array();
+				$checkboxes_array = array(); $required_single = array(); $checked_array = array(); $required = array(); $desc = '';
 				
 				if (!empty($field_atts['checkboxes']))         $checkboxes_array = explode(":", $field_atts['checkboxes']);
 				if (!empty($field_atts['checkboxes_req']))     $required_single  = explode(":", $field_atts['checkboxes_req']);
 				if (!empty($field_atts['checkboxes_checked'])) $checked_array    = explode(":", $field_atts['checkboxes_checked']);
 				
+				$desc = (isset($field_atts['desc']) && !empty($field_atts['desc'])) ? "\n" .'<div class="usp-label">'. $field_atts['desc'] .'</div>' : '';
+				
 				foreach ($checkboxes_array as $checkbox) {
 					$checkbox = trim($checkbox);
 					$checkbox_value = strtolower(trim(str_replace(' ', '_', $checkbox)));
+					$checkbox_value = apply_filters('usp_custom_fields_checkbox_value', $checkbox_value);
 					
 					if (!empty($select_array)) {
 						if (!empty($field_atts['name'])) $name = $field_atts['name'];
@@ -1243,12 +1413,14 @@ if (!class_exists('USP_Custom_Fields')) {
 					if (!empty($required_single)) {
 						$required_single = array_map('strtolower', $required_single);
 						if (in_array(strtolower($checkbox), $required_single)) {
-							$required[] = '<input name="'. $prefix . $name .'-required" value="1" type="hidden" />' . "\n";
+							$required[] = '<input type="hidden" name="'. $prefix . $name .'-required" value="1" />' . "\n";
 						}
 					}
-					$checkboxes .= '<label><input name="'. $prefix . $name . $suffix .'" type="checkbox" value="'. $checkbox_value .'"'. $checked .' /> '. $checkbox .'</label>' . "\n";
+					$checkboxes .= '<label for="'. $prefix . $name .'">';
+					$checkboxes .= '<input name="'. $prefix . $name . $suffix .'" id="'. $prefix . $name .'" type="checkbox" value="'. $checkbox_value .'"'. $checked .' /> '. $checkbox;
+					$checkboxes .= '</label>' . "\n";
 				}
-				$checkboxes = "\n" . $checkboxes;
+				$checkboxes = $desc . "\n" . $checkboxes;
 				foreach ($required as $require) $checkboxes .=  $require;
 			}
 			return apply_filters('usp_custom_fields_checkbox', $checkboxes);
@@ -1261,9 +1433,12 @@ if (!class_exists('USP_Custom_Fields')) {
 				if (isset($field_atts['radio_checked']) && !empty($field_atts['radio_checked'])) $radio_checked = strtolower(trim(str_replace(' ', '_', $field_atts['radio_checked'])));
 				if (isset($field_atts['radio_inputs'])  && !empty($field_atts['radio_inputs']))  $radio_array   = explode(":", $field_atts['radio_inputs']);
 				
+				$desc = (isset($field_atts['desc']) && !empty($field_atts['desc'])) ? "\n" .'<div class="usp-label">'. $field_atts['desc'] .'</div>' : '';
+				
 				foreach ($radio_array as $radio) {
 					$radio = trim($radio);
 					$radio_value = strtolower(trim(str_replace(' ', '_', $radio)));
+					$radio_value = apply_filters('usp_custom_fields_radio_value', $radio_value);
 					
 					if (!empty($field_atts['name'])) $name = $field_atts['name'];
 					else $name = __('undefined', 'usp');
@@ -1275,17 +1450,18 @@ if (!class_exists('USP_Custom_Fields')) {
 					} elseif (!empty($radio_checked)) {
 						if ($radio_value == $radio_checked) $checked = ' checked="checked"';
 					}
-					$radios .= '<label><input name="'. $prefix . $name .'" type="radio" value="'. $radio_value .'"'. $checked .' /> '. $radio .'</label>' . "\n";
+					$radios .= '<label for="'. $prefix . $name .'">';
+					$radios .= '<input name="'. $prefix . $name .'" id="'. $prefix . $name .'" type="radio" value="'. $radio_value .'"'. $checked .' /> '. $radio;
+					$radios .= '</label>' . "\n";
 				}
-				$radios = "\n" . $radios;
+				$radios = $desc . "\n" . $radios;
 			}
 			return apply_filters('usp_custom_fields_radio', $radios);
 		}
-		function usp_custom_fields_files($field_atts, $prefix, $class_label, $label_custom) {
+		function usp_custom_fields_files($field_atts, $prefix, $class_label, $label_custom, $error) {
 			$files = array();
 			if ($field_atts['field'] == 'input_file') {
 				
-				$for      = $field_atts['for'];
 				$name     = $field_atts['name'];
 				$link     = $field_atts['link'];
 				$label    = $field_atts['label'];
@@ -1303,23 +1479,25 @@ if (!class_exists('USP_Custom_Fields')) {
 				if (!empty($field_atts['accept'])) $accept = ' accept="'. $field_atts['accept'] .'"';
 				else $accept = '';
 				
-				if (!empty($field_atts['files_max'])) $files_max = "\n" .'<input name="'. $prefix . $name .'-limit" class="usp-file-limit" value="'. $field_atts['files_max'] .'" type="hidden" />';
+				if (!empty($field_atts['files_max'])) $files_max = "\n" .'<input type="hidden" name="'. $prefix . $name .'-limit" class="usp-file-limit" value="'. $field_atts['files_max'] .'" />';
 				else $files_max = '';
 				
-				if (!empty($field_atts['types'])) $files_type = "\n" .'<input name="'. $prefix . $name .'-types" value="'. $field_atts['types'] .'" type="hidden" />';
+				if (!empty($field_atts['types'])) $files_type = "\n" .'<input type="hidden" name="'. $prefix . $name .'-types" value="'. $field_atts['types'] .'" />';
 				else $files_type = '';
 				
-				if (!empty($field_atts['preview_off'])) $preview = "\n" .'<input name="'. $prefix . $name .'-preview" value="1" type="hidden" />';
+				if (!empty($field_atts['preview_off'])) $preview = "\n" .'<input type="hidden" name="'. $prefix . $name .'-preview" value="1" />';
 				else $preview = '';
+				
+				$for = !is_numeric($field_atts['for']) ? $prefix . $field_atts['for'] : $prefix . $field_atts['name'];
 				
 				$files_min = '';
 				if ($field_atts['data-required'] == 'true') {
 					if (empty($field_atts['files_min']) && intval($field_atts['files_min']) < 1) $files_min = '1';
 					else $files_min = $field_atts['files_min'];
-					$files_min = "\n" .'<input name="'. $prefix . $name .'-required" value="'. $files_min .'" type="hidden" />';
+					$files_min = "\n" .'<input type="hidden" name="'. $prefix . $name .'-required" value="'. $files_min .'" />';
 				}
 				
-				$files_count = "\n" .'<input name="'. $prefix . $name .'-count" class="usp-file-count" value="1" type="hidden" />';
+				$files_count = "\n" .'<input type="hidden" name="'. $prefix . $name .'-count" class="usp-file-count" value="1" />';
 				
 				if (empty($method)) {
 					$input_id = '';
@@ -1338,8 +1516,8 @@ if (!class_exists('USP_Custom_Fields')) {
 				$multiple_enable = array('multiple', 'true', 'yes', 'on');
 				if (empty($multiple) || in_array($multiple, $multiple_enable)) {
 					
-					$class_label = ' class="'. $class_label .'usp-label usp-label-files usp-label-custom"';
-					$class_input = ' class="'. $class       .'usp-input usp-input-files usp-input-custom'. $class_method .' multiple"';
+					$class_label = ' class="'. $class_label    .'usp-label usp-label-files usp-label-custom"';
+					$class_input = ' class="'. $class . $error .'usp-input usp-input-files usp-input-custom'. $class_method .' multiple"';
 					
 					$input_wrap_open = "\n" .'<div class="usp-input-wrap">';
 					$input_wrap_close = "\n" .'</div>';
@@ -1348,8 +1526,8 @@ if (!class_exists('USP_Custom_Fields')) {
 					if ($is_multiple) $multiple_att = ' multiple="multiple"';
 					else              $multiple_att = '';
 				} else {
-					$class_label = ' class="'. $class_label .'usp-label usp-label-files usp-label-custom usp-label-file usp-label-file-single"';
-					$class_input = ' class="'. $class       .'usp-input usp-input-files usp-input-custom usp-input-file usp-input-file-single'. $class_method .' single-file"';
+					$class_label = ' class="'. $class_label    .'usp-label usp-label-files usp-label-custom usp-label-file usp-label-file-single"';
+					$class_input = ' class="'. $class . $error .'usp-input usp-input-files usp-input-custom usp-input-file usp-input-file-single'. $class_method .' single-file"';
 					
 					$input_wrap_open = '';
 					$input_wrap_close = '';
@@ -1365,8 +1543,9 @@ if (!class_exists('USP_Custom_Fields')) {
 					$files_count = '';	
 				}
 				
-				$files['start']  = "\n" .'<label for="'. $prefix . $for . $select .'"'. $class_label . $label_custom .'>'. $label .'</label>';
-				$files['start'] .= $input_wrap_open . "\n" .'<input name="'. $prefix . $name . $select .'" type="file"'. $class_input . $input_id . $multiple_att . $accept . $max . $data_file .' ';
+				$files['start']  = "\n" .'<label for="'. $for .'"'. $class_label . $label_custom .'>'. $label .'</label>';
+				$files['start'] .= $input_wrap_open . "\n" .'<input name="'. $prefix . $name . $select .'" id="'. $prefix . $name .'" ';
+				$files['start'] .= 'type="file"'. $class_input . $input_id . $multiple_att . $accept . $max . $data_file .' ';
 				
 				$files['end'] = '/>'. $add_another . $input_wrap_close . $files_max . $files_count . $files_type . $files_min . $preview . "\n";
 				
@@ -1376,7 +1555,6 @@ if (!class_exists('USP_Custom_Fields')) {
 		}
 	}
 }
-
 
 
 /*
@@ -1413,13 +1591,9 @@ function usp_form($args) {
 	global $usp_advanced;
 	
 	if (isset($args['id']) && !empty($args['id'])) {
-		
 		$id = usp_get_form_id($args['id']);
-		
 	} else {
-		
 		return __('error:usp_form:1:', 'usp') . $args['id'];
-		
 	}
 	
 	$title = '';
@@ -1435,16 +1609,8 @@ function usp_form($args) {
 		
 	}
 	
-	if (isset($args['class']) && !empty($args['class'])) {
-		
-		$class = 'usp-pro,usp-form-'. $id .',' . $args['class'];
-		$classes = usp_classes($class);
-		
-	} else {
-		
-		$classes = '';
-		
-	}
+	$class = (isset($args['class']) && !empty($args['class'])) ? 'usp-pro,usp-form-'. $id .','. $args['class'] : 'usp-pro,usp-form-'. $id;
+	$classes = usp_classes($class, 'form');
 	
 	$content   = get_post($id, ARRAY_A);
 	$args      = array('classes' => $classes, 'id' => $id);
@@ -1454,13 +1620,9 @@ function usp_form($args) {
 	if (get_post_type() !== 'usp_form') {
 		
 		if ($success && !$usp_advanced['success_form']) {
-			
 			return $widget_before . $title . $form_wrap['form_before'] . $form_wrap['form_after'] . $widget_after;
-			
 		} else {
-			
 			return $widget_before . $title . $form_wrap['form_before'] . do_shortcode($content['post_content']) . $form_wrap['form_after'] . $widget_after;
-			
 		}
 		
 	} else {

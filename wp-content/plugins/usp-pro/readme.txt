@@ -3,15 +3,15 @@
 Plugin Name: USP Pro
 Plugin URI: https://plugin-planet.com/usp-pro/
 Description: Create unlimited forms and let visitors submit content, register, and much more from the front-end of your site.
-Tags: submit, public, share, upload, images, files, posts, users, submit, front-end, submissions, contact, register, login, custom fields
+Tags: community, contact, content, custom fields, files, form, forms, front end, front-end, frontend, generated content, images, login, post, posts, public, publish, register, share, submission, submissions, submit, submitted, upload, user generated, user submit, user submitted, user-generated, user-submit, user-submitted, users
 Author: Jeff Starr
 Author URI: http://monzilla.biz/
 Donate link: http://m0n.co/donate
 Contributors: specialk
-Requires at least: 4.0
-Tested up to: 4.4
+Requires at least: 4.1
+Tested up to: 4.5
 Stable tag: trunk
-Version: 2.2.1
+Version: 2.3.2
 Text Domain: usp
 Domain Path: /languages/
 License: the USP Pro license is comprised of two parts (see "License" section below for details)
@@ -24,54 +24,133 @@ Create unlimited forms and let visitors submit content, register, log in, and mu
 
 USP Pro is your complete front-end forms solution, enabling you to create unlimited forms and let visitors submit content, register, and much more.
 
+**Features**
+
+Visit the [USP Pro Homepage](https://plugin-planet.com/usp-pro/) for features, screenshots, and details.
+
+**Getting Started**
+
+The Quick Start Guide is highly recommended:
+
+* [USP Pro Quick-Start Guide](https://plugin-planet.com/usp-pro-quick-start/)
+
+**Documentation**
+
+Official USP Pro documentation:
+
+* [USP Pro Settings](https://plugin-planet.com/usp-pro-settings/)
+* [USP Pro Shortcodes](https://plugin-planet.com/usp-pro-shortcodes/)
+* [USP Pro Template Tags](https://plugin-planet.com/usp-pro-template-tags/)
+
+**Resources**
+
+Further resources and information:
+
+* [USP Pro Docs](https://plugin-planet.com/docs/usp/)
+* [USP Pro Forum](https://plugin-planet.com/forum/usp/)
+* [USP Pro Tutorials](https://plugin-planet.com/category/tuts+usp-pro/)
+* [USP Pro FAQs](https://plugin-planet.com/usp-pro-faqs/)
+
+**Stay Current**
+
+Stay current with USP Pro!
+
+* [USP Pro News](https://plugin-planet.com/category/news+usp-pro/)
+* [Grab the News Feed](https://plugin-planet.com/category/news/feed/)
+* [Grab the Tutorials Feed](https://plugin-planet.com/category/tuts/feed/)
+
+**Getting Help**
+
+There are two channels for getting help:
+
+* [Ask a question in the USP Pro Forum](https://plugin-planet.com/forum/usp/) ([login required](https://plugin-planet.com/wp/wp-login.php))
+* [Send an email via the contact form](https://plugin-planet.com/usp-pro/#contact)
+
+The contact form is best for direct support, bug reports, and feedback.
+
+**Downloads**
+
+* [Log in to your account for current downloads](https://plugin-planet.com/wp/wp-login.php)
+
+To learn more about USP Pro, visit [Plugin-Planet.com](https://plugin-planet.com/usp-pro/).
+
 
 
 == Installation ==
 
-Installing USP Pro is simple:
+**Installation**
 
-1. Unzip the downloaded plugin and upload the `/usp-pro/` folder to the WordPress `/wp-content/plugins/` directory.
-2. Done. Visit the Plugins screen in the WP Admin to activate the plugin, then visit the USP Pro settings to configure the plugin and get started.
+1. Upload the plugin and activate via the WP Plugins screen
+2. Visit Plugins &gt; USP Pro License to enter your license
 
-For more detailed information on installing plugins, [visit the WP Codex](http://codex.wordpress.org/Managing_Plugins#Installing_Plugins).
+Done. USP Pro is now ready for use. Before going further, please read the [USP Pro Quick Start Guide](https://plugin-planet.com/usp-pro-quick-start/). 
 
-Note: The USP Pro settings page includes complete information about configuring USP Pro. Visit the Tools tab for more information.
+[More info on installing WP plugins](http://codex.wordpress.org/Managing_Plugins#Installing_Plugins). 
 
-Additional documentation available at [Plugin-Planet.com](https://plugin-planet.com/usp-pro/).
+
+**Usage**
+
+Usage information available in the [USP Pro Quick Start Guide](https://plugin-planet.com/usp-pro-quick-start/).
+
+Complete plugin documentation available at [Plugin-Planet.com](https://plugin-planet.com/usp-pro/). 
+
+
+**Shortcodes**
+
+Check out the [USP Pro Shortcodes Reference](https://plugin-planet.com/usp-pro-shortcodes/)
+
+
+**Template Tags**
+
+Check out the [USP Pro Template Tags Reference](https://plugin-planet.com/usp-pro-template-tags/)
+
+
+**License Information**
+
+* [Get Your License Key](https://plugin-planet.com/get-license-key/)
+* [Manage Licensed Domains](https://plugin-planet.com/manage-license/)
+* [Download Current Version](https://plugin-planet.com/download-purchased-plugin/)
+* [Download Purchase Receipt](https://plugin-planet.com/download-purchase-receipt/)
+* [Troubleshooting License Activation](https://plugin-planet.com/troubleshooting-license-activation/)
+
+
+**Restore Default Options**
+
+To restore default plugin options, either uninstall/reinstall the plugin, or visit the plugin's Tools settings &gt; "Restore Default Settings".
+
+
+**Uninstalling**
+
+USP Pro cleans up after itself. All plugin options will be removed from the database when the plugin is uninstalled via the Plugins screen. All submitted posts will NOT be removed when deactivating or uninstalling the plugin. All submitted posts must be removed manually.
 
 
 
 == Upgrade Notice ==
 
-Upgrades: Your purchase of USP Pro includes free lifetime upgrades, which include new features, bug fixes, and other improvements. 
+Upgrades: Your purchase of USP Pro includes free lifetime upgrades, which include new features, bug fixes, and other improvements. When an upgrade is available, WordPress will notify you in the Admin Area. When you see that there is an update available, just click "Update" and WordPress will perform the upgrade automatically. Note that you can [download the latest version of USP Pro at Plugin Planet](https://plugin-planet.com/download-purchased-plugin/) anytime at your convenience.
 
-__Important!__ Before upgrading, visit "Tools > Backup & Restore" to back up your current settings. That way if something should go wrong, you can always restore your original settings and start over.
+__Important!__ Before upgrading, visit "Tools &gt; Backup &amp; Restore" to back up your current settings. That way if something should go wrong, you can always restore your original settings and start over.
+
+__Note:__ uninstalling the plugin from the WP Plugins screen results in the removal of all settings from the WP database. All submitted posts will NOT be removed when deactivating or uninstalling the plugin. All submitted posts must be removed manually.
 
 
 
 == Frequently Asked Questions ==
 
-Getting started:
+**FAQs**
 
-* [USP Pro Quick-Start Guide](https://plugin-planet.com/usp-pro-quick-start/)
-* [USP Pro Settings](https://plugin-planet.com/usp-pro-settings/)
-* [USP Pro Shortcodes](https://plugin-planet.com/usp-pro-shortcodes/)
-* [USP Pro Template Tags](https://plugin-planet.com/usp-pro-template-tags/)
+FAQs available online:
+
 * [USP Pro FAQs](https://plugin-planet.com/usp-pro-faqs/)
 
-Further resources:
+**Questions? Feedback? Bugs?**
 
-* [USP Pro Docs](https://plugin-planet.com/docs/usp/)
-* [USP Pro Forum](https://plugin-planet.com/forum/usp/)
-* [USP Pro Tutorials](https://plugin-planet.com/category/tuts+usp-pro/)
-* [USP Pro News](https://plugin-planet.com/category/news+usp-pro/)
+There are two channels for getting help:
 
-Feedback and downloads:
+* [Ask a question in the USP Pro Forum](https://plugin-planet.com/forum/usp/) ([login required](https://plugin-planet.com/wp/wp-login.php))
+* [Send an email via the contact form](https://plugin-planet.com/usp-pro/#contact)
 
-* [Bug reports, help requests, and feedback](https://plugin-planet.com/usp-pro/#contact)
-* [Log in to your account for current downloads](https://plugin-planet.com/wp/wp-login.php)
-
-You can learn more about USP Pro at [Plugin-Planet.com](https://plugin-planet.com/usp-pro/).
+The contact form is best for direct support, bug reports, and feedback.
 
 
 
@@ -94,13 +173,162 @@ Further license information is available in the plugin directory, /license/, and
 
 Upgrades: Your purchase of USP Pro includes free lifetime upgrades, which include new features, bug fixes, and other improvements. 
 
-Copyright: © 2015-2016 Monzilla Media 
+Copyright: 2016 Monzilla Media
 
 
 
 == Changelog ==
 
-= 2.2.1 =
+**2.3.2**
+
+* Tweaks default file name and media title for submitted files
+* Adds guid parameter to wp_insert_attachment()
+
+**2.3.1**
+
+*Bug Fixes*
+
+* Fixes typo in Admin Alerts shortcut variables info
+* Restores previous default values for file name and title
+* Replaces esc_url() with sanitize_text_field() for usp-agent custom field
+
+*Improvements*
+
+* Shortcode [usp_pro_display_posts] now displays Custom Post Types
+* Adds "display" attribute to [usp_pro_display_posts] to display excerpt, content, thumbs, or title only
+* Replaces database query with get_users() in usp-pro.php
+* Replaces database query with get_posts() in usp-forms.php
+* Escapes some internal variables just to be extra safe
+* Adds filter hook in form output for adding custom content
+* Enables basic HTML in Agree to Terms box (using {} bracket replacements)
+* Hides USP Pro text on Dashboard metabox preference panel
+
+*New Hooks*
+
+* Adds filter hook: usp_shortcode_display_posts_type 
+* Adds filter hook: usp_shortcode_display_posts_size
+* Adds filter hook: usp_shortcode_display_posts_before
+* Adds filter hook: usp_shortcode_display_posts_after
+* Adds filter hook: usp_shortcode_display_posts_title
+* Adds filter hook: usp_settings_author_list_args
+* Adds filter hook: usp_forms_get_form_id
+* Adds filter hook: usp_form_custom_output
+* Adds filter hook: usp_custom_fields_checkbox_value
+* Adds filter hook: usp_custom_fields_radio_value
+* Adds filter hook: usp_custom_fields_select_value
+
+*General Changes*
+
+* General code cleanup and maintenance
+* Tests on WordPress version 4.5 and 4.6 (alpha)
+
+**2.3**
+
+*New Features*
+
+* Adds a complete "Starter" demo form
+* Adds [usp_agree] shortcode for "Agree to Terms" box
+* Adds "USP:Agree" Quicktag button for [usp_agree] shortcode
+* Adds "Require Square Image" uploads setting (thanks to [Kent](http://www.kenarry.com/))
+* Adds Email Alert for scheduled posts (thanks to [Kent](http://www.kenarry.com/))
+* Adds new alert shortcuts, %%post_submitted_date%% and %%post_scheduled_date%%
+* Adds new custom filters for custom defined email/alert shortcode/replacement
+* Adds %%__custom-field-key%% shortcode to include specific custom fields in email alerts
+* Adds "Submitted Posts Queue" Dashboard Widget to display list of draft posts
+* Adds new [usp_pro_display_posts] shortcode to display list of submitted posts
+
+*New Hooks*
+
+* Adds filter hook: usp_custom_agree_terms
+* Adds filter hook: usp_register_user_role
+* Adds filter hook: usp_post_meta_submit_time_format
+* Adds filter hook: usp_desc_default
+* Adds filter hook: usp_caption_default
+* Adds filter hook: usp_alt_default
+* Adds filter hook: usp_send_email_alert_vars
+* Adds filter hook: usp_send_email_approval_vars
+* Adds filter hook: usp_send_email_denied_vars
+* Adds filter hook: usp_send_email_scheduled_vars
+* Adds filter hook: usp_send_email_scheduled
+* Adds action hook: usp_send_email_scheduled_before
+* Adds action hook: usp_send_email_scheduled_during
+* Adds filter hook: usp_alert_shortcut_defined_pattern
+* Adds filter hook: usp_alert_shortcut_defined_replacement
+* Adds filter hook: usp_alert_shortcut_schedule_format
+* Adds filter hook: usp_file_name_primary_single
+* Adds filter hook: usp_file_name_primary_multiple
+* Adds filter hook: usp_file_name_custom_prefix
+* Adds filter hook: usp_file_name_custom_field
+* Adds filter hook: usp_file_name_custom_custom
+* Adds filter hook: usp_widget_drafts_number
+* Adds filter hook: usp_widget_drafts_time
+* Adds filter hook: usp_widget_drafts_type
+* Adds filter hook: usp_widget_drafts_user
+
+*Form Improvements*
+
+* Simplifies existing demo forms
+* Adds default error styles to form errors
+* Refactors usp_custom_field_errors() function
+* Refines and synchronizes default form styles
+* Adds missing id attributes to some form fields
+* Adds "Simple" form styles option as new default
+* Adds .usp-textarea class to primary textarea fields
+* Updates UI/options for various Quicktag dialog boxes
+* Removes list Quicktags (ol, ul, li) from Form Builder
+* Changes post_required default error message for clarity
+* Adds default demo forms to "Extra Form Security" setting
+* Adds tag count and tag ID as data attributes on front-end
+* Adds "desc" attribute to checkbox and radio custom fields
+* The files_min attribute no longer is required to set a Files field as required
+* Removes error class from form, fieldsets, CC message, Remember input, and Reset link
+
+*Plugin Enhancements*
+
+* Replaces icon with retina version
+* Updates the Updater Class to version 1.6.3
+* Refactored file-type checking functionality
+* Updates some settings descriptions for clarity
+* Custom Prefix and Custom Custom Fields now used as file key
+* Adds link on WP "Plugins" screen to USP Pro Quick Start Guide
+* Adds add_files_fields() function for adding file custom fields
+* Changes Min/Max Chars and Number of Tags inputs to number type
+* Replaces Remote Identity with Remote Address in About tab infos
+* Adds submit date/time to submitted post as custom field "usp-post-time"
+* usp-filename and usp-mediatitle file metadata now only added if not empty
+* Validation for custom custom field settings now removes invalid characters
+* Replaces current_user_can with is_user_logged_in in login widget/shortcode
+* Replaces multiple instances of get_currentuserinfo with wp_get_current_user
+* Cleans up get_field_val(), moved reset functionality to new reset_form() function
+* Updated session check to support newer versions of PHP, added usp_is_session_started()
+* Improved performance of usp-process.php by replacing init with admin_init for certain functions
+
+*Bug Fixes*
+
+* Bugfix: tag ordering not working on front-end
+* Bugfix: errors not displayed for multiple files fields
+* Bugfix: About tab not displaying all server information
+* Bugfix: usp_classes() displaying incorrect error classes
+* Bugfix: incorrect $field attributes when calling usp_classes()
+* Bugfix: form styles not included when using shortcode or widget
+* Bugfix: form remembering not working with custom checkbox fields
+* Bugfix: PHP Notice: Array to string conversion for custom checkbox fields
+* Bugfix: replaces get_field_id('id') with get_field_id('title') in USP Widget
+* Bugfix: error when cookies are disabled on the user's browser (thanks to [Kent](http://www.kenarry.com/))
+* Bugfix: replaces wp_filter_nohtml_kses with sanitize_text_field for validation (fixes backslashed quotes)
+* Bugfix: field error classes not included for Post Format, Media Title, and File Name fields
+* Bugfix: adds missing validation for Password error field under More tab
+* Bugfix: max attribute not included on text and textarea custom fields
+* Bugfix: "post denied" alerts not firing for various post types
+
+*General Changes*
+
+* New translation .pot file
+* Reorganizes and refreshed readme.txt
+* General code cleanup and maintenance
+* Tests on WordPress version 4.5 and 4.6 (alpha)
+
+**2.2.1**
 
 * Adds missing setting/support for displaying Add Media button to non-admins
 * Bugfix: fatal error when adding custom content to contact messages
@@ -110,9 +338,9 @@ Copyright: © 2015-2016 Monzilla Media
 * Tests further on WordPress 4.4 and 4.5 (alpha)
 * General code cleanup and maintenance
 
-= 2.2 =
+**2.2**
 
-**New Features**
+*New Features*
 
 * New: Google noCAPTCHA reCAPTCHA
 * New: meta-box support/display for any custom field
@@ -123,7 +351,7 @@ Copyright: © 2015-2016 Monzilla Media
 * New: adds "Memory Settings" section to General tab
 * New: support for custom user registration metadata
 
-**New Hooks**
+*New Hooks*
 
 * Adds usp_wp_editor_settings filter hook
 * Adds usp_custom_editor_settings filter hook
@@ -137,7 +365,7 @@ Copyright: © 2015-2016 Monzilla Media
 * Adds usp_input_name_value and usp_input_email_value filter hooks
 * Adds usp_register_user_after action hook
 
-**Improvements**
+*Improvements*
 
 * Adds get_currentuserinfo() where required
 * Adds email address shortcode/field to Classic form demo
@@ -159,7 +387,7 @@ Copyright: © 2015-2016 Monzilla Media
 * Optimizes add_admin_styles() for better performance
 * Optimizes add_post_filter_button() for better performance
 
-**Enhancements**
+*Enhancements*
 
 * Refines and streamlines default settings descriptions
 * Refines default Quicktags displayed on USP Form screen
@@ -189,7 +417,7 @@ Copyright: © 2015-2016 Monzilla Media
 * Moves admin post-filter styles to external USP stylesheet
 * Moves Default Form Fields settings to Advanced tab
 
-**Bug Fixes**
+*Bug Fixes*
 
 * Bugfix: fatal error for pre-existing taxonomy terms
 * Bugfix: changes http to https for reCAPTCHA script version 1
@@ -202,12 +430,12 @@ Copyright: © 2015-2016 Monzilla Media
 * Bugfix: widget title not displaying on frontend
 * Bugfix: USP Form Widget not displaying in WP Admin Area
 
-**General**
+*General*
 
 * Tests on WordPress 4.4 and 4.5 (alpha)
 * General code cleanup and maintenance
 
-= 2.1 =
+**2.1**
 
 * Fixes XSS vulnerability with add_query_arg()
 * Tested with WP 4.2 + 4.3 (alpha)
@@ -223,25 +451,25 @@ Copyright: © 2015-2016 Monzilla Media
 * Adds "default" attribute to taxonomy shortcode to customize "Please select.."
 * Adds "all_include_empty" to taxonomy shortcode to display all tax terms
 * Fixes custom fields not included in email messages
-* Adds "File Name" to Advanced > Primary Form Fields and More > Primary Field Errors
+* Adds "File Name" to Advanced &gt; Primary Form Fields and More &gt; Primary Field Errors
 * New translation .pot file
 
-= 2.0 =
+**2.0**
 
-**General**
+*General*
 
 * Tested with latest version of WP (4.1)
 * Advanced testing on WordPress version 4.2 (beta)
 * Streamline/fine-tune plugin code, fixed typos, etc.
 * Updates plugin documentation in plugin and on site
 
-**Language**
+*Language*
 
 * Adds Text Domain and Domain Path to file header
 * Updates plugin file headers with better information
 * Replaces default .mo/.po templates with usp.pot template
 
-**Bug Fixes**
+*Bug Fixes*
 
 * Fixes incorrect path to custom stylesheet for TinyMCE
 * Fixes login/register form shortcode not working
@@ -253,16 +481,16 @@ Copyright: © 2015-2016 Monzilla Media
 * Fixes custom post status not displaying on front-end
 * Fixes uploading of disallowed file types (e.g., .php)
 
-**Improvements**
+*Improvements*
 
 * Improves file previews, thumbnails for other file types
 * Strips whitespace from Custom Field key settings
-* Improves About > Plugin Information section
+* Improves About &gt; Plugin Information section
 * Removes some unnecessary attributes from Form Demos
 * Improves Quicktag dialogs with lightbox-style UI
 * Updates plugin updater class to latest version
 
-**New Features**
+*New Features*
 
 * Adds Media Title custom field functionality
 * Adds drag_drop_upload functionality to Visual Editor
@@ -297,7 +525,7 @@ Copyright: © 2015-2016 Monzilla Media
 * Adds way to disable file previews for file upload fields
 * Adds local min/max file atts to usp_files shortcode
 
-= 1.9 =
+**1.9**
 
 * Bug: empty custom prefix causing duplicate error messages
 * Bug: custom prefix as name not working when field name is prefix only
@@ -338,7 +566,7 @@ Copyright: © 2015-2016 Monzilla Media
 * Advance testing on WP 4.1 (alpha)
 * General code check and clean
 
-= 1.8 =
+**1.8**
 
 * Bugfix: callback_dropdown() now displays correct value for select options (user roles)
 * Bugfix: duplicate errors for alt, caption, description fields
@@ -394,7 +622,7 @@ Copyright: © 2015-2016 Monzilla Media
 * Advance testing on WP 4.1 (alpha)
 * General code check and clean
 
-= 1.7 =
+**1.7**
 
 * Bugfix: custom field names now properly recognized for all field types
 * Bugfix: multiple category select fields now remember values (when enabled)
@@ -434,7 +662,7 @@ Copyright: © 2015-2016 Monzilla Media
 * Advance testing on WP 4.0 (alpha)
 * General code check and clean
 
-= 1.6 =
+**1.6**
 
 * Added support for unlimited custom post types (per-form post types)
 * New feature: specify your own prefix for custom fields
@@ -451,7 +679,7 @@ Copyright: © 2015-2016 Monzilla Media
 * Further testing with WP version 3.9
 * General code check and clean
 
-= 1.5 =
+**1.5**
 
 * Renamed "usp_init" to "usp_pro_init" in usp-pro.php
 * Added "exclude" parameter to category shortcode and quicktag
@@ -470,7 +698,7 @@ Copyright: © 2015-2016 Monzilla Media
 * Advance testing on development WP version 3.9-beta2
 * General code check and clean
 
-= 1.4 =
+**1.4**
 
 * Bugfix: renamed "init" to "usp_init" in usp-pro.php
 * usp_require_wp_version() now runs only on plugin activation
@@ -484,7 +712,7 @@ Copyright: © 2015-2016 Monzilla Media
 * Updated localization mo/po templates
 * General code check and clean
 
-= 1.3 =
+**1.3**
 
 * New feature: added option to use Google reCAPTCHA instead of default Challenge Question
 * New feature: added option to require post titles to be unique
@@ -503,7 +731,7 @@ Copyright: © 2015-2016 Monzilla Media
 * Generated new translation (mo/po) files
 * General code check and clean
 
-= 1.2 =
+**1.2**
 
 * New feature: let users choose their own password when registering
 * New feature: custom form redirects (overrides default setting) - includes new USP Quicktag and Shortcode
@@ -513,10 +741,12 @@ Copyright: © 2015-2016 Monzilla Media
 * Resolved some lingering PHP strict notices
 * General code check and clean
 
-= 1.1 =
+**1.1**
 
 * Testing automatic updates
 
-= 1.0 =
+**1.0**
 
 * Initial release
+
+

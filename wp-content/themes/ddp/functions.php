@@ -1,10 +1,10 @@
 <?php
 
-include_once WP_CONTENT_DIR . '/wpalchemy/MetaBox.php';
-include_once WP_CONTENT_DIR . '/wpalchemy/MediaAccess.php';
-include_once 'metaboxes/setup.php';
-include_once 'metaboxes/customizer-spec.php';
-$wpalchemy_media_access = new WPAlchemy_MediaAccess();
+// include_once WP_CONTENT_DIR . '/wpalchemy/MetaBox.php';
+// include_once WP_CONTENT_DIR . '/wpalchemy/MediaAccess.php';
+// include_once 'metaboxes/setup.php';
+// include_once 'metaboxes/customizer-spec.php';
+// $wpalchemy_media_access = new WPAlchemy_MediaAccess();
 
 add_theme_support( 'post-thumbnails' );
 
@@ -90,21 +90,22 @@ class description_walker extends Walker_Nav_Menu
 add_action( 'admin_menu', 'register_my_custom_menu_page' );
 
 function register_my_custom_menu_page(){
-	add_menu_page( 'Dettachée de Presse', 'Dettachée de Presse', 'manage_options', 'custompage', 'my_custom_menu_page', "dashicons-heart", 30 );
+	add_theme_page( 'Dettachée de Presse', 'Dettachée de Presse', 'manage_options', 'custompage', 'my_custom_menu_page', "dashicons-heart", 30 );
 }
 
 function my_custom_menu_page(){
-  if (isset($_POST['awesome_text'])) {
-        update_option('awesome_text', $_POST['awesome_text']);
-        $value = $_POST['awesome_text'];
+  if (isset($_POST['logo_url'])) {
+        update_option('logo_url', $_POST['logo_url']);
+        $logo_url = $_POST['logo_url'];
     }
+    $logo_url = get_option('logo_url', 'logo_url');
 
-  if (isset($_POST['logo'])) {
-        update_option('logo', $_POST['logo']);
-        $value = $_POST['logo'];
+  if (isset($_POST['logo_url_store'])) {
+        update_option('logo_url_store', $_POST['logo_url_store']);
+        $logo_url_store = $_POST['logo_url_store'];
     }
-    $logo = get_option('logo', 'logo');
-    $value = get_option('awesome_text', 'hey-ho');
+    $logo_url_store = get_option('logo_url_store', 'logo_url_store');
+    // $value = get_option('awesome_text', 'hey-ho');
 include 'page-templates/customizer/ddp.php';
 
 	// get_template_part('page-templates/customizer/ddp');
@@ -113,7 +114,7 @@ include 'page-templates/customizer/ddp.php';
 // add_action( 'admin_menu', 'register_my_custom_menu_page' );
 //
 // function register_my_custom_menu_page(){
-// 	add_menu_page( 'Cartes de Visite', 'Cartes de Visite', 'manage_options', 'custompage', 'my_custom_menu_page', plugins_url( 'myplugin/images/icon.png' ), 6 );
+// 	add_theme_page( 'Cartes de Visite', 'Cartes de Visite', 'manage_options', 'custompage', 'my_custom_menu_page', plugins_url( 'myplugin/images/icon.png' ), 6 );
 // }
 //
 // function my_custom_menu_page(){
@@ -226,7 +227,9 @@ function register_my_widget_theme()  {
 
 }
 
-add_action( 'init', 'register_my_widget_theme' );
+add_action( 'widgets_init', 'register_my_widget_theme' );
+
+// add_action( 'init', 'register_my_widget_theme' );
 
 function wpc_styles() {
 	//Dependencies
@@ -242,6 +245,15 @@ function wpc_styles() {
 	wp_enqueue_script( 'js' );
 	wp_enqueue_style( 'css' );
 }
+
+function load_custom_wp_admin_style() {
+    wp_register_style( 'adminCss', get_template_directory_uri().'/build/assets/css/admin.css' );
+    wp_register_script( 'adminJs', get_template_directory_uri().'/build/assets/js/admin.js' );
+    wp_enqueue_style( 'adminCss' );
+    wp_enqueue_script( 'adminJs' );
+}
+
+add_action( 'admin_enqueue_scripts', 'load_custom_wp_admin_style' );
 
 add_action('wp_enqueue_scripts', 'wpc_styles');
 add_action('wp_enqueue_style', 'wpc_styles');
@@ -262,4 +274,7 @@ function wpc_add_dashboard_widgets() {
 
 add_action('wp_dashboard_setup', 'wpc_add_dashboard_widgets' );
 
-?>
+function remove_footer_admin () {
+echo 'Fait avec &#9829; par ton geek préféré :D';
+ }
+ add_filter('admin_footer_text', 'remove_footer_admin');

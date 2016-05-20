@@ -15,7 +15,7 @@ Without prior written consent from Monzilla Media, you must NOT
 directly or indirectly: license, sub-license, sell, resell, 
 or provide for free any aspect or component of Part 2.
 
-Copyright: © 2015-2016 Monzilla Media
+Copyright: 2016 Monzilla Media
 
 ========================================================================
 

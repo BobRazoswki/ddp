@@ -82,7 +82,7 @@ class USP_Form_Widget extends WP_Widget {
 		<p>
 			<strong><?php _e('Widget Title', 'usp'); ?></strong><br />
 			<input name="<?php echo $this->get_field_name('title'); ?>" id="<?php echo $this->get_field_id('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /><br />
-			<small><label for="<?php echo $this->get_field_id('id'); ?>">
+			<small><label for="<?php echo $this->get_field_id('title'); ?>">
 				<?php _e('Enter an optional title for this widget (useful when using multiple form widgets). Displayed only on the widget panel here in the Admin Area.', 'usp'); ?>
 			</label></small>
 		</p>

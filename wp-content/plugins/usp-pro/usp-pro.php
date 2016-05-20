@@ -3,15 +3,15 @@
 	Plugin Name: USP Pro
 	Plugin URI: https://plugin-planet.com/usp-pro/
 	Description: Create unlimited forms and let visitors submit content, register, and much more from the front-end of your site.
-	Tags: submit, public, share, upload, images, files, posts, users, submit, front-end, submissions, contact, register, login, custom fields
+	Tags: community, contact, content, custom fields, files, form, forms, front end, front-end, frontend, generated content, images, login, post, posts, public, publish, register, share, submission, submissions, submit, submitted, upload, user generated, user submit, user submitted, user-generated, user-submit, user-submitted, users
 	Author: Jeff Starr
 	Author URI: http://monzilla.biz/
 	Donate link: http://m0n.co/donate
 	Contributors: specialk
-	Requires at least: 4.0
-	Tested up to: 4.4
+	Requires at least: 4.1
+	Tested up to: 4.5
 	Stable tag: trunk
-	Version: 2.2.1
+	Version: 2.3.2
 	Text Domain: usp
 	Domain Path: /languages/
 	
@@ -26,15 +26,15 @@
 	
 	Upgrades: Your purchase of USP Pro includes free lifetime upgrades, which include new features, bug fixes, and other improvements. 
 	
-	Copyright: © 2015-2016 Monzilla Media
+	Copyright: © 2016 Monzilla Media
 */
 
 if (!defined('ABSPATH')) die();
 
 define('USP_NAME', 'USP Pro');
-define('USP_VERSION', '2.2.1');
-define('USP_REQUIRES', '4.0');
-define('USP_TESTED', '4.4');
+define('USP_VERSION', '2.3.2');
+define('USP_REQUIRES', '4.1');
+define('USP_TESTED', '4.5');
 define('USP_AUTHOR', 'Jeff Starr');
 define('USP_URL', 'https://plugin-planet.com');
 define('USP_DOMAIN', '/languages/');
@@ -101,6 +101,7 @@ if (!class_exists('USP_Pro')) {
 			
 			add_action('admin_menu', array(&$this, 'add_admin_menus'));
 			add_filter('plugin_action_links', array(&$this, 'plugin_link_settings'), 10, 2);
+			add_filter('plugin_row_meta', array(&$this, 'add_plugin_links'), 10, 2);
 			add_action('admin_enqueue_scripts', array(&$this, 'enqueue_admin_scripts'));
 			add_action('admin_enqueue_scripts', array(&$this, 'add_admin_styles'));
 			
@@ -119,6 +120,9 @@ if (!class_exists('USP_Pro')) {
 			require_once(sprintf("%s/inc/usp-functions.php", dirname(__FILE__)));
 			require_once(sprintf("%s/inc/usp-widget.php", dirname(__FILE__)));
 			require_once(sprintf("%s/updates/usp-updates.php", dirname(__FILE__)));
+			
+			require_once(sprintf("%s/inc/usp-dashboard.php", dirname(__FILE__)));
+			add_action('wp_dashboard_setup', 'usp_pro_dashboard_widgets');
 			
 		}
 		
@@ -267,48 +271,53 @@ if (!class_exists('USP_Pro')) {
 		public static function admin_defaults() {
 			$user_info = USP_Pro::get_user_infos();
 			$defaults = array(
-				'admin_email'            => $user_info['admin_email'],
-				'admin_from'             => $user_info['admin_email'],
-				'admin_name'             => $user_info['admin_name'],
-				'cc_submit'              => '',
-				'cc_approval'            => '',
-				'cc_denied'              => '',
-				'send_mail'              => 'wp_mail',
-				'mail_format'            => 'text',
-				'send_mail_admin'        => 1,
-				'send_mail_user'         => 1,
-				'send_approval_admin'    => 1,
-				'send_approval_user'     => 1,
-				'send_denied_user'       => 1, 
-				'send_denied_admin'      => 1,
-				'post_alert_admin'       => __('New user-submitted post at ', 'usp') . $user_info['admin_name'] . __('! URL: ', 'usp') . $user_info['admin_url'],
-				'post_alert_user'        => __('Thank you for your submission at ', 'usp') . $user_info['admin_name'] . __('! If submissions require approval, you\'ll receive an email once it\'s approved.', 'usp'),
-				'alert_subject_admin'    => __('New User Submitted Post!', 'usp'),
-				'alert_subject_user'     => __('Thank you for your submitted post!', 'usp'),
-				'approval_subject'       => __('Submitted Post Approved!', 'usp'),
-				'approval_message'       => __('Congratulations, your submitted post has been approved at '. $user_info['admin_name'] .'!', 'usp'),
-				'approval_subject_admin' => __('Submitted Post Approved!', 'usp'),
-				'approval_message_admin' => __('Congratulations, a submitted post has been approved at '. $user_info['admin_name'] .'!', 'usp'),
-				
-				'denied_subject'         => __('Submitted Post Denied', 'usp'),
-				'denied_message'         => __('Sorry, but your submission has been denied.', 'usp'),
-				'denied_subject_admin'   => __('Submitted Post Denied', 'usp'),
-				'denied_message_admin'   => __('A submitted post has been denied at '. $user_info['admin_name'], 'usp'),
-				
-				'contact_sub_prefix'     => __('Message sent from ', 'usp') . $user_info['admin_name'] . ': ',
-				'contact_subject'        => __('Email Subject', 'usp'),
-				'contact_cc'             => $user_info['admin_email'],
-				'contact_cc_user'        => 0,
-				'contact_cc_note'        => __('A copy of this message will be sent to the specified email address.', 'usp'),
-				'contact_stats'          => 0,
-				'contact_from'           => $user_info['admin_email'],
-				'contact_custom'         => 1,
-				'custom_content'         => '',
-				'custom_contact_1'       => '',
-				'custom_contact_2'       => '',
-				'custom_contact_3'       => '',
-				'custom_contact_4'       => '',
-				'custom_contact_5'       => '',
+				'admin_email'             => $user_info['admin_email'],
+				'admin_from'              => $user_info['admin_email'],
+				'admin_name'              => $user_info['admin_name'],
+				'cc_submit'               => '',
+				'cc_approval'             => '',
+				'cc_denied'               => '',
+				'cc_scheduled'            => '',
+				'send_mail'               => 'wp_mail',
+				'mail_format'             => 'text',
+				'send_mail_admin'         => 1,
+				'send_mail_user'          => 1,
+				'send_approval_admin'     => 1,
+				'send_approval_user'      => 1,
+				'send_denied_admin'       => 1,
+				'send_denied_user'        => 1, 
+				'send_scheduled_admin'    => 1,
+				'send_scheduled_user'     => 1,
+				'alert_subject_admin'     => __('New User Submitted Post!', 'usp'),
+				'post_alert_admin'        => __('New user-submitted post at ', 'usp') . $user_info['admin_name'] . __('! URL: ', 'usp') . $user_info['admin_url'],
+				'alert_subject_user'      => __('Thank you for your submitted post!', 'usp'),
+				'post_alert_user'         => __('Thank you for your submission at ', 'usp') . $user_info['admin_name'] . __('! If submissions require approval, you\'ll receive an email once it\'s approved.', 'usp'),
+				'approval_subject_admin'  => __('Submitted Post Approved!', 'usp'),
+				'approval_message_admin'  => __('Congratulations, a submitted post has been approved at '. $user_info['admin_name'] .'!', 'usp'),
+				'approval_subject'        => __('Submitted Post Approved!', 'usp'),
+				'approval_message'        => __('Congratulations, your submitted post has been approved at '. $user_info['admin_name'] .'!', 'usp'),
+				'denied_subject_admin'    => __('Submitted Post Denied', 'usp'),
+				'denied_message_admin'    => __('A submitted post has been denied at '. $user_info['admin_name'], 'usp'),
+				'denied_subject'          => __('Submitted Post Denied', 'usp'),
+				'denied_message'          => __('Sorry, but your submission has been denied.', 'usp'),
+				'scheduled_subject_admin' => __('Submitted Post Scheduled', 'usp'),
+				'scheduled_message_admin' => __('A submitted post has been scheduled for publishing at '. $user_info['admin_name'] .'.', 'usp'),
+				'scheduled_subject'       => __('Submitted Post Scheduled', 'usp'),
+				'scheduled_message'       => __('Your submitted post has been scheduled for publishing at '. $user_info['admin_name'] .'.', 'usp'),
+				'contact_sub_prefix'      => __('Message sent from ', 'usp') . $user_info['admin_name'] . ': ',
+				'contact_subject'         => __('Email Subject', 'usp'),
+				'contact_cc'              => $user_info['admin_email'],
+				'contact_cc_user'         => 0,
+				'contact_cc_note'         => __('A copy of this message will be sent to the specified email address.', 'usp'),
+				'contact_stats'           => 0,
+				'contact_from'            => $user_info['admin_email'],
+				'contact_custom'          => 1,
+				'custom_content'          => '',
+				'custom_contact_1'        => '',
+				'custom_contact_2'        => '',
+				'custom_contact_3'        => '',
+				'custom_contact_4'        => '',
+				'custom_contact_5'        => '',
 			);
 			return $defaults;
 		}
@@ -357,14 +366,14 @@ if (!class_exists('USP_Pro')) {
 				'custom_field_names' => '', // no default for usp_custom_field_{n}
 				
 				'usp_error_1'        => __('Your Name', 'usp'),
-				'usp_error_2' 	      => __('Post URL', 'usp'),
-				'usp_error_3' 	      => __('Post Title', 'usp'),
-				'usp_error_4' 	      => __('Post Tags', 'usp'),
-				'usp_error_5' 	      => __('Challenge Question', 'usp'),
-				'usp_error_6' 	      => __('Post Category', 'usp'),
-				'usp_error_7' 	      => __('Post Content', 'usp'),
-				'usp_error_8' 	      => __('File(s)', 'usp'),
-				'usp_error_9' 	      => __('Email Address', 'usp'),
+				'usp_error_2' 	     => __('Post URL', 'usp'),
+				'usp_error_3' 	     => __('Post Title', 'usp'),
+				'usp_error_4' 	     => __('Post Tags', 'usp'),
+				'usp_error_5' 	     => __('Challenge Question', 'usp'),
+				'usp_error_6' 	     => __('Post Category', 'usp'),
+				'usp_error_7' 	     => __('Post Content', 'usp'),
+				'usp_error_8' 	     => __('File(s)', 'usp'),
+				'usp_error_9' 	     => __('Email Address', 'usp'),
 				'usp_error_10'       => __('Email Subject', 'usp'),
 				'usp_error_11'       => __('Alt text', 'usp'), 
 				'usp_error_12'       => __('Caption', 'usp'), 
@@ -373,7 +382,9 @@ if (!class_exists('USP_Pro')) {
 				'usp_error_15'       => __('Post Format', 'usp'),
 				'usp_error_16'       => __('Media Title', 'usp'),
 				'usp_error_17'       => __('File Name', 'usp'),
+				'usp_error_18'       => __('I agree to the terms', 'usp'),
 				
+				// not used
 				'usp_error_a'        => __('User Nicename', 'usp'),
 				'usp_error_b'        => __('User Display Name', 'usp'),
 				'usp_error_c'        => __('User Nickname', 'usp'),
@@ -410,6 +421,7 @@ if (!class_exists('USP_Pro')) {
 				'usp_error_15_desc'   => '<div class="usp-error">' . __('Required field: Post Format', 'usp') . '</div>',
 				'usp_error_16_desc'   => '<div class="usp-error">' . __('Required field: Media Title', 'usp') . '</div>',
 				'usp_error_17_desc'   => '<div class="usp-error">' . __('Required field: File Name', 'usp') . '</div>',
+				'usp_error_18_desc'   => '<div class="usp-error">' . __('Required field: Agree to Terms', 'usp') . '</div>',
 				
 				'usp_error_a_desc'    => '<div class="usp-error">' . __('Required field: User Nicename', 'usp') . '</div>',
 				'usp_error_b_desc'    => '<div class="usp-error">' . __('Required field: User Display Name', 'usp') . '</div>',
@@ -423,7 +435,7 @@ if (!class_exists('USP_Pro')) {
 				'error_email'         => '<div class="usp-error">' . __('Email already registered. If that is your address, please log in to submit content. Otherwise, please choose a different email address.', 'usp') . '</div>',
 				'error_register'      => '<div class="usp-error">' . __('User-registration is currently disabled. Please contact the admin if you need help.', 'usp') . '</div>',
 				'user_exists'         => '<div class="usp-error">' . __('You are already registered with this site. Please contact the admin if you need help.', 'usp') . '</div>',
-				'post_required'       => '<div class="usp-error">' . __('Post-submission required for user registration. Please try again.', 'usp') . '</div>',
+				'post_required'       => '<div class="usp-error">' . __('Post-submission required. Please try again or contact the admin if you need help.', 'usp') . '</div>',
 				'post_duplicate'      => '<div class="usp-error">' . __('Duplicate post detected. Please enter a unique post title and unique post content.', 'usp') . '</div>',
 				'form_allowed'        => '<div class="usp-error">' . __('Incorrect form type. Please notify the administrator.', 'usp') . '</div>',
 				
@@ -444,7 +456,7 @@ if (!class_exists('USP_Pro')) {
 				'file_name'           => '<div class="usp-error">' . __('Length of filename exceeds allowed limit. Please check the requirements and try again.', 'usp') . '</div>',
 				'min_req_files'       => '<div class="usp-error">' . __('Please ensure that you have met the minimum number of required files, and that any specific requirements have been met (e.g., size, dimensions).', 'usp') . '</div>',
 				'max_req_files'       => '<div class="usp-error">' . __('Please ensure that you have not exceeded the maximum number of files, and that any specific requirements have been met (e.g., size, dimensions).', 'usp') . '</div>',
-				
+				'file_square'         => '<div class="usp-error">' . __('A square image is required. Please check the requirements and try again.', 'usp') . '</div>',
 			);
 			return $defaults;
 		}
@@ -468,8 +480,8 @@ if (!class_exists('USP_Pro')) {
 				'tags_multiple'      => 0,
 				'redirect_post'      => 0,
 				'enable_stats'       => 0,
-				'character_max'      => '0',
-				'character_min'      => '0',
+				'character_max'      => 0,
+				'character_min'      => 0,
 				'titles_unique'      => 1,
 				'content_unique'     => 1,
 				'sessions_on'        => 1,
@@ -487,8 +499,8 @@ if (!class_exists('USP_Pro')) {
 				'replace_author'     => 0,
 				'use_cat'            => 0,
 				'use_cat_id'         => '',
-				'submit_form_ids'    => '',
-				'register_form_ids'  => '',
+				'submit_form_ids'    => 'classic, preview, submit, starter',
+				'register_form_ids'  => 'register',
 				'contact_form'       => 'contact',
 				'enable_form_lock'   => 0,
 			);
@@ -497,72 +509,83 @@ if (!class_exists('USP_Pro')) {
 		
 		public static function style_defaults() {
 			$defaults = array(
-				'form_style'    => 'minimal',
+				'form_style'    => 'simple',
 				
-				'style_min'     => '.usp-fieldset { border: 0; margin: 10px 0; padding: 0; } 
-.usp-label, .usp-form .usp-input, .usp-select, .usp-textarea { display: block; width: 90%; margin: 5px 0; } 
-.usp-label { font-size: 12px; line-height: 12px; } 
-.usp-input, .usp-textarea { padding: 5px; font: normal 13px/normal sans-serif; } 
-.usp-select { width: auto; } 
-.usp-submit { margin: 10px 0; } 
-.usp-checkbox { display: inline-block; margin-right: 10px; } 
-.usp-checkbox .usp-input { display: inline-block; width: auto; } 
-.usp-input-files { margin: 3px 0; } 
-.usp-errors, .usp-error-warning { margin: 10px 0; } 
-.usp-input-remember, .usp-label-remember { display: inline-block; width: auto; } 
-.usp-add-another { float: left; clear: both; margin-top: 3px; } 
-.usp-preview { clear: both; width: 100%; overflow: hidden; padding-top: 5px; } 
-.usp-preview div { float: left; width: 100px; height: 50px; overflow: hidden; margin: 3px; } 
-.usp-preview a { display: block; width: 100%; height: 100%; }',
+				'style_simple'  => '.usp-pro .usp-fieldset, .usp-pro fieldset { border: 0; margin: 10px 0; padding: 0; }
+.usp-pro .usp-label, .usp-pro .usp-input, .usp-pro .usp-textarea, .usp-pro textarea, .usp-pro .usp-select, .usp-pro .usp-input-files, .usp-pro .usp-checkbox, .usp-pro .usp-checkboxes label, .usp-pro .usp-radio label, .usp-pro .usp-preview, .usp-pro .usp-contact-cc { float: none; clear: both; display: block; width: 99%; box-sizing: border-box; }
+.usp-pro .usp-checkbox .usp-input, .usp-pro .usp-checkboxes input[type="checkbox"], .usp-pro .usp-input-agree, .usp-pro .usp-remember, .usp-pro .usp-label-agree, .usp-pro .usp-label-remember { float: none; clear: none; display: inline-block; width: auto; box-sizing: border-box; vertical-align: middle; }
+.usp-pro .usp-files, .usp-pro .usp-agree { margin: 5px 0; }
+.usp-pro .usp-contact-cc, .usp-pro .usp-submit { margin: 10px 0; }
+.usp-pro .usp-agree-toggle, .usp-pro .usp-add-another { cursor: pointer; }
+.usp-pro .usp-agree-toggle:hover { text-decoration: underline; }
+.usp-pro .usp-agree-terms { padding: 5px 0; font-size: 90%; }
+.usp-pro .usp-preview { overflow: hidden; }
+.usp-pro .usp-preview div { float: left; width: 150px; height: 75px; overflow: hidden; margin: 5px 10px 5px 0; }
+.usp-pro .usp-preview div a { display: block; width: 100%; height: 100%; }
+.usp-pro .usp-input-files { margin: 5px 0; line-height: 1; }
+.usp-pro .usp-form-errors { margin: 0 0 20px 0; }
+.usp-pro .usp-error { color: #cc6666; }
+.usp-pro .usp-error-field { border-color: #cc6666; background-color: #fef9f9; }
+.usp-hidden { display: none; }',
 				
-				'style_small'   => '.usp-fieldset { border: 0; margin: 10px 0; padding: 0; } 
-.usp-label { float: left; width: 20%; font-size: 12px; vertical-align: middle; } 
-.usp-form .usp-input, .usp-select, .usp-textarea, .usp-input-wrap { float: left; width: 70%; padding: 3px; font-size: 13px; } 
-.usp-select { width: auto; } 
-.usp-submit { margin: 10px 0; } 
-.usp-checkbox { display: block; margin: 0 0 0 30%; font-size: 12px; } 
-.usp-checkbox .usp-input, .usp-input-wrap .usp-input { display: inline-block; width: auto; } 
-.usp-files label { vertical-align: top; padding-top: 10px; } 
-.usp-input-wrap { padding: 0; } 
-.usp-errors, .usp-error-warning { margin: 10px 0; } 
-.usp-input-remember, .usp-label-remember { display: inline-block; width: auto; } 
-.usp-add-another, .usp-clone { clear: both; margin: 3px 0; } 
-.usp-preview { clear: both; width: 100%; overflow: hidden; padding-top: 5px; } 
-.usp-preview div { float: left; width: 100px; height: 50px; overflow: hidden; margin: 3px; } 
-.usp-preview a { display: block; width: 100%; height: 100%; }',
+				'style_min'     => '.usp-pro .usp-fieldset, .usp-pro fieldset { border: 0; margin: 10px 0; padding: 0; }
+.usp-pro .usp-label, .usp-pro .usp-input, .usp-pro .usp-textarea, .usp-pro textarea, .usp-pro .usp-select, .usp-pro .usp-input-files, .usp-pro .usp-checkbox, .usp-pro .usp-checkboxes label, .usp-pro .usp-radio label, .usp-pro .usp-preview, .usp-pro .usp-contact-cc { float: none; clear: both; display: block; width: 99%; box-sizing: border-box; font-size: 14px; }
+.usp-pro .usp-checkbox .usp-input, .usp-pro .usp-checkboxes input[type="checkbox"], .usp-pro .usp-input-agree, .usp-pro .usp-remember, .usp-pro .usp-label-agree, .usp-pro .usp-label-remember { float: none; clear: none; display: inline-block; width: auto; box-sizing: border-box; vertical-align: middle; font-size: 14px; }
+.usp-pro .usp-files, .usp-pro .usp-agree { margin: 5px 0; font-size: 14px; }
+.usp-pro .usp-contact-cc, .usp-pro .usp-submit { margin: 10px 0; font-size: 14px; }
+.usp-pro .usp-agree-toggle, .usp-pro .usp-add-another { cursor: pointer; font-size: 13px; }
+.usp-pro .usp-agree-toggle:hover { text-decoration: underline; }
+.usp-pro .usp-agree-terms { padding: 5px 0; font-size: 12px; }
+.usp-pro .usp-preview { overflow: hidden; }
+.usp-pro .usp-preview div { float: left; width: 150px; height: 75px; overflow: hidden; margin: 5px 10px 5px 0; }
+.usp-pro .usp-preview div a { display: block; width: 100%; height: 100%; }
+.usp-pro .usp-input-files { margin: 5px 0; line-height: 1; font-size: 13px; }
+.usp-pro .usp-form-errors { margin: 0 0 20px 0; font-size: 14px; }
+.usp-pro .usp-error { color: #cc6666; }
+.usp-pro .usp-error-field { border-color: #cc6666; background-color: #fef9f9; }
+.usp-pro, .usp-pro ul, .usp-pro p, .usp-pro code { font-size: 14px; }
+.usp-pro .usp-contact-cc { font-size: 13px; }
+.usp-hidden { display: none; }',
 				
-				'style_large'   => '.usp-fieldset { border: 0; margin: 15px 0; padding: 0; } 
-.usp-label, .usp-form .usp-input, .usp-select, .usp-textarea { display: block; width: 90%; font-size: 14px; } 
-.usp-input, .usp-textarea { padding: 7px; font: normal 16px/normal sans-serif; } 
-.usp-select { width: auto; } 
-.usp-submit { margin: 10px 0; } 
-.usp-checkbox { display: inline-block; margin-right: 10px; } 
-.usp-checkbox .usp-input { display: inline-block; width: auto; } 
-.usp-errors, .usp-error-warning { margin: 10px 0; } 
-.usp-input-remember, .usp-label-remember { display: inline-block; width: auto; } 
-.usp-input-files { width: 90%; margin: 5px 0; } 
-.usp-add-another { float: left; clear: both; margin-top: 5px; } 
-.usp-preview { clear: both; width: 100%; overflow: hidden; padding-top: 5px; } 
-.usp-preview div { float: left; width: 100px; height: 50px; overflow: hidden; margin: 3px; } 
-.usp-preview a { display: block; width: 100%; height: 100%; }',
+				'style_small'   => '.usp-pro .usp-fieldset, .usp-pro fieldset { border: 0; margin: 5px 0; padding: 0; }
+.usp-pro .usp-label, .usp-pro .usp-input, .usp-pro .usp-textarea, .usp-pro textarea, .usp-pro .usp-select, .usp-pro .usp-input-files, .usp-pro .usp-checkbox, .usp-pro .usp-checkboxes label, .usp-pro .usp-radio label, .usp-pro .usp-preview, .usp-pro .usp-contact-cc { float: none; clear: both; display: block; width: 70%; box-sizing: border-box; font-size: 12px; }
+.usp-pro .usp-checkbox .usp-input, .usp-pro .usp-checkboxes input[type="checkbox"], .usp-pro .usp-input-agree, .usp-pro .usp-remember, .usp-pro .usp-label-agree, .usp-pro .usp-label-remember { float: none; clear: none; display: inline-block; width: auto; box-sizing: border-box; vertical-align: middle; font-size: 12px; }
+.usp-pro .usp-files, .usp-pro .usp-agree { margin: 5px 0; font-size: 12px; }
+.usp-pro .usp-contact-cc, .usp-pro .usp-submit { margin: 10px 0; font-size: 12px; }
+.usp-pro .usp-agree-toggle, .usp-pro .usp-add-another { cursor: pointer; font-size: 11px; }
+.usp-pro .usp-agree-toggle:hover { text-decoration: underline; }
+.usp-pro .usp-agree-terms { padding: 5px 0; font-size: 10px; }
+.usp-pro .usp-preview { overflow: hidden; }
+.usp-pro .usp-preview div { float: left; width: 100px; height: 50px; overflow: hidden; margin: 5px 5px 0 0; }
+.usp-pro .usp-preview div a { display: block; width: 100%; height: 100%; }
+.usp-pro .usp-input-files { margin: 3px 0; line-height: 1; font-size: 12px; }
+.usp-pro .usp-form-errors { margin: 10px 0; font-size: 12px; }
+.usp-pro .usp-error { color: #cc6666; }
+.usp-pro .usp-error-field { border-color: #cc6666; background-color: #fef9f9; }
+.usp-pro, .usp-pro ul, .usp-pro p, .usp-pro code { font-size: 12px; }
+.usp-pro .usp-contact-cc { font-size: 11px; }
+.usp-hidden { display: none; }',
 				
-				'style_custom'  => '.usp-fieldset { border: 0; margin: 10px 0; padding: 0; } 
-.usp-label { float: left; width: 20%; padding-top: 5px; font-size: 12px; } 
-.usp-form .usp-input, .usp-select, .usp-textarea { display: inline-block; width: 70%; } 
-.usp-input, .usp-textarea { padding: 5px; font-size: 14px; } 
-.usp-input-wrap { float: left; width: 70%; } 
-.usp-select { width: auto; } 
-.usp-submit { margin: 10px 0; } 
-.usp-checkbox { display: block; margin: 0 0 0 30%; } 
-.usp-checkbox .usp-input, .usp-input-wrap .usp-input { display: inline-block; width: auto; } 
-.usp-errors, .usp-error-warning { margin: 10px 0; } 
-.usp-input-remember, .usp-label-remember { display: inline-block; width: auto; } 
-.usp-input-files { width: 90%; margin: 3px 0; } 
-.usp-add-another { float: left; clear: both; margin-top: 3px; } 
-.usp-preview { clear: both; width: 100%; overflow: hidden; padding-top: 5px; } 
-.usp-preview div { float: left; width: 100px; height: 50px; overflow: hidden; margin: 3px; } 
-.usp-preview a { display: block; width: 100%; height: 100%; }',
+				'style_large'   => '.usp-pro .usp-fieldset, .usp-pro fieldset { border: 0; margin: 20px 0; padding: 0; }
+.usp-pro .usp-label, .usp-pro .usp-input, .usp-pro .usp-textarea, .usp-pro textarea, .usp-pro .usp-select, .usp-pro .usp-input-files, .usp-pro .usp-checkbox, .usp-pro .usp-checkboxes label, .usp-pro .usp-radio label, .usp-pro .usp-preview, .usp-pro .usp-contact-cc { float: none; clear: both; display: block; width: 99%; box-sizing: border-box; font-size: 16px; }
+.usp-pro .usp-checkbox .usp-input, .usp-pro .usp-checkboxes input[type="checkbox"], .usp-pro .usp-input-agree, .usp-pro .usp-remember, .usp-pro .usp-label-agree, .usp-pro .usp-label-remember { float: none; clear: none; display: inline-block; width: auto; box-sizing: border-box; vertical-align: middle; font-size: 16px; }
+.usp-pro .usp-contact-cc { margin: 20px 0; font-size: 16px; }
+.usp-pro .usp-submit { margin: 10px 0; font-size: 16px; }
+.usp-pro .usp-agree-toggle, .usp-pro .usp-add-another { margin: 5px 0 0 0; cursor: pointer; font-size: 14px; }
+.usp-pro .usp-agree-toggle:hover { text-decoration: underline; }
+.usp-pro .usp-agree-terms { padding: 10px 0; font-size: 13px; }
+.usp-pro .usp-preview { overflow: hidden; }
+.usp-pro .usp-preview div { float: left; width: 200px; height: 100px; overflow: hidden; margin: 10px 10px 0 0; }
+.usp-pro .usp-preview div a { display: block; width: 100%; height: 100%; }
+.usp-pro .usp-input-files { margin: 5px 0; line-height: 1; font-size: 14px; }
+.usp-pro .usp-form-errors { margin: 20px 0; font-size: 16px; }
+.usp-pro .usp-error { color: #cc6666; }
+.usp-pro .usp-error-field { border-color: #cc6666; background-color: #fef9f9; }
+.usp-pro, .usp-pro ul, .usp-pro p, .usp-pro code { font-size: 16px; }
+.usp-pro .usp-contact-cc { font-size: 14px; }
+.usp-hidden { display: none; }',
 				
+				'style_custom'  => '',
 				'include_css'   => 0,
 				'include_js'    => 1,
 				'script_custom' => '',
@@ -589,6 +612,7 @@ if (!class_exists('USP_Pro')) {
 				'user_shortcodes'  => 0,
 				'display_size'     => 'thumbnail',
 				'enable_media'     => false,
+				'square_image'     => 0,
 			);
 			return $defaults;
 		}
@@ -616,8 +640,8 @@ if (!class_exists('USP_Pro')) {
 			add_settings_field('custom_status',    __('Custom Post Status', 'usp'),       array(&$this, 'callback_input_text'), $this->settings_general, 'section_general_1', array('id' => 'custom_status',    'type' => 'general'));
 			add_settings_field('redirect_post',    __('Redirect to Post', 'usp'),         array(&$this, 'callback_checkbox'),   $this->settings_general, 'section_general_1', array('id' => 'redirect_post',    'type' => 'general'));
 			add_settings_field('enable_stats',     __('Enable Basic Statistics', 'usp'),  array(&$this, 'callback_checkbox'),   $this->settings_general, 'section_general_1', array('id' => 'enable_stats',     'type' => 'general'));
-			add_settings_field('character_min',    __('Minimum Character Limit', 'usp'),  array(&$this, 'callback_input_text'), $this->settings_general, 'section_general_1', array('id' => 'character_min',    'type' => 'general'));
-			add_settings_field('character_max',    __('Maximum Character Limit', 'usp'),  array(&$this, 'callback_input_text'), $this->settings_general, 'section_general_1', array('id' => 'character_max',    'type' => 'general'));
+			add_settings_field('character_min',    __('Min Character Limit', 'usp'),      array(&$this, 'callback_input_text'), $this->settings_general, 'section_general_1', array('id' => 'character_min',    'type' => 'general'));
+			add_settings_field('character_max',    __('Max Character Limit', 'usp'),      array(&$this, 'callback_input_text'), $this->settings_general, 'section_general_1', array('id' => 'character_max',    'type' => 'general'));
 			add_settings_field('titles_unique',    __('Unique Post Titles', 'usp'),       array(&$this, 'callback_checkbox'),   $this->settings_general, 'section_general_1', array('id' => 'titles_unique',    'type' => 'general'));
 			add_settings_field('content_unique',   __('Unique Post Content', 'usp'),      array(&$this, 'callback_checkbox'),   $this->settings_general, 'section_general_1', array('id' => 'content_unique',   'type' => 'general'));
 			// 2
@@ -677,6 +701,7 @@ if (!class_exists('USP_Pro')) {
 			// 1
 			add_settings_section('section_style_1', 'CSS/Styles', 'section_style_1_desc', $this->settings_style);
 			add_settings_field('form_style',   __('Select Form Style', 'usp'),   array(&$this, 'callback_radio'),    $this->settings_style, 'section_style_1', array('id' => 'form_style',   'type' => 'style'));
+			add_settings_field('style_simple', __('Simple Style', 'usp'),        array(&$this, 'callback_textarea'), $this->settings_style, 'section_style_1', array('id' => 'style_simple', 'type' => 'style'));
 			add_settings_field('style_min',    __('Minimal Style', 'usp'),       array(&$this, 'callback_textarea'), $this->settings_style, 'section_style_1', array('id' => 'style_min',    'type' => 'style'));
 			add_settings_field('style_small',  __('Smaller Form', 'usp'),        array(&$this, 'callback_textarea'), $this->settings_style, 'section_style_1', array('id' => 'style_small',  'type' => 'style'));
 			add_settings_field('style_large',  __('Larger Form', 'usp'),         array(&$this, 'callback_textarea'), $this->settings_style, 'section_style_1', array('id' => 'style_large',  'type' => 'style'));
@@ -717,6 +742,7 @@ if (!class_exists('USP_Pro')) {
 			add_settings_field('unique_filename', __('Unique File Names', 'usp'),     array(&$this, 'callback_checkbox'),   $this->settings_uploads, 'section_uploads_1', array('id' => 'unique_filename', 'type' => 'uploads'));
 			add_settings_field('user_shortcodes', __('User Shortcodes', 'usp'),       array(&$this, 'callback_checkbox'),   $this->settings_uploads, 'section_uploads_1', array('id' => 'user_shortcodes', 'type' => 'uploads'));
 			add_settings_field('enable_media',    __('Non-Admin Media', 'usp'),       array(&$this, 'callback_checkbox'),   $this->settings_uploads, 'section_uploads_1', array('id' => 'enable_media',    'type' => 'uploads'));
+			add_settings_field('square_image',    __('Require Square Images', 'usp'), array(&$this, 'callback_checkbox'),   $this->settings_uploads, 'section_uploads_1', array('id' => 'square_image',    'type' => 'uploads'));
 			
 		}
 		
@@ -739,29 +765,36 @@ if (!class_exists('USP_Pro')) {
 			add_settings_field('mail_format', __('Email Format', 'usp'), array(&$this, 'callback_select'), $this->settings_admin, 'section_admin_2', array('id' => 'mail_format', 'type' => 'admin'));
 			// 3
 			add_settings_section('section_admin_3', 'Email Alerts for Admin', 'section_admin_3_desc', $this->settings_admin);
-			add_settings_field('send_mail_admin',        __('Submission Alerts', 'usp'),        array(&$this, 'callback_checkbox'),   $this->settings_admin, 'section_admin_3', array('id' => 'send_mail_admin',        'type' => 'admin'));
-			add_settings_field('send_approval_admin',    __('Approval Alerts', 'usp'),          array(&$this, 'callback_checkbox'),   $this->settings_admin, 'section_admin_3', array('id' => 'send_approval_admin',    'type' => 'admin'));
-			add_settings_field('send_denied_admin',      __('Denied Alerts', 'usp'),            array(&$this, 'callback_checkbox'),   $this->settings_admin, 'section_admin_3', array('id' => 'send_denied_admin',      'type' => 'admin'));
-			add_settings_field('alert_subject_admin',    __('Submission Alert Subject', 'usp'), array(&$this, 'callback_input_text'), $this->settings_admin, 'section_admin_3', array('id' => 'alert_subject_admin',    'type' => 'admin'));
-			add_settings_field('post_alert_admin',       __('Submission Alert Message', 'usp'), array(&$this, 'callback_textarea'),   $this->settings_admin, 'section_admin_3', array('id' => 'post_alert_admin',       'type' => 'admin'));
-			add_settings_field('approval_subject_admin', __('Approval Alert Subject', 'usp'),   array(&$this, 'callback_input_text'), $this->settings_admin, 'section_admin_3', array('id' => 'approval_subject_admin', 'type' => 'admin'));
-			add_settings_field('approval_message_admin', __('Approval Alert Message', 'usp'),   array(&$this, 'callback_textarea'),   $this->settings_admin, 'section_admin_3', array('id' => 'approval_message_admin', 'type' => 'admin'));
-			add_settings_field('denied_subject_admin',   __('Denied Alert Subject', 'usp'),     array(&$this, 'callback_input_text'), $this->settings_admin, 'section_admin_3', array('id' => 'denied_subject_admin',   'type' => 'admin'));
-			add_settings_field('denied_message_admin',   __('Denied Alert Message', 'usp'),     array(&$this, 'callback_textarea'),   $this->settings_admin, 'section_admin_3', array('id' => 'denied_message_admin',   'type' => 'admin'));
-			add_settings_field('cc_submit',              __('CC Submission Alerts', 'usp'),     array(&$this, 'callback_input_text'), $this->settings_admin, 'section_admin_3', array('id' => 'cc_submit',              'type' => 'admin'));
-			add_settings_field('cc_approval',            __('CC Approval Alerts', 'usp'),       array(&$this, 'callback_input_text'), $this->settings_admin, 'section_admin_3', array('id' => 'cc_approval',            'type' => 'admin'));
-			add_settings_field('cc_denied',              __('CC Denied Alerts', 'usp'),         array(&$this, 'callback_input_text'), $this->settings_admin, 'section_admin_3', array('id' => 'cc_denied',              'type' => 'admin'));
+			add_settings_field('send_mail_admin',         __('Submission Alerts', 'usp'),        array(&$this, 'callback_checkbox'),   $this->settings_admin, 'section_admin_3', array('id' => 'send_mail_admin',         'type' => 'admin'));
+			add_settings_field('send_approval_admin',     __('Approval Alerts', 'usp'),          array(&$this, 'callback_checkbox'),   $this->settings_admin, 'section_admin_3', array('id' => 'send_approval_admin',     'type' => 'admin'));
+			add_settings_field('send_denied_admin',       __('Denied Alerts', 'usp'),            array(&$this, 'callback_checkbox'),   $this->settings_admin, 'section_admin_3', array('id' => 'send_denied_admin',       'type' => 'admin'));
+			add_settings_field('send_scheduled_admin',    __('Scheduled Alerts', 'usp'),         array(&$this, 'callback_checkbox'),   $this->settings_admin, 'section_admin_3', array('id' => 'send_scheduled_admin',    'type' => 'admin'));
+			add_settings_field('alert_subject_admin',     __('Submission Alert Subject', 'usp'), array(&$this, 'callback_input_text'), $this->settings_admin, 'section_admin_3', array('id' => 'alert_subject_admin',     'type' => 'admin'));
+			add_settings_field('post_alert_admin',        __('Submission Alert Message', 'usp'), array(&$this, 'callback_textarea'),   $this->settings_admin, 'section_admin_3', array('id' => 'post_alert_admin',        'type' => 'admin'));
+			add_settings_field('approval_subject_admin',  __('Approval Alert Subject', 'usp'),   array(&$this, 'callback_input_text'), $this->settings_admin, 'section_admin_3', array('id' => 'approval_subject_admin',  'type' => 'admin'));
+			add_settings_field('approval_message_admin',  __('Approval Alert Message', 'usp'),   array(&$this, 'callback_textarea'),   $this->settings_admin, 'section_admin_3', array('id' => 'approval_message_admin',  'type' => 'admin'));
+			add_settings_field('denied_subject_admin',    __('Denied Alert Subject', 'usp'),     array(&$this, 'callback_input_text'), $this->settings_admin, 'section_admin_3', array('id' => 'denied_subject_admin',    'type' => 'admin'));
+			add_settings_field('denied_message_admin',    __('Denied Alert Message', 'usp'),     array(&$this, 'callback_textarea'),   $this->settings_admin, 'section_admin_3', array('id' => 'denied_message_admin',    'type' => 'admin'));
+			add_settings_field('scheduled_subject_admin', __('Scheduled Alert Subject', 'usp'),  array(&$this, 'callback_input_text'), $this->settings_admin, 'section_admin_3', array('id' => 'scheduled_subject_admin', 'type' => 'admin'));
+			add_settings_field('scheduled_message_admin', __('Scheduled Alert Message', 'usp'),  array(&$this, 'callback_textarea'),   $this->settings_admin, 'section_admin_3', array('id' => 'scheduled_message_admin', 'type' => 'admin'));
+			add_settings_field('cc_submit',               __('CC Submission Alerts', 'usp'),     array(&$this, 'callback_input_text'), $this->settings_admin, 'section_admin_3', array('id' => 'cc_submit',               'type' => 'admin'));
+			add_settings_field('cc_approval',             __('CC Approval Alerts', 'usp'),       array(&$this, 'callback_input_text'), $this->settings_admin, 'section_admin_3', array('id' => 'cc_approval',             'type' => 'admin'));
+			add_settings_field('cc_denied',               __('CC Denied Alerts', 'usp'),         array(&$this, 'callback_input_text'), $this->settings_admin, 'section_admin_3', array('id' => 'cc_denied',               'type' => 'admin'));
+			add_settings_field('cc_scheduled',            __('CC Scheduled Alerts', 'usp'),      array(&$this, 'callback_input_text'), $this->settings_admin, 'section_admin_3', array('id' => 'cc_scheduled',            'type' => 'admin'));
 			// 4
 			add_settings_section('section_admin_4', 'Email Alerts for User', 'section_admin_4_desc', $this->settings_admin);
-			add_settings_field('send_mail_user',     __('Submission Alerts', 'usp'),        array(&$this, 'callback_checkbox'),   $this->settings_admin, 'section_admin_4', array('id' => 'send_mail_user',     'type' => 'admin'));
-			add_settings_field('send_approval_user', __('Approval Alerts', 'usp'),          array(&$this, 'callback_checkbox'),   $this->settings_admin, 'section_admin_4', array('id' => 'send_approval_user', 'type' => 'admin'));
-			add_settings_field('send_denied_user',   __('Denied Alerts', 'usp'),            array(&$this, 'callback_checkbox'),   $this->settings_admin, 'section_admin_4', array('id' => 'send_denied_user',   'type' => 'admin'));
-			add_settings_field('alert_subject_user', __('Submission Alert Subject', 'usp'), array(&$this, 'callback_input_text'), $this->settings_admin, 'section_admin_4', array('id' => 'alert_subject_user', 'type' => 'admin'));
-			add_settings_field('post_alert_user',    __('Submission Alert Message', 'usp'), array(&$this, 'callback_textarea'),   $this->settings_admin, 'section_admin_4', array('id' => 'post_alert_user',    'type' => 'admin'));
-			add_settings_field('approval_subject',   __('Approval Alert Subject', 'usp'),   array(&$this, 'callback_input_text'), $this->settings_admin, 'section_admin_4', array('id' => 'approval_subject',   'type' => 'admin'));
-			add_settings_field('approval_message',   __('Approval Alert Message', 'usp'),   array(&$this, 'callback_textarea'),   $this->settings_admin, 'section_admin_4', array('id' => 'approval_message',   'type' => 'admin'));
-			add_settings_field('denied_subject',     __('Denied Alert Subject', 'usp'),     array(&$this, 'callback_input_text'), $this->settings_admin, 'section_admin_4', array('id' => 'denied_subject',     'type' => 'admin'));
-			add_settings_field('denied_message',     __('Denied Alert Message', 'usp'),     array(&$this, 'callback_textarea'),   $this->settings_admin, 'section_admin_4', array('id' => 'denied_message',     'type' => 'admin'));
+			add_settings_field('send_mail_user',      __('Submission Alerts', 'usp'),        array(&$this, 'callback_checkbox'),   $this->settings_admin, 'section_admin_4', array('id' => 'send_mail_user',      'type' => 'admin'));
+			add_settings_field('send_approval_user',  __('Approval Alerts', 'usp'),          array(&$this, 'callback_checkbox'),   $this->settings_admin, 'section_admin_4', array('id' => 'send_approval_user',  'type' => 'admin'));
+			add_settings_field('send_denied_user',    __('Denied Alerts', 'usp'),            array(&$this, 'callback_checkbox'),   $this->settings_admin, 'section_admin_4', array('id' => 'send_denied_user',    'type' => 'admin'));
+			add_settings_field('send_scheduled_user', __('Scheduled Alerts', 'usp'),         array(&$this, 'callback_checkbox'),   $this->settings_admin, 'section_admin_4', array('id' => 'send_scheduled_user', 'type' => 'admin'));
+			add_settings_field('alert_subject_user',  __('Submission Alert Subject', 'usp'), array(&$this, 'callback_input_text'), $this->settings_admin, 'section_admin_4', array('id' => 'alert_subject_user',  'type' => 'admin'));
+			add_settings_field('post_alert_user',     __('Submission Alert Message', 'usp'), array(&$this, 'callback_textarea'),   $this->settings_admin, 'section_admin_4', array('id' => 'post_alert_user',     'type' => 'admin'));
+			add_settings_field('approval_subject',    __('Approval Alert Subject', 'usp'),   array(&$this, 'callback_input_text'), $this->settings_admin, 'section_admin_4', array('id' => 'approval_subject',    'type' => 'admin'));
+			add_settings_field('approval_message',    __('Approval Alert Message', 'usp'),   array(&$this, 'callback_textarea'),   $this->settings_admin, 'section_admin_4', array('id' => 'approval_message',    'type' => 'admin'));
+			add_settings_field('denied_subject',      __('Denied Alert Subject', 'usp'),     array(&$this, 'callback_input_text'), $this->settings_admin, 'section_admin_4', array('id' => 'denied_subject',      'type' => 'admin'));
+			add_settings_field('denied_message',      __('Denied Alert Message', 'usp'),     array(&$this, 'callback_textarea'),   $this->settings_admin, 'section_admin_4', array('id' => 'denied_message',      'type' => 'admin'));
+			add_settings_field('scheduled_subject',   __('Scheduled Alert Subject', 'usp'),  array(&$this, 'callback_input_text'), $this->settings_admin, 'section_admin_4', array('id' => 'scheduled_subject',   'type' => 'admin'));
+			add_settings_field('scheduled_message',   __('Scheduled Alert Message', 'usp'),  array(&$this, 'callback_textarea'),   $this->settings_admin, 'section_admin_4', array('id' => 'scheduled_message',   'type' => 'admin'));
 			// 5
 			add_settings_section('section_admin_5', 'Contact Form', 'section_admin_5_desc', $this->settings_admin);
 			add_settings_field('contact_sub_prefix', __('Subject Line Prefix', 'usp'),   array(&$this, 'callback_input_text'), $this->settings_admin, 'section_admin_5', array('id' => 'contact_sub_prefix', 'type' => 'admin'));
@@ -838,7 +871,7 @@ if (!class_exists('USP_Pro')) {
 			add_settings_field('error_after',  __('Custom After Errors', 'usp'),  array(&$this, 'callback_textarea'), $this->settings_advanced, 'section_advanced_6', array('id' => 'error_after',  'type' => 'advanced'));
 			// 7
 			add_settings_section('section_advanced_7', __('Primary Form Fields', 'usp'), 'section_advanced_7_desc', $this->settings_advanced);
-			for ( $i = 1; $i < 18; $i++ ) {
+			for ( $i = 1; $i < 19; $i++ ) {
 				add_settings_field('usp_error_'. strval($i), __('Primary Field ', 'usp'). strval($i), array(&$this, 'callback_input_text'), $this->settings_advanced, 'section_advanced_7', array('id' => 'usp_error_'. strval($i), 'type' => 'advanced'));
 			}
 			// 8
@@ -890,23 +923,24 @@ if (!class_exists('USP_Pro')) {
 			
 			// 1
 			add_settings_section('section_more_1', __('Primary Field Errors', 'usp'), 'section_more_1_desc', $this->settings_more);
-			add_settings_field('usp_error_1_desc',  __('Name', 'usp'),          array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_1_desc',  'type' => 'more'));
-			add_settings_field('usp_error_2_desc',  __('URL', 'usp'),           array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_2_desc',  'type' => 'more'));
-			add_settings_field('usp_error_3_desc',  __('Title', 'usp'),         array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_3_desc',  'type' => 'more'));
-			add_settings_field('usp_error_4_desc',  __('Tags', 'usp'),          array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_4_desc',  'type' => 'more'));
-			add_settings_field('usp_error_5_desc',  __('Captcha', 'usp'),       array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_5_desc',  'type' => 'more'));
-			add_settings_field('usp_error_6_desc',  __('Category', 'usp'),      array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_6_desc',  'type' => 'more'));
-			add_settings_field('usp_error_7_desc',  __('Content', 'usp'),       array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_7_desc',  'type' => 'more'));
-			add_settings_field('usp_error_8_desc',  __('Files', 'usp'),         array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_8_desc',  'type' => 'more'));
-			add_settings_field('usp_error_9_desc',  __('Email Address', 'usp'), array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_9_desc',  'type' => 'more'));
-			add_settings_field('usp_error_10_desc', __('Email Subject', 'usp'), array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_10_desc', 'type' => 'more'));
-			add_settings_field('usp_error_11_desc', __('Alt Text', 'usp'),      array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_11_desc', 'type' => 'more'));
-			add_settings_field('usp_error_12_desc', __('Caption', 'usp'),       array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_12_desc', 'type' => 'more'));
-			add_settings_field('usp_error_13_desc', __('Description', 'usp'),   array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_13_desc', 'type' => 'more'));
-			add_settings_field('usp_error_14_desc', __('Taxonomy', 'usp'),      array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_14_desc', 'type' => 'more'));
-			add_settings_field('usp_error_15_desc', __('Post Format', 'usp'),   array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_15_desc', 'type' => 'more'));
-			add_settings_field('usp_error_16_desc', __('Media Title', 'usp'),   array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_16_desc', 'type' => 'more'));
-			add_settings_field('usp_error_17_desc', __('File Name', 'usp'),     array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_17_desc', 'type' => 'more'));
+			add_settings_field('usp_error_1_desc',  __('Name', 'usp'),           array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_1_desc',  'type' => 'more'));
+			add_settings_field('usp_error_2_desc',  __('URL', 'usp'),            array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_2_desc',  'type' => 'more'));
+			add_settings_field('usp_error_3_desc',  __('Title', 'usp'),          array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_3_desc',  'type' => 'more'));
+			add_settings_field('usp_error_4_desc',  __('Tags', 'usp'),           array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_4_desc',  'type' => 'more'));
+			add_settings_field('usp_error_5_desc',  __('Captcha', 'usp'),        array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_5_desc',  'type' => 'more'));
+			add_settings_field('usp_error_6_desc',  __('Category', 'usp'),       array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_6_desc',  'type' => 'more'));
+			add_settings_field('usp_error_7_desc',  __('Content', 'usp'),        array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_7_desc',  'type' => 'more'));
+			add_settings_field('usp_error_8_desc',  __('Files', 'usp'),          array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_8_desc',  'type' => 'more'));
+			add_settings_field('usp_error_9_desc',  __('Email Address', 'usp'),  array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_9_desc',  'type' => 'more'));
+			add_settings_field('usp_error_10_desc', __('Email Subject', 'usp'),  array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_10_desc', 'type' => 'more'));
+			add_settings_field('usp_error_11_desc', __('Alt Text', 'usp'),       array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_11_desc', 'type' => 'more'));
+			add_settings_field('usp_error_12_desc', __('Caption', 'usp'),        array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_12_desc', 'type' => 'more'));
+			add_settings_field('usp_error_13_desc', __('Description', 'usp'),    array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_13_desc', 'type' => 'more'));
+			add_settings_field('usp_error_14_desc', __('Taxonomy', 'usp'),       array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_14_desc', 'type' => 'more'));
+			add_settings_field('usp_error_15_desc', __('Post Format', 'usp'),    array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_15_desc', 'type' => 'more'));
+			add_settings_field('usp_error_16_desc', __('Media Title', 'usp'),    array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_16_desc', 'type' => 'more'));
+			add_settings_field('usp_error_17_desc', __('File Name', 'usp'),      array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_17_desc', 'type' => 'more'));
+			add_settings_field('usp_error_18_desc', __('Agree to Terms', 'usp'), array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_1', array('id' => 'usp_error_18_desc', 'type' => 'more'));
 			// 2
 			add_settings_section('section_more_2', __('Form Submission Errors', 'usp'), 'section_more_2_desc', $this->settings_more);
 			add_settings_field('error_username', __('Username Error', 'usp'),          array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_2', array('id' => 'error_username',   'type' => 'more'));
@@ -934,6 +968,7 @@ if (!class_exists('USP_Pro')) {
 			add_settings_field('file_name',       __('File Name Length', 'usp'),      array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_3', array('id' => 'file_name',       'type' => 'more'));
 			add_settings_field('min_req_files',   __('Min Number of Files', 'usp'),   array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_3', array('id' => 'min_req_files',   'type' => 'more'));
 			add_settings_field('max_req_files',   __('Max Number of Files', 'usp'),   array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_3', array('id' => 'max_req_files',   'type' => 'more'));
+			add_settings_field('file_square',     __('Require Square Images', 'usp'), array(&$this, 'callback_textarea'), $this->settings_more, 'section_more_3', array('id' => 'file_square',     'type' => 'more'));
 			// 4
 			add_settings_section('section_more_4', __('User Registration Errors', 'usp'), 'section_more_4_desc', $this->settings_more);
 			$user_fields = array('a' => __('Nicename', 'usp'), 'b' => __('Display Name', 'usp'), 'c' => __('Nickname', 'usp'), 'd' => __('First Name', 'usp'), 'e' => __('Last Name', 'usp'), 'f' => __('Description', 'usp'), 'g' => __('Password', 'usp'));
@@ -1038,19 +1073,27 @@ if (!class_exists('USP_Pro')) {
 				$value = esc_attr($this->style_settings[$id]);
 			}
 			
-			if ($id == 'tags_number' || $id == 'use_cat_id' || $id == 'character_min' || $id == 'character_max' || $id == 'custom_status') {
+			$width     = 'width:377px;';
+			$break     = '<br />';
+			$form_type = 'text';
+			$form_min  = '';
+			
+			if ($id == 'use_cat_id' || $id == 'custom_status') {
 				
 				$width = 'width:77px;';
 				$break = ' ';
+			
+			} elseif ($id == 'character_min' || $id == 'character_max' || $id == 'tags_number') {
 				
-			} else {
+				$width     = 'width:77px;';
+				$break     = ' ';
+				$form_type = 'number';
+				$form_min  = ' min="-1"';
 				
-				$width = 'width:377px;';
-				$break = '<br />';
 			}
 			
-			echo '<input name="usp_' . $type . '['. $id .']" type="text" value="' . $value . '" style="' . $width . '" />';
-			echo $break . '<label for="usp_' . $type . '['. $id .']">' . $label . '</label>';
+			echo '<input name="usp_'. $type .'['. $id .']" id="usp_'. $type .'['. $id .']" type="'. $form_type .'" value="'. $value .'" style="'. $width .'"'. $form_min .' />';
+			echo $break .'<label for="usp_'. $type .'['. $id .']">'. $label .'</label>';
 		}
 		
 		function callback_textarea($args) {
@@ -1061,19 +1104,19 @@ if (!class_exists('USP_Pro')) {
 			$label = callback_textarea_label($id);
 			
 			if ($type == 'admin') {
-				echo '<textarea name="usp_'. $type .'['. $id .']" rows="3" cols="70">'. esc_attr(stripslashes($this->admin_settings[$id])) .'</textarea>';
+				echo '<textarea name="usp_'. $type .'['. $id .']" id="usp_'. $type .'['. $id .']" rows="3" cols="70">'. esc_attr(stripslashes($this->admin_settings[$id])) .'</textarea>';
 			
 			} elseif ($type === 'advanced') {
-				echo '<textarea name="usp_'. $type .'['. $id .']" rows="3" cols="70">'. esc_attr(stripslashes($this->advanced_settings[$id])) .'</textarea>';
+				echo '<textarea name="usp_'. $type .'['. $id .']" id="usp_'. $type .'['. $id .']" rows="3" cols="70">'. esc_attr(stripslashes($this->advanced_settings[$id])) .'</textarea>';
 			
 			} elseif ($type === 'general') {
-				echo '<textarea name="usp_'. $type .'['. $id .']" rows="3" cols="70">'. esc_attr(stripslashes($this->general_settings[$id])) .'</textarea>';
+				echo '<textarea name="usp_'. $type .'['. $id .']" id="usp_'. $type .'['. $id .']" rows="3" cols="70">'. esc_attr(stripslashes($this->general_settings[$id])) .'</textarea>';
 			
 			} elseif ($type === 'style') {
-				echo '<textarea name="usp_'. $type .'['. $id .']" rows="17" cols="70" style="width:97%;">'. esc_attr(stripslashes($this->style_settings[$id])) .'</textarea>';
+				echo '<textarea name="usp_'. $type .'['. $id .']" id="usp_'. $type .'['. $id .']" rows="17" cols="70" style="width:97%;">'. esc_attr(stripslashes($this->style_settings[$id])) .'</textarea>';
 			
 			} elseif ($type === 'more') {
-				echo '<textarea name="usp_'. $type .'['. $id .']" rows="3" cols="70">'. esc_attr(stripslashes($this->more_settings[$id])) .'</textarea>';
+				echo '<textarea name="usp_'. $type .'['. $id .']" id="usp_'. $type .'['. $id .']" rows="3" cols="70">'. esc_attr(stripslashes($this->more_settings[$id])) .'</textarea>';
 			}
 			
 			echo '<br /><label for="usp_'. $type .'['. $id .']">'. $label .'</label>';
@@ -1086,32 +1129,39 @@ if (!class_exists('USP_Pro')) {
 			$label = callback_select_label($id);
 			
 			if ($id == 'min_files' || $id == 'max_files') {
-				echo '<select name="usp_uploads['. $id .']">';
+				echo '<select name="usp_uploads['. $id .']" id="usp_uploads['. $id .']">';
 				echo '<option value="-1">'. __('No Limit', 'usp') .'</option>';
 				foreach(range(0, 99) as $number) {
 					echo '<option '. selected($number, $this->uploads_settings[$id], false) .' value="'. $number .'">'. $number .'</option>';
 				}
+				echo '</select> <label for="usp_uploads['. $id .']">'. $label .'</label>';
+				
 			} elseif ($id == 'display_size') {
-				echo '<select name="usp_uploads['. $id .']">';
+				echo '<select name="usp_uploads['. $id .']" id="usp_uploads['. $id .']">';
 				$display_sizes = display_size_options();
 				foreach ($display_sizes as $value) {
 					echo '<option '. selected($value['value'], $this->uploads_settings[$id], false) .' value="'. $value['value'] .'">'. $value['label'] .'</option>';
 				}
+				echo '</select> <label for="usp_uploads['. $id .']">'. $label .'</label>';
+				
 			} elseif ($id == 'mail_format') {
-				echo '<select name="usp_admin['. $id .']">';
+				echo '<select name="usp_admin['. $id .']" id="usp_admin['. $id .']">';
 				$mail_format = mail_format();
 				foreach ($mail_format as $value) {
 					echo '<option '. selected($value['value'], $this->admin_settings[$id], false) .' value="'. $value['value'] .'">'. $value['label'] .'</option>';
 				}
+				echo '</select> <label for="usp_admin['. $id .']">'. $label .'</label>';
+				
 			} elseif ($id == 'recaptcha_version') {
-				echo '<select name="usp_general['. $id .']">';
+				echo '<select name="usp_general['. $id .']" id="usp_general['. $id .']">';
 				$recaptcha = recaptcha_options();
 				foreach ($recaptcha as $value) {
 					echo '<option '. selected($value['value'], $this->general_settings[$id], false) .' value="'. $value['value'] .'">'. $value['label'] .'</option>';
 				}
+				echo '</select> <label for="usp_general['. $id .']">'. $label .'</label>';
+				
 			}
-			echo '</select> ';
-			echo '<label for="usp_uploads['. $id .']">'. $label .'</label>';
+			
 		}
 		
 		function callback_checkboxes($args) {
@@ -1150,8 +1200,8 @@ if (!class_exists('USP_Pro')) {
 				echo '<a id="usp-toggle-tags" class="usp-toggle-tags" href="#usp-toggle-tags">'. __('Show/Hide Tags&nbsp;&raquo;', 'usp') .'</a></label></p>';
 				echo '<div class="usp-tags default-hidden"><ul>';
 				foreach ((array) $tags as $tag) {
-					echo '<li><input type="checkbox" name="usp_general[tags][]" value="'. $tag->term_id .'" '. checked(true, in_array($tag->term_id, $this->general_settings['tags']), false) .' /> ';
-					echo '<label for="usp_general[tags][]"><a href="'. get_tag_link($tag->term_id) .'" title="Tag ID: '. $tag->term_id .'" target="_blank">'. sanitize_text_field($tag->name) .'</a></label></li>';
+					echo '<li><input type="checkbox" name="usp_general[tags][]" id="usp_general[tags][]" value="'. esc_attr($tag->term_id) .'" '. checked(true, in_array($tag->term_id, $this->general_settings['tags']), false) .' /> ';
+					echo '<label for="usp_general[tags][]"><a href="'. get_tag_link($tag->term_id) .'" title="Tag ID: '. esc_attr($tag->term_id) .'" target="_blank">'. sanitize_text_field($tag->name) .'</a></label></li>';
 				}
 				echo '</ul></div>';
 				
@@ -1167,62 +1217,62 @@ if (!class_exists('USP_Pro')) {
 					foreach ($cats as $c) {
 
 						// parents
-						echo '<li><input type="checkbox" name="usp_general[categories][]" value="'. $c->term_id .'" '. checked(true, in_array($c->term_id, $this->general_settings['categories']), false) .' /> ';
-						echo '<label for="usp_general[categories][]"><a href="'. get_category_link($c->term_id) .'" title="Cat ID: '. $c->term_id .'" target="_blank">'. $c->name .'</a></label></li>';
-						$usp_cats['c'][] = array('id' => $c->term_id, 'c1' => array());
-						$children = get_terms('category', array('parent' => $c->term_id, 'hide_empty' => 0));
+						echo '<li><input type="checkbox" name="usp_general[categories][]" id="usp_general[categories][]" value="'. esc_attr($c->term_id) .'" '. checked(true, in_array($c->term_id, $this->general_settings['categories']), false) .' /> ';
+						echo '<label for="usp_general[categories][]"><a href="'. esc_url(get_category_link($c->term_id)) .'" title="Cat ID: '. esc_attr($c->term_id) .'" target="_blank">'. sanitize_text_field($c->name) .'</a></label></li>';
+						$usp_cats['c'][] = array('id' => esc_attr($c->term_id), 'c1' => array());
+						$children = get_terms('category', array('parent' => esc_attr($c->term_id), 'hide_empty' => 0));
 						if (!empty($children)) {
 							echo '<li><ul>';
 							foreach ($children as $c1) {
 
 								// children
-								$usp_cats['c'][]['c1'][] = array('id' => $c1->term_id, 'c2' => array());
-								$grandchildren = get_terms('category', array('parent' => $c1->term_id, 'hide_empty' => 0));
+								$usp_cats['c'][]['c1'][] = array('id' => esc_attr($c1->term_id), 'c2' => array());
+								$grandchildren = get_terms('category', array('parent' => esc_attr($c1->term_id), 'hide_empty' => 0));
 								if (!empty($grandchildren)) {
-									echo '<li><input type="checkbox" name="usp_general[categories][]" value="'. $c1->term_id .'" '. checked(true, in_array($c1->term_id, $this->general_settings['categories']), false) .' /> ';
-									echo '<label for="usp_general[categories][]"><a href="'. get_category_link($c1->term_id) .'" title="Cat ID: '. $c1->term_id .'" target="_blank">'. $c1->name .'</a></label>';
+									echo '<li><input type="checkbox" name="usp_general[categories][]" id="usp_general[categories][]" value="'. esc_attr($c1->term_id) .'" '. checked(true, in_array($c1->term_id, $this->general_settings['categories']), false) .' /> ';
+									echo '<label for="usp_general[categories][]"><a href="'. esc_url(get_category_link($c1->term_id)) .'" title="Cat ID: '. esc_attr($c1->term_id) .'" target="_blank">'. sanitize_text_field($c1->name) .'</a></label>';
 									echo '<ul>';
 									foreach ($grandchildren as $c2) {
 
 										// grandchildren
-										$usp_cats['c'][]['c1'][]['c2'][] = array('id' => $c2->term_id, 'c3' => array());
-										$great_grandchildren = get_terms('category', array('parent' => $c2->term_id, 'hide_empty' => 0));
+										$usp_cats['c'][]['c1'][]['c2'][] = array('id' => esc_attr($c2->term_id), 'c3' => array());
+										$great_grandchildren = get_terms('category', array('parent' => esc_attr($c2->term_id), 'hide_empty' => 0));
 										if (!empty($great_grandchildren)) {
-											echo '<li><input type="checkbox" name="usp_general[categories][]" value="'. $c2->term_id .'" '. checked(true, in_array($c2->term_id, $this->general_settings['categories']), false) .' /> ';
-											echo '<label for="usp_general[categories][]"><a href="'. get_category_link($c2->term_id) .'" title="Cat ID: '. $c2->term_id .'" target="_blank">'. $c2->name .'</a></label>';
+											echo '<li><input type="checkbox" name="usp_general[categories][]" id="usp_general[categories][]" value="'. esc_attr($c2->term_id) .'" '. checked(true, in_array($c2->term_id, $this->general_settings['categories']), false) .' /> ';
+											echo '<label for="usp_general[categories][]"><a href="'. esc_url(get_category_link($c2->term_id)) .'" title="Cat ID: '. esc_attr($c2->term_id) .'" target="_blank">'. sanitize_text_field($c2->name) .'</a></label>';
 											echo '<ul>';
 											foreach ($great_grandchildren as $c3) {
 												
 												// great enkelkinder
-												$usp_cats['c'][]['c1'][]['c2'][]['c3'][] = array('id' => $c3->term_id, 'c4' => array());
-												$great_great_grandchildren = get_terms('category', array('parent' => $c3->term_id, 'hide_empty' => 0));
+												$usp_cats['c'][]['c1'][]['c2'][]['c3'][] = array('id' => esc_attr($c3->term_id), 'c4' => array());
+												$great_great_grandchildren = get_terms('category', array('parent' => esc_attr($c3->term_id), 'hide_empty' => 0));
 												if (!empty($great_great_grandchildren)) {
-													echo '<li><input type="checkbox" name="usp_general[categories][]" value="'. $c3->term_id .'" '. checked(true, in_array($c3->term_id, $this->general_settings['categories']), false) .' /> ';
-													echo '<label for="usp_general[categories][]"><a href="'. get_category_link($c3->term_id) .'" title="Cat ID: '. $c3->term_id .'" target="_blank">'. $c3->name .'</a></label>';
+													echo '<li><input type="checkbox" name="usp_general[categories][]" id="usp_general[categories][]" value="'. esc_attr($c3->term_id) .'" '. checked(true, in_array($c3->term_id, $this->general_settings['categories']), false) .' /> ';
+													echo '<label for="usp_general[categories][]"><a href="'. esc_url(get_category_link($c3->term_id)) .'" title="Cat ID: '. esc_attr($c3->term_id) .'" target="_blank">'. sanitize_text_field($c3->name) .'</a></label>';
 													echo '<ul>';
 													foreach ($great_great_grandchildren as $c4) {
 														
 														// great great grandchildren
-														$usp_cats['c'][]['c1'][]['c2'][]['c3'][]['c4'][] = array('id' => $c4->term_id);
-														echo '<li><input type="checkbox" name="usp_general[categories][]" value="'. $c4->term_id .'" '. checked(true, in_array($c4->term_id, $this->general_settings['categories']), false) .' /> ';
-														echo '<label for="usp_general[categories][]"><a href="'. get_category_link($c4->term_id) .'" title="Cat ID: '. $c4->term_id .'" target="_blank">'. $c4->name .'</a></label></li>';
+														$usp_cats['c'][]['c1'][]['c2'][]['c3'][]['c4'][] = array('id' => esc_attr($c4->term_id));
+														echo '<li><input type="checkbox" name="usp_general[categories][]" id="usp_general[categories][]" value="'. esc_attr($c4->term_id) .'" '. checked(true, in_array($c4->term_id, $this->general_settings['categories']), false) .' /> ';
+														echo '<label for="usp_general[categories][]"><a href="'. esc_url(get_category_link($c4->term_id)) .'" title="Cat ID: '. esc_attr($c4->term_id) .'" target="_blank">'. sanitize_text_field($c4->name) .'</a></label></li>';
 													}
 													echo '</ul></li>'; // great great grandchildren
 												} else {
-													echo '<li><input type="checkbox" name="usp_general[categories][]" value="'. $c3->term_id .'" '. checked(true, in_array($c3->term_id, $this->general_settings['categories']), false) .' /> ';
-													echo '<label for="usp_general[categories][]"><a href="'. get_category_link($c3->term_id) .'" title="Cat ID: '. $c3->term_id .'" target="_blank">'. $c3->name .'</a></label></li>';
+													echo '<li><input type="checkbox" name="usp_general[categories][]" id="usp_general[categories][]" value="'. esc_attr($c3->term_id) .'" '. checked(true, in_array($c3->term_id, $this->general_settings['categories']), false) .' /> ';
+													echo '<label for="usp_general[categories][]"><a href="'. esc_url(get_category_link($c3->term_id)) .'" title="Cat ID: '. esc_attr($c3->term_id) .'" target="_blank">'. sanitize_text_field($c3->name) .'</a></label></li>';
 												}
 											}
 											echo '</ul></li>'; // great grandchildren
 										} else {
-											echo '<li><input type="checkbox" name="usp_general[categories][]" value="'. $c2->term_id .'" '. checked(true, in_array($c2->term_id, $this->general_settings['categories']), false) .' /> ';
-											echo '<label for="usp_general[categories][]"><a href="'. get_category_link($c2->term_id) .'" title="Cat ID: '. $c2->term_id .'" target="_blank">'. $c2->name .'</a></label></li>';
+											echo '<li><input type="checkbox" name="usp_general[categories][]" id="usp_general[categories][]" value="'. esc_attr($c2->term_id) .'" '. checked(true, in_array($c2->term_id, $this->general_settings['categories']), false) .' /> ';
+											echo '<label for="usp_general[categories][]"><a href="'. esc_url(get_category_link($c2->term_id)) .'" title="Cat ID: '. esc_attr($c2->term_id) .'" target="_blank">'. sanitize_text_field($c2->name) .'</a></label></li>';
 										}
 									}
 									echo '</ul></li>'; // grandchildren
 								} else {
-									echo '<li><input type="checkbox" name="usp_general[categories][]" value="'. $c1->term_id .'" '. checked(true, in_array($c1->term_id, $this->general_settings['categories']), false) .' /> ';
-									echo '<label for="usp_general[categories][]"><a href="'. get_category_link($c1->term_id) .'" title="Cat ID: '. $c1->term_id .'" target="_blank">'. $c1->name .'</a></label></li>';
+									echo '<li><input type="checkbox" name="usp_general[categories][]" id="usp_general[categories][]" value="'. esc_attr($c1->term_id) .'" '. checked(true, in_array($c1->term_id, $this->general_settings['categories']), false) .' /> ';
+									echo '<label for="usp_general[categories][]"><a href="'. esc_url(get_category_link($c1->term_id)) .'" title="Cat ID: '. esc_attr($c1->term_id) .'" target="_blank">'. sanitize_text_field($c1->name) .'</a></label></li>';
 								}
 							}
 							echo '</ul></li>'; // children
@@ -1237,7 +1287,7 @@ if (!class_exists('USP_Pro')) {
 				echo '<p><label>' . __('Which user roles should have access to USP Posts (when applicable): ', 'usp') . '</label></p>';
 				echo '<ul>';
 				foreach ($roles as $role) {
-					echo '<li><input type="checkbox" name="usp_advanced[post_type_role][]" value="'. $role .'" '. checked(true, in_array($role, $this->advanced_settings['post_type_role']), false) .' /> ';
+					echo '<li><input type="checkbox" name="usp_advanced[post_type_role][]" id="usp_advanced[post_type_role][]" value="'. $role .'" '. checked(true, in_array($role, $this->advanced_settings['post_type_role']), false) .' /> ';
 					echo '<label for="usp_advanced[post_type_role][]">'. ucfirst(sanitize_text_field($role)) .'</label></li>';
 				}
 				echo '</ul>';
@@ -1248,7 +1298,7 @@ if (!class_exists('USP_Pro')) {
 				echo '<p><label>' . __('Which user roles should have access to USP Forms: ', 'usp') . '</label></p>';
 				echo '<ul>';
 				foreach ($roles as $role) {
-					echo '<li><input type="checkbox" name="usp_advanced[form_type_role][]" value="'. $role .'" '. checked(true, in_array($role, $this->advanced_settings['form_type_role']), false) .' /> ';
+					echo '<li><input type="checkbox" name="usp_advanced[form_type_role][]" id="usp_advanced[form_type_role][]" value="'. $role .'" '. checked(true, in_array($role, $this->advanced_settings['form_type_role']), false) .' /> ';
 					echo '<label for="usp_advanced[form_type_role][]">'. ucfirst(sanitize_text_field($role)) .'</label></li>';
 				}
 				echo '</ul>';
@@ -1271,7 +1321,7 @@ if (!class_exists('USP_Pro')) {
 			elseif ($type == 'more')     $checked = checked($this->more_settings[$id],     1, false);
 			elseif ($type == 'tools')    $checked = checked($this->tools_settings[$id],    1, false);
 			
-			echo '<input name="usp_'. $type .'['. $id .']" type="checkbox" value="1" '. $checked .' /> <label for="usp_'. $type .'['. $id .']">'. $label .'</label>';
+			echo '<input name="usp_'. $type .'['. $id .']" id="usp_'. $type .'['. $id .']" type="checkbox" value="1" '. $checked .' /> <label for="usp_'. $type .'['. $id .']">'. $label .'</label>';
 		}
 		
 		function callback_number($args) {
@@ -1283,7 +1333,7 @@ if (!class_exists('USP_Pro')) {
 			
 			$value = $this->advanced_settings[$id];
 			
-			echo '<input name="usp_'. $type .'['. $id .']" type="number" step="1" min="0" max="999" maxlength="3" value="'. $value .'" /> <label for="usp_'. $type .'['. $id .']">'. $label .'</label>';
+			echo '<input name="usp_'. $type .'['. $id .']" id="usp_'. $type .'['. $id .']" type="number" step="1" min="0" max="999" maxlength="3" value="'. $value .'" /> <label for="usp_'. $type .'['. $id .']">'. $label .'</label>';
 		}
 		
 		function callback_dropdown($args) {
@@ -1294,14 +1344,15 @@ if (!class_exists('USP_Pro')) {
 			
 			$label = callback_dropdown_label($id);
 			
-			echo '<select name="usp_'. $type .'['. $id .']">';
+			echo '<select name="usp_'. $type .'['. $id .']" id="usp_'. $type .'['. $id .']">';
 			
 			if ($id == 'assign_author') {
 				
-				$list_authors = $wpdb->get_results("SELECT ID, display_name FROM {$wpdb->users}");
+				$args_authors = apply_filters('usp_settings_author_list_args', array());
+				$list_authors = get_users($args_authors);
 				
 				foreach ($list_authors as $author) {
-					echo '<option '. selected($this->general_settings[$id], $author->ID, false) .' value="'. $author->ID .'">'. $author->display_name .'</option>';		
+					echo '<option '. selected($this->general_settings[$id], $author->ID, false) .' value="'. esc_attr($author->ID) .'">'. esc_attr($author->display_name) .'</option>';		
 				}
 				
 				echo '</select> <label for="usp_'. $type .'['. $id .']">'. $label .'</label>';
@@ -1402,7 +1453,7 @@ if (!class_exists('USP_Pro')) {
 				} else {
 					$checked = '';
 				}
-				echo '<li><input type="radio" name="usp_' . $type .'['. $id .']" value="'. esc_attr($radio_option['value']) .'"'. $checked .' /> '. $radio_option['label'] .'</li>';
+				echo '<li><input type="radio" name="usp_' . $type .'['. $id .']" id="usp_' . $type .'['. $id .']" value="'. esc_attr($radio_option['value']) .'"'. $checked .' /> '. $radio_option['label'] .'</li>';
 			}
 			echo '<ul>';
 		}
@@ -1415,6 +1466,13 @@ if (!class_exists('USP_Pro')) {
 			if ($file == USP_FILE) {
 				$usp_links = '<a href="'. get_admin_url() .'options-general.php?page='. $this->settings_page .'">'. __('Settings', 'usp') .'</a>';
 				array_unshift($links, $usp_links);
+			}
+			return $links;
+		}
+		
+		function add_plugin_links($links, $file) {
+			if ($file == plugin_basename(__FILE__)) {
+				$links[]  = '<a target="_blank" href="https://plugin-planet.com/usp-pro-quick-start/" title="USP Pro Quick Start Guide">Getting started</a>';
 			}
 			return $links;
 		}
@@ -1584,7 +1642,20 @@ if (class_exists('USP_Pro')) {
 			} 
 			return false; 
 		} 
-	} 
+	}
+	if (!function_exists('usp_is_session_started')) {
+		function usp_is_session_started() {
+			if (php_sapi_name() !== 'cli') {
+				if (version_compare(phpversion(), '5.4.0', '>=')) {
+					return session_status() === PHP_SESSION_NONE ? false : true;
+				} else {
+					return session_id() === '' ? false : true;
+				}
+			}
+			return false;
+		}
+	}
+
 }
 
 

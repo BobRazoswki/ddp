@@ -1,0 +1,40 @@
+@font-face {
+    font-family: 'josefin_slabregular';
+    src: url('/ddp/wp-content/themes/Dettachée de Presse/build/assets/fonts/josefinslab-regular-webfont.eot');
+    src: url('/ddp/wp-content/themes/Dettachée de Presse/build/assets/fonts/josefinslab-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/ddp/wp-content/themes/Dettachée de Presse/build/assets/fonts/josefinslab-regular-webfont.woff2') format('woff2'),
+         url('/ddp/wp-content/themes/Dettachée de Presse/build/assets/fonts/josefinslab-regular-webfont.woff') format('woff'),
+         url('/ddp/wp-content/themes/Dettachée de Presse/build/assets/fonts/josefinslab-regular-webfont.ttf') format('truetype'),
+         url('/ddp/wp-content/themes/Dettachée de Presse/build/assets/fonts/josefinslab-regular-webfont.svg#josefin_slabregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+@font-face {
+    font-family: 'josefin_slabbold';
+    src: url('/ddp/wp-content/themes/Dettachée de Presse/build/assets/fonts/josefinslab-bold-webfont.eot');
+    src: url('/ddp/wp-content/themes/Dettachée de Presse/build/assets/fonts/josefinslab-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/ddp/wp-content/themes/Dettachée de Presse/build/assets/fonts/josefinslab-bold-webfont.woff2') format('woff2'),
+         url('/ddp/wp-content/themes/Dettachée de Presse/build/assets/fonts/josefinslab-bold-webfont.woff') format('woff'),
+         url('/ddp/wp-content/themes/Dettachée de Presse/build/assets/fonts/josefinslab-bold-webfont.ttf') format('truetype'),
+         url('/ddp/wp-content/themes/Dettachée de Presse/build/assets/fonts/josefinslab-bold-webfont.svg#josefin_slabbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+@font-face {
+    font-family: 'josefin_slabsemibold';
+    src: url('/ddp/wp-content/themes/Dettachée de Presse/build/assets/fonts/josefinslab-semibold-webfont.eot');
+    src: url('/ddp/wp-content/themes/Dettachée de Presse/build/assets/fonts/josefinslab-semibold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/ddp/wp-content/themes/Dettachée de Presse/build/assets/fonts/josefinslab-semibold-webfont.woff2') format('woff2'),
+         url('/ddp/wp-content/themes/Dettachée de Presse/build/assets/fonts/josefinslab-semibold-webfont.woff') format('woff'),
+         url('/ddp/wp-content/themes/Dettachée de Presse/build/assets/fonts/josefinslab-semibold-webfont.ttf') format('truetype'),
+         url('/ddp/wp-content/themes/Dettachée de Presse/build/assets/fonts/josefinslab-semibold-webfont.svg#josefin_slabsemibold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}

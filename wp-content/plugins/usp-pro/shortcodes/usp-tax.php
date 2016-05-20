@@ -16,7 +16,8 @@ if (!defined('ABSPATH')) die();
 		tax         = specifies the taxonomy
 		size        = specifies value for the size attribute of the select tag when using the select menu
 		multiple    = specifies whether users should be allowed to select multiple terms
-		terms       = specifies which tax terms to include (comma-separated list of term IDs), OR specifies to include all non-empty terms via "all", OR all terms including empty via "all_include_empty"
+		terms       = specifies which tax terms to include (comma-separated list of term IDs), 
+					  OR specifies to include all non-empty terms via "all", OR all terms including empty via "all_include_empty"
 		exclude     = specifies any cats that should be excluded from the form (comma separated)
 		custom      = any attributes or custom code
 		fieldset    = enable auto-fieldset: true, false, or custom class name for fieldset (default true)
@@ -65,7 +66,7 @@ function usp_input_taxonomy($args) {
 	}
 	
 	// attributes
-	$field = $taxonomy;
+	$field       = $taxonomy;
 	$placeholder = usp_placeholder($args, $field);
 	$required    = usp_required($args);
 	$label       = usp_label($args, $field);
@@ -84,7 +85,7 @@ function usp_input_taxonomy($args) {
 	
 	// input class
 	$class = isset($args['class']) ? 'usp-input,usp-input-taxonomy,'. $args['class'] : 'usp-input,usp-input-taxonomy';
-	$classes = usp_classes($class, '14');
+	$classes = usp_classes($class, 'usp_error_14');
 	
 	// local tax
 	$tax_terms = array();
@@ -133,7 +134,7 @@ function usp_input_taxonomy($args) {
 		
 		if ($type == 'checkbox') {
 			
-			$content = (!empty($label)) ? '<label for="usp-taxonomy-'. $taxonomy .'[]" class="usp-label usp-label-taxonomy">'. $label .'</label>'. "\n" : '';
+			$content = (!empty($label)) ? '<div class="usp-label usp-label-taxonomy">'. esc_html($label) .'</div>'. "\n" : '';
 			
 			foreach ($tax_terms as $tax) {
 				
@@ -144,17 +145,20 @@ function usp_input_taxonomy($args) {
 					if (intval($tax['term_id']) === intval($value)) $checked = ' checked';
 				}
 				
-				$content .= '<span class="usp-checkbox usp-tax">';
-				$content .= '<input type="checkbox" name="usp-taxonomy-'. $taxonomy .'[]" value="'. $tax['term_id'] .'" data-required="'. $required .'" class="'. $classes .'"'. $checked .' '. $custom .'/> '. esc_html($tax['name']);
-				$content .= '</span>' . "\n";
+				$content .= '<label for="usp-taxonomy-'. esc_attr($taxonomy) .'" class="usp-checkbox usp-tax">';
+				$content .= '<input type="checkbox" name="usp-taxonomy-'. esc_attr($taxonomy) .'[]" id="usp-taxonomy-'. esc_attr($taxonomy) .'" ';
+				$content .= 'value="'. esc_attr($tax['term_id']) .'" data-required="'. esc_attr($required) .'" class="'. esc_attr($classes) .'" ';
+				$content .= $checked .' '. $custom .'/> '. esc_html($tax['name']) .'</label>' . "\n";
+				
 			}
 			
 		} else {
 			
-			$content = (!empty($label)) ? '<label for="usp-taxonomy-'. $taxonomy . $brackets .'" class="usp-label usp-label-taxonomy">'. $label .'</label>'. "\n" : '';
+			$content = (!empty($label)) ? '<label for="usp-taxonomy-'. esc_attr($taxonomy) .'" class="usp-label usp-label-taxonomy">'. esc_html($label) .'</label>'. "\n" : '';
 			
-			$content .= '<select name="usp-taxonomy-'. $taxonomy . $brackets .'" '. $parsley .'data-required="'. $required .'"'. $size . $multiple .' class="'. $classes .' usp-select"'. $custom .'>'. "\n";
-			$content .= $default_html;
+			$content .= '<select name="usp-taxonomy-'. esc_attr($taxonomy) . $brackets .'" id="usp-taxonomy-'. esc_attr($taxonomy) .'" ';
+			$content .= $parsley .'data-required="'. esc_attr($required) .'"'. $size . $multiple .' class="'. esc_attr($classes) .' usp-select"';
+			$content .= $custom .'>'. "\n" . $default_html;
 			
 			foreach ($tax_terms as $tax) {
 				
@@ -165,17 +169,17 @@ function usp_input_taxonomy($args) {
 					if (intval($tax['term_id']) === intval($value)) $selected = ' selected';
 				}
 				
-				$content .= '<option value="'. $tax['term_id'] .'"'. $selected .'>'. esc_html($tax['name']) .'</option>'. "\n";
+				$content .= '<option value="'. esc_attr($tax['term_id']) .'"'. esc_attr($selected) .'>'. esc_html($tax['name']) .'</option>'. "\n";
 			}
 			
 			$content .= '</select>'. "\n";
 		}
 		
-		if ($required == 'true') $content .= '<input name="usp-taxonomy-'. $taxonomy .'-required" value="1" type="hidden" />'. "\n";
+		if ($required == 'true') $content .= '<input type="hidden" name="usp-taxonomy-'. esc_attr($taxonomy) .'-required" value="1" />'. "\n";
 		
 	} else {
 		
-		$content = __('No terms found for ', 'usp') . $taxonomy;
+		$content = __('No terms found for ', 'usp') . esc_html($taxonomy);
 	}
 	
 	return $fieldset_before . $content . $fieldset_after;

@@ -1,10 +1,13 @@
 /* 
 	USP Pro JavaScript by Jeff Starr, Monzilla Media.
-	Copyright 2015 Monzilla Media, All Rights Reserved.
+	Copyright 2016 Monzilla Media, All Rights Reserved.
 	Read Only License for USP Pro, All Other Use Prohibited.
 */
 
 jQuery(document).ready(function($) {
+	
+	// "Agree to Terms" toggle
+	$('.usp-agree-toggle').click(function(){ $('.usp-agree-terms').slideToggle(100); });
 	
 	// "Add another" link : [usp_files method="" multiple="true"]
 	$('.usp-files').each(function(index, value) { 

@@ -68,53 +68,62 @@ function section_admin_3_desc() {
 	echo '<p>'. __('Here are you may customize email alerts that are sent to the admin. You may use ', 'usp');
 	echo '<a id="usp-toggle-regex-1" class="usp-toggle-regex-1" href="#usp-toggle-regex-1" title="'. __('Show/Hide Variables', 'usp') .'">'. __('shortcut variables', 'usp') .'</a> ';
 	echo __('in your alert messages to display dynamic bits of information.', 'usp') .' <a target="_blank" href="https://plugin-planet.com/usp-pro-email-shortcodes/">'. __('Learn more&nbsp;&raquo;', 'usp') .'</a></p>';
-	echo '<pre class="usp-regex-1 usp-toggle default-hidden">blog url      = %%blog_url%%	
-blog name     = %%blog_name%%
-admin name    = %%admin_name%%
-admin email   = %%admin_email%%
-user name     = %%user_name%%
-user email    = %%user_email%%
-post title    = %%post_title%%
-post date     = %%post_date%%
-post url      = %%post_url%%
-post id       = %%post_id%%
-post content  = %%post_content%%
-custom fields = %%post_custom%%</pre>';
+	echo '<pre class="usp-regex-1 usp-toggle default-hidden">blog url              = %%blog_url%%	
+blog name             = %%blog_name%%
+admin name            = %%admin_name%%
+admin email           = %%admin_email%%
+user name             = %%user_name%%
+user email            = %%user_email%%
+post title            = %%post_title%%
+post date             = %%post_date%%
+post url              = %%post_url%%
+post id               = %%post_id%%
+post content          = %%post_content%%
+custom fields         = %%post_custom%%
+specific custom field = %%__custom-field-key%%
+post submitted date   = %%post_submitted_date%%
+post scheduled date   = %%post_scheduled_date%%</pre>';
 }
 function section_admin_4_desc() { 
 	echo '<p>'. __('Here are you may customize email alerts that are sent to the user. You may use ', 'usp');
 	echo '<a id="usp-toggle-regex-2" class="usp-toggle-regex-2" href="#usp-toggle-regex-2" title="'. __('Show/Hide Variables', 'usp') .'">'. __('shortcut variables', 'usp') .'</a> ';
 	echo __('in your alert messages to display dynamic bits of information. ', 'usp') .' <a target="_blank" href="https://plugin-planet.com/usp-pro-email-shortcodes/">'. __('Learn more&nbsp;&raquo;', 'usp') .'</a></p>';
-	echo '<pre class="usp-regex-2 usp-toggle default-hidden">blog url      = %%blog_url%%	
-blog name     = %%blog_name%%
-admin name    = %%admin_name%%
-admin email   = %%admin_email%%
-user name     = %%user_name%%
-user email    = %%user_email%%
-post title    = %%post_title%%
-post date     = %%post_date%%
-post url      = %%post_url%%
-post id       = %%post_id%%
-post content  = %%post_content%%
-custom fields = %%post_custom%%</pre>';
+	echo '<pre class="usp-regex-2 usp-toggle default-hidden">blog url              = %%blog_url%%	
+blog name             = %%blog_name%%
+admin name            = %%admin_name%%
+admin email           = %%admin_email%%
+user name             = %%user_name%%
+user email            = %%user_email%%
+post title            = %%post_title%%
+post date             = %%post_date%%
+post url              = %%post_url%%
+post id               = %%post_id%%
+post content          = %%post_content%%
+custom fields         = %%post_custom%%
+specific custom field = %%__custom-field-key%%
+post submitted date   = %%post_submitted_date%%
+post scheduled date   = %%post_scheduled_date%%</pre>';
 }
 function section_admin_5_desc() { 
 	echo '<p>'. __('Here you may customize default', 'usp') .' <a target="_blank" href="https://plugin-planet.com/usp-pro-make-contact-form/">'. __('contact form', 'usp') .'</a> '. __('functionality. For ', 'usp');
 	echo '<a target="_blank" href="https://plugin-planet.com/usp-pro-submit-content-and-send-email/">'. __('Contact/Post Combo Forms', 'usp') .'</a>, '. __('you can use any of the ', 'usp');
 	echo '<a id="usp-toggle-regex-3" class="usp-toggle-regex-3" href="#usp-toggle-regex-3" title="'. __('Show/Hide Variables &raquo;', 'usp') .'">'. __('shortcut variables', 'usp') .'</a> '. __('for the &ldquo;Custom Content&rdquo; setting. Note that ', 'usp');
 	echo '<a target="_blank" href="https://plugin-planet.com/usp-pro-enable-post-formatting/">'. __('post-formatting', 'usp') .'</a> '. __('must be enabled to send HTML-formatted email.', 'usp') .'</p>';
-	echo '<pre class="usp-regex-3 usp-toggle default-hidden">blog url      = %%blog_url%%	
-blog name     = %%blog_name%%
-admin name    = %%admin_name%%
-admin email   = %%admin_email%%
-user name     = %%user_name%%
-user email    = %%user_email%%
-post title    = %%post_title%%
-post date     = %%post_date%%
-post url      = %%post_url%%
-post id       = %%post_id%%
-post content  = %%post_content%%
-custom fields = %%post_custom%%</pre>';
+	echo '<pre class="usp-regex-3 usp-toggle default-hidden">blog url              = %%blog_url%%	
+blog name             = %%blog_name%%
+admin name            = %%admin_name%%
+admin email           = %%admin_email%%
+user name             = %%user_name%%
+user email            = %%user_email%%
+post title            = %%post_title%%
+post date             = %%post_date%%
+post url              = %%post_url%%
+post id               = %%post_id%%
+post content          = %%post_content%%
+custom fields         = %%post_custom%%
+specific custom field = %%__custom-field-key%%
+post submitted date   = %%post_submitted_date%%
+post scheduled date   = %%post_scheduled_date%%</pre>';
 }
 function section_admin_6_desc() {
 	echo '<p>'. __('Here you may specify custom recipients for any contact form.', 'usp') .' <a target="_blank" href="https://plugin-planet.com/usp-pro-custom-recipients-contact-forms/">'. __('Learn more&nbsp;&raquo;', 'usp') .'</a></p>';

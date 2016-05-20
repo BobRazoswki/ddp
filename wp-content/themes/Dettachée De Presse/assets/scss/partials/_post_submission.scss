@@ -1,0 +1,25 @@
+.post__submission {
+  position: relative;
+  float: right;
+  top: -100px;
+  z-index: 9;
+
+  & a {
+    text-decoration: none;
+    background: $gris-fonce;
+    padding: 10px 15px;
+    color: $white;
+  }
+
+  & a:hover {
+    background: $black;
+    @include transition(1s all ease);
+  }
+
+  &--plus {
+    font-size: 2.2rem;
+    margin-left: 15px;
+    top: 4px;
+    position: relative;
+  }
+}

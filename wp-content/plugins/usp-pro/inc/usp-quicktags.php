@@ -52,7 +52,7 @@ global $post; ?>
 	function usp_name_prompt(e, c, ed) {
 		t = this;
 		vex.dialog.open({
-			message:	'<h3>Attributes for the Name field</h3><p>All attributes optional, leave blank to use the default value.</p>',
+			message:'<h3>Attributes for the Name field</h3><p>All attributes optional, leave blank to use the default value.</p>',
 			input:	'<p class="inline-blocks"><label for="label">Label</label><input type="text" value="" name="label" id="label"></p>' + 
 					'<p class="inline-blocks"><label for="place">Placeholder</label><input type="text" value="" name="place" id="place"></p>' + 
 					'<p class="inline-blocks"><label for="class">CSS classes <span>(comma-separated)</span></label><input type="text" value="" name="class" id="class"></p>' + 
@@ -87,7 +87,7 @@ global $post; ?>
 	function usp_url_prompt(e, c, ed) {
 		t = this;
 		vex.dialog.open({
-			message:	'<h3>Attributes for the URL field</h3><p>All attributes optional, leave blank to use the default value.</p>',
+			message:'<h3>Attributes for the URL field</h3><p>All attributes optional, leave blank to use the default value.</p>',
 			input:	'<p class="inline-blocks"><label for="label">Label</label><input type="text" value="" name="label" id="label"></p>' + 
 					'<p class="inline-blocks"><label for="place">Placeholder</label><input type="text" value="" name="place" id="place"></p>' + 
 					'<p class="inline-blocks"><label for="class">CSS classes <span>(comma-separated)</span></label><input type="text" value="" name="class" id="class"></p>' + 
@@ -122,7 +122,7 @@ global $post; ?>
 	function usp_title_prompt(e, c, ed) {
 		t = this;
 		vex.dialog.open({
-			message:	'<h3>Attributes for the Title field</h3><p>All attributes optional, leave blank to use the default value.</p>',
+			message:'<h3>Attributes for the Title field</h3><p>All attributes optional, leave blank to use the default value.</p>',
 			input:	'<p class="inline-blocks"><label for="label">Label</label><input type="text" value="" name="label" id="label"></p>' + 
 					'<p class="inline-blocks"><label for="place">Placeholder</label><input type="text" value="" name="place" id="place"></p>' + 
 					'<p class="inline-blocks"><label for="class">CSS classes <span>(comma-separated)</span></label><input type="text" value="" name="class" id="class"></p>' + 
@@ -157,11 +157,11 @@ global $post; ?>
 	function usp_tags_prompt(e, c, ed) {
 		t = this;
 		vex.dialog.open({
-			message:	'<h3>Attributes for the Tags field</h3><p>All attributes optional, leave blank to use the default value.</p>',
+			message:'<h3>Attributes for the Tags field</h3><p>All attributes optional, leave blank to use the default value.</p>',
 			input:	'<p class="inline-blocks"><label for="label">Label</label><input type="text" value="" name="label" id="label"></p>' + 
 					'<p class="inline-blocks"><label for="class">CSS classes <span>(comma-separated)</span></label><input type="text" value="" name="class" id="class"></p>' + 
-					'<p class="inline-blocks"><label for="exclude">Exclude tag IDs <span>(comma-separated)</span></label><input type="text" value="" name="exclude" id="exclude"></p>' + 
-					'<p class="inline-blocks"><label for="tags">Default tag IDs to include via hidden field <span>(comma-separated)</span></label><input type="text" value="" name="tags" id="tags"></p>' + 
+					'<p class="inline-blocks"><label for="include">Tag IDs to include <span>(comma-separated, or use "all" for all tags)</span></label><input type="text" value="" name="include" id="include"></p>' + 
+					'<p class="inline-blocks"><label for="exclude">Tag IDs to exclude <span>(comma-separated, when using "all" for previous setting)</span></label><input type="text" value="" name="exclude" id="exclude"></p>' + 
 					
 					'<p class="radio-heading">Type of field?</p>' + 
 					'<div class="radio-blocks"><div><input type="radio" value="dropdown" name="type" id="type-1" checked="checked"><label for="type-1">Dropdown</label></div>' + 
@@ -180,18 +180,18 @@ global $post; ?>
 				if (data === false) {
 					return false;
 				} else {
-					label_att = ''; class_att = ''; tags_att = ''; exclude_att = ''; type_att = ''; multiple_att =''; required_att = '';
+					label_att = ''; class_att = ''; include_att = ''; exclude_att = ''; type_att = ''; multiple_att =''; required_att = '';
 					
 					if (data.label)    label_att    = ' label="'      + data.label    +'"';
 					if (data.class)    class_att    = ' class="'      + data.class    +'"';
-					if (data.tags)     tags_att     = ' tags="'       + data.tags     +'"';
+					if (data.include)  include_att  = ' include="'    + data.include  +'"';
 					if (data.exclude)  exclude_att  = ' exclude="'    + data.exclude  +'"';
 					if (data.type)     type_att     = ' type="'       + data.type     +'"';
 					if (data.multiple) multiple_att = ' multiple="'   + data.multiple +'"';
 					if (data.required) required_att = ' required="'   + data.required +'"';
 					
 					t.tagEnd = false;
-					t.tagStart = '[usp_tags'+ label_att + class_att + tags_att + exclude_att + type_att + multiple_att + required_att +']';
+					t.tagStart = '[usp_tags'+ label_att + class_att + include_att + exclude_att + type_att + multiple_att + required_att +']';
 					QTags.TagButton.prototype.callback.call(t, e, c, ed);
 				}
 			}
@@ -203,7 +203,7 @@ global $post; ?>
 	function usp_captcha_prompt(e, c, ed) {
 		t = this;
 		vex.dialog.open({
-			message:	'<h3>Attributes for the Captcha field</h3><p>All attributes optional, leave blank to use the default value.</p>',
+			message:'<h3>Attributes for the Captcha field</h3><p>All attributes optional, leave blank to use the default value.</p>',
 			input:	'<p class="inline-blocks"><label for="label">Label</label><input type="text" value="" name="label" id="label"></p>' + 
 					'<p class="inline-blocks"><label for="place">Placeholder</label><input type="text" value="" name="place" id="place"></p>' + 
 					'<p class="inline-blocks"><label for="class">CSS classes <span>(comma-separated)</span></label><input type="text" value="" name="class" id="class"></p>' + 
@@ -233,11 +233,11 @@ global $post; ?>
 	function usp_category_prompt(e, c, ed) {
 		t = this;
 		vex.dialog.open({
-			message:	'<h3>Attributes for the Category field</h3><p>All attributes optional, leave blank to use the default value.</p>',
+			message:'<h3>Attributes for the Category field</h3><p>All attributes optional, leave blank to use the default value.</p>',
 			input:	'<p class="inline-blocks"><label for="label">Label</label><input type="text" value="" name="label" id="label"></p>' + 
 					'<p class="inline-blocks"><label for="class">CSS classes <span>(comma-separated)</span></label><input type="text" value="" name="class" id="class"></p>' + 
-					'<p class="inline-blocks"><label for="exclude">Exclude category IDs <span>(comma-separated)</span></label><input type="text" value="" name="exclude" id="exclude"></p>' + 
-					'<p class="inline-blocks"><label for="cats">Default category IDs to include via hidden field <span>(comma-separated)</span></label><input type="text" value="" name="cats" id="cats"></p>' + 
+					'<p class="inline-blocks"><label for="include">Category IDs to include <span>(comma-separated, or use "all" for all categories)</span></label><input type="text" value="" name="include" id="include"></p>' + 
+					'<p class="inline-blocks"><label for="exclude">Category IDs to exclude <span>(comma-separated, when using "all" for previous setting)</span></label><input type="text" value="" name="exclude" id="exclude"></p>' + 
 					'<p class="inline-blocks"><label for="combo">Combo ID for chained categories <span>(must be either 1, 2, or 3)</span>. Leave blank to use a single category field.</label>' + 
 					'<input type="number" min="1" max="3" step="1" value="" name="combo" id="combo"></p>' + 
 					
@@ -257,19 +257,19 @@ global $post; ?>
 				if (data === false) {
 					return false;
 				} else {
-					label_att = ''; class_att = ''; exclude_att = ''; cats_att = ''; combo_att = ''; type_att = ''; multiple_att =''; required_att = '';
+					label_att = ''; class_att = ''; include_att = ''; exclude_att = ''; combo_att = ''; type_att = ''; multiple_att =''; required_att = '';
 					
 					if (data.label)    label_att    = ' label="'      + data.label    +'"';
 					if (data.class)    class_att    = ' class="'      + data.class    +'"';
+					if (data.include)  include_att  = ' include="'    + data.include  +'"';
 					if (data.exclude)  exclude_att  = ' exclude="'    + data.exclude  +'"';
-					if (data.cats)     cats_att     = ' cats="'       + data.cats     +'"';
 					if (data.combo)    combo_att    = ' combo="'      + data.combo    +'"';
 					if (data.type)     type_att     = ' type="'       + data.type     +'"';
 					if (data.multiple) multiple_att = ' multiple="'   + data.multiple +'"';
 					if (data.required) required_att = ' required="'   + data.required +'"';
 					
 					t.tagEnd = false;
-					t.tagStart = '[usp_category'+ label_att + class_att + exclude_att + cats_att + combo_att + type_att + multiple_att + required_att +']';
+					t.tagStart = '[usp_category'+ label_att + class_att + include_att + exclude_att + combo_att + type_att + multiple_att + required_att +']';
 					QTags.TagButton.prototype.callback.call(t, e, c, ed);
 				}
 			}
@@ -281,7 +281,7 @@ global $post; ?>
 	function usp_content_prompt(e, c, ed) {
 		t = this;
 		vex.dialog.open({
-			message:	'<h3>Attributes for the Content field</h3><p>All attributes optional, leave blank to use the default value.</p>',
+			message:'<h3>Attributes for the Content field</h3><p>All attributes optional, leave blank to use the default value.</p>',
 			input:	'<p class="inline-blocks"><label for="label">Label</label><input type="text" value="" name="label" id="label"></p>' + 
 					'<p class="inline-blocks"><label for="place">Placeholder</label><input type="text" value="" name="place" id="place"></p>' + 
 					'<p class="inline-blocks"><label for="class">CSS classes <span>(comma-separated)</span></label><input type="text" value="" name="class" id="class"></p>' + 
@@ -326,13 +326,13 @@ global $post; ?>
 	function usp_files_prompt(e, c, ed) {
 		t = this;
 		vex.dialog.open({
-			message:	'<h3>Attributes for the File(s) field</h3><p>All attributes optional, leave blank to use the default value.</p>',
+			message:'<h3>Attributes for the File(s) field</h3><p>All attributes optional, leave blank to use the default value.</p>',
 			input:	'<p class="inline-blocks"><label for="label">Label</label><input type="text" value="" name="label" id="label"></p>' + 
 					'<p class="inline-blocks"><label for="place">Placeholder</label><input type="text" value="" name="place" id="place"></p>' + 
 					'<p class="inline-blocks"><label for="class">CSS classes <span>(comma-separated)</span></label><input type="text" value="" name="class" id="class"></p>' + 
 					'<p class="inline-blocks"><label for="maximum">Maximum number of characters <span>(default: 99)</span></label><input type="number" min="0" step="1" value="" name="maximum" id="maximum"></p>' + 
 					
-					'<p class="inline-blocks"><label for="types">Allowed file types <span>(comma-separated)</span>. Leave blank to use types specified in USP Uploads settings.</label>' + 
+					'<p class="inline-blocks"><label for="types">Allowed file types <span>(e.g., gif,jpg,png)</span>. Leave blank to use types specified in USP Uploads settings.</label>' + 
 					'<input type="text" value="" name="types" id="types"></p>' + 
 					
 					'<p class="radio-heading">Enable multiple file uploads for this field?</p>' + 
@@ -376,7 +376,7 @@ global $post; ?>
 	function usp_custom_prompt(e, c, ed) {
 		t = this;
 		vex.dialog.open({
-			message:	'<h3>Attributes for Custom Field</h3>' + 
+			message:'<h3>Attributes for Custom Field</h3>' + 
 					'<p>This shortcode adds a <a target="_blank" href="https://plugin-planet.com/usp-pro-custom-fields/">Custom Field</a> to the form. ' + 
 					'Enter the Custom Field ID <span>(e.g., 1)</span> from the Name field of the Custom Fields meta box. Then customize as desired by adding attributes to the Value field.' + 
 					'<div><img src="<?php echo plugins_url(); ?>/usp-pro/img/usp-custom-fields.jpg" alt=""></div>',
@@ -402,7 +402,7 @@ global $post; ?>
 	function usp_email_prompt(e, c, ed) {
 		t = this;
 		vex.dialog.open({
-			message:	'<h3>Attributes for the Email Address field</h3><p>All attributes optional, leave blank to use the default value.</p>',
+			message:'<h3>Attributes for the Email Address field</h3><p>All attributes optional, leave blank to use the default value.</p>',
 			input:	'<p class="inline-blocks"><label for="label">Label</label><input type="text" value="" name="label" id="label"></p>' + 
 					'<p class="inline-blocks"><label for="place">Placeholder</label><input type="text" value="" name="place" id="place"></p>' + 
 					'<p class="inline-blocks"><label for="class">CSS classes <span>(comma-separated)</span></label><input type="text" value="" name="class" id="class"></p>' + 
@@ -437,7 +437,7 @@ global $post; ?>
 	function usp_subject_prompt(e, c, ed) {
 		t = this;
 		vex.dialog.open({
-			message:	'<h3>Attributes for the Email Subject field</h3><p>All attributes optional, leave blank to use the default value.</p>',
+			message:'<h3>Attributes for the Email Subject field</h3><p>All attributes optional, leave blank to use the default value.</p>',
 			input:	'<p class="inline-blocks"><label for="label">Label</label><input type="text" value="" name="label" id="label"></p>' + 
 					'<p class="inline-blocks"><label for="place">Placeholder</label><input type="text" value="" name="place" id="place"></p>' + 
 					'<p class="inline-blocks"><label for="class">CSS classes <span>(comma-separated)</span></label><input type="text" value="" name="class" id="class"></p>' + 
@@ -472,7 +472,7 @@ global $post; ?>
 	function user_submit_prompt(e, c, ed) {
 		t = this;
 		vex.dialog.open({
-			message:	'<h3>Attributes for the Submit button</h3><p>All attributes optional, leave blank to use the default value.</p>',
+			message:'<h3>Attributes for the Submit button</h3><p>All attributes optional, leave blank to use the default value.</p>',
 			input:	'<p class="inline-blocks"><label for="value">Button text</label><input type="text" value="" name="value" id="value"></p>' + 
 					'<p class="inline-blocks"><label for="class">CSS classes <span>(comma-separated)</span></label><input type="text" value="" name="class" id="class"></p>',
 					//
@@ -498,7 +498,7 @@ global $post; ?>
 	function user_reset_prompt(e, c, ed) {
 		t = this;
 		vex.dialog.open({
-			message:	'<h3>Attributes for the Reset-form link</h3><p>All attributes optional, leave blank to use the default value.</p>',
+			message:'<h3>Attributes for the Reset-form link</h3><p>All attributes optional, leave blank to use the default value.</p>',
 			input:	'<p class="inline-blocks"><label for="value">Link text</label><input type="text" value="" name="value" id="value"></p>' + 
 					'<p class="inline-blocks"><label for="class">CSS classes <span>(comma-separated)</span></label><input type="text" value="" name="class" id="class"></p>' + 
 					'<p class="inline-blocks"><label for="url">Form <abbr title="Uniform Resource Locator">URL</abbr> <span>(required)</span>. This should be the page on which the USP Form is displayed.</label>' + 
@@ -527,7 +527,7 @@ global $post; ?>
 	function user_remember_prompt(e, c, ed) {
 		t = this;
 		vex.dialog.open({
-			message:	'<h3>Attributes for the Remember checkbox</h3><p>All attributes optional, leave blank to use the default value. ' + 
+			message:'<h3>Attributes for the Remember checkbox</h3><p>All attributes optional, leave blank to use the default value. ' + 
 					'<a target="_blank" href="https://plugin-planet.com/usp-pro-add-remember-me-checkbox/">Learn more</a></p>',
 			input:	'<p class="inline-blocks"><label for="label">Label text</label><input type="text" value="" name="label" id="label"></p>' + 
 					'<p class="inline-blocks"><label for="class">CSS classes <span>(comma-separated)</span></label><input type="text" value="" name="class" id="class"></p>',
@@ -554,7 +554,7 @@ global $post; ?>
 	function user_cc_prompt(e, c, ed) {
 		t = this;
 		vex.dialog.open({
-			message:	'<h3>Attributes for <abbr title="Carbon Copy">CC</abbr> message</h3><p>All attributes optional, leave blank to use the default value.</p>',
+			message:'<h3>Attributes for <abbr title="Carbon Copy">CC</abbr> message</h3><p>All attributes optional, leave blank to use the default value.</p>',
 			input:	'<p class="inline-blocks"><label for="text">CC message</label><input type="text" value="" name="text" id="text"></p>' + 
 					'<p class="inline-blocks"><label for="class">CSS classes <span>(comma-separated)</span></label><input type="text" value="" name="class" id="class"></p>',
 					//
@@ -580,7 +580,7 @@ global $post; ?>
 	function user_redirect_prompt(e, c, ed) {
 		t = this;
 		vex.dialog.open({
-			message:	'<h3>Attributes for Redirect URL</h3><p>Redirect <abbr title="Uniform Resource Locator">URL</abbr> required. CSS attributes optional, leave blank to use the default value.</p>',
+			message:'<h3>Attributes for Redirect URL</h3><p>Redirect <abbr title="Uniform Resource Locator">URL</abbr> required. CSS attributes optional, leave blank to use the default value.</p>',
 			input:	'<p class="inline-blocks"><label for="class">CSS classes <span>(comma-separated)</span></label><input type="text" value="" name="class" id="class"></p>' + 
 					'<p class="inline-blocks"><label for="url">Redirect <abbr title="Uniform Resource Locator">URL</abbr> <span>(required)</span>. ' + 
 					'This should be the page to which the user is redirected after submitting the form.</label>' + 
@@ -608,7 +608,7 @@ global $post; ?>
 	function usp_taxonomy_prompt(e, c, ed) {
 		t = this;
 		vex.dialog.open({
-			message:	'<h3>Attributes for the Taxonomy field</h3><p>Taxonomy and Terms fields are required. All other attributes optional, leave blank to use the default value.</p>',
+			message:'<h3>Attributes for the Taxonomy field</h3><p>Taxonomy and Terms fields are required. All other attributes optional, leave blank to use the default value.</p>',
 			input:	'<p class="inline-blocks"><label for="label">Label</label><input type="text" value="" name="label" id="label"></p>' + 
 					'<p class="inline-blocks"><label for="tax">Taxonomy <span>(e.g., "people")</span> <span>(required)</span></label><input type="text" value="" name="tax" id="tax"></p>' + 
 					'<p class="inline-blocks"><label for="terms">Term IDs <span>(comma-separated)</span> <span>(required)</span></label><input type="text" value="" name="terms" id="terms"></p>' + 
@@ -642,6 +642,36 @@ global $post; ?>
 					
 					t.tagEnd = false;
 					t.tagStart = '[usp_taxonomy'+ class_att + label_att + tax_att + terms_att + type_att + multiple_att + required_att +']';
+					QTags.TagButton.prototype.callback.call(t, e, c, ed);
+				}
+			}
+		});
+	}
+	
+	// agree to terms
+	QTags.addButton('usp_agree', 'USP:Agree', usp_agree_prompt, '', '', '', 19);
+	function usp_agree_prompt(e, c, ed) {
+		t = this;
+		vex.dialog.open({
+			message:'<h3>Attributes for the Agree to Terms box</h3><p>All attributes optional, leave any option blank to use its default value.</p>',
+			input:	'<p class="inline-blocks"><label for="label">Label for the checkbox</label><input type="text" value="" name="label" id="label"></p>' + 
+					'<p class="inline-blocks"><label for="toggle">Text for the toggle link</label><input type="text" value="" name="toggle" id="toggle"></p>' + 
+					'<p class="inline-blocks"><label for="terms">Text for the toggling terms box</label><input type="text" value="" name="terms" id="terms"></p>' + 
+					'<p class="inline-blocks"><label for="alert">Text for the popup alert (or leave blank to disable)</label><input type="text" value="" name="alert" id="alert"></p>',
+					//
+			callback: function(data) {
+				if (data === false) {
+					return false;
+				} else {
+					label_att = ''; toggle_att = ''; terms_att = ''; alert_att = '';
+					
+					if (data.label)  label_att  = ' label="'  + data.label  +'"';
+					if (data.toggle) toggle_att = ' toggle="' + data.toggle +'"';
+					if (data.terms)  terms_att  = ' terms="'  + data.terms  +'"';
+					if (data.alert)  alert_att  = ' alert="'  + data.alert  +'"';
+					
+					t.tagEnd = false;
+					t.tagStart = '[usp_agree'+ label_att + toggle_att + terms_att + alert_att +']';
 					QTags.TagButton.prototype.callback.call(t, e, c, ed);
 				}
 			}

@@ -120,9 +120,13 @@ function tags_order_options() {
 
 function style_options() {
 	$style_option = array(
+		'simple' => array(
+			'value' => 'simple',
+			'label' => __('Super simple style (default)', 'usp')
+		),
 		'minimal' => array(
 			'value' => 'minimal',
-			'label' => __('Clean minimal style (default)', 'usp')
+			'label' => __('Clean minimal style', 'usp')
 		),
 		'small' => array(
 			'value' => 'small',

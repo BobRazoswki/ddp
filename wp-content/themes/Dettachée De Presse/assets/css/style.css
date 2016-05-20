@@ -616,6 +616,197 @@ input#ninja_forms_field_9 {
   .slider figure img {
     width: 100%; }
 
+.last__post figcaption {
+  position: absolute;
+  display: block;
+  bottom: 12px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  width: 90%;
+  text-align: center;
+  color: white;
+  text-transform: uppercase; }
+
+.last__post img {
+  width: auto;
+  height: auto;
+  max-height: 260px;
+  max-width: 100%;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  position: relative; }
+
+.home__button--voir-plus {
+  position: relative;
+  padding: 10px 25px;
+  margin-top: 20px;
+  border: 1px solid #A9D7E0;
+  font-size: 16px;
+  font-family: josefin_slabregular;
+  background: #fff;
+  color: #A9D7E0;
+  text-align: center;
+  margin: 30px auto 0px auto;
+  display: block;
+  max-width: 70px;
+  text-decoration: none; }
+
+.home__button--voir-plus:hover {
+  border: 1px solid #fff;
+  background: #A9D7E0;
+  color: #fff;
+  transition: 1s all ease; }
+
+.home__h3 {
+  font-size: 30px;
+  margin-bottom: 30px;
+  margin-top: 30px;
+  overflow: hidden;
+  text-transform: uppercase; }
+
+.home__h3:before {
+  content: " ";
+  width: 46px;
+  height: 46px;
+  display: block;
+  border-radius: 50%;
+  position: absolute;
+  z-index: -1;
+  top: 18px; }
+
+.home__h3--bleu:before {
+  background: #A9D7E0; }
+
+.home__h3--orange:before {
+  background: #F9BB89; }
+
+.home__h3--rose:before {
+  background: #EABCBD; }
+
+.home__h3--jaune:before {
+  background: #FAD753; }
+
+.home__h3--vert-clair:before {
+  background: #C8D8CF; }
+
+.home__h3:after {
+  content: '';
+  display: inline-block;
+  width: 90%;
+  margin-left: 20px;
+  margin-bottom: 5px;
+  height: 100%;
+  margin-right: -100%;
+  border-bottom: 1px solid #000; }
+
+.home__textes {
+  float: right;
+  margin-right: 20px;
+  text-align: justify; }
+
+.home__h4 {
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-family: 'josefin_slabsemibold'; }
+
+.home__button {
+  padding: 15px 10px;
+  margin-top: 20px;
+  display: block;
+  width: 100px;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'josefin_slabsemibold';
+  text-transform: uppercase; }
+  .home__button--gris {
+    transition: 1s all ease;
+    background: #fff;
+    color: #CDCECF;
+    border: 1px solid #CDCECF; }
+  .home__button--gris:hover {
+    background: #CDCECF;
+    color: #fff;
+    border: 1px solid #fff; }
+  .home__button--orange {
+    transition: 1s all ease;
+    background: #F9BB89;
+    color: #fff;
+    border: 1px solid #fff; }
+  .home__button--orange:hover {
+    background: #fff;
+    color: #F9BB89;
+    border: 1px solid #F9BB89; }
+
+.home__startup {
+  margin-top: 40px; }
+  .home__startup--hastag {
+    display: block;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    color: blue; }
+  .home__startup--bg {
+    position: absolute;
+    width: 150vw;
+    background: #F1F1F2;
+    height: 100%;
+    margin-left: -60vw;
+    z-index: -1; }
+  .home__startup img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%; }
+  .home__startup--textes {
+    float: right;
+    margin-right: 20px;
+    text-align: justify; }
+
+.home__brandfactory--img img {
+  width: 100%;
+  height: auto; }
+
+.home__video--block {
+  height: 560px; }
+
+.home__video span p {
+  position: absolute;
+  width: 100%; }
+
+.home__video--liens:after {
+  content: " ";
+  height: 16px;
+  width: 21px;
+  background: url(http://localhost:8890/ddp/wp-content/uploads/2016/05/triangle.png);
+  visibility: hidden;
+  display: block;
+  z-index: 9;
+  top: -61px;
+  position: relative;
+  background-size: contain;
+  margin-left: auto;
+  margin-right: auto; }
+
+.home__video--lienscontainer {
+  display: block;
+  width: 100%;
+  position: relative;
+  top: 350px; }
+  .home__video--lienscontainer li {
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+    text-transform: uppercase;
+    font-family: 'josefin_slabsemibold';
+    width: 25%;
+    float: left;
+    padding: 30px 0px;
+    background: #E6C6C7;
+    text-align: center;
+    max-height: 16px; }
+    .home__video--lienscontainer li:hover {
+      background: #EABCBD; }
+
 .size-auto,
 .size-full,
 .size-large,

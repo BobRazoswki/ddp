@@ -1,3 +1,28 @@
+.fullWidth__bg {
+	position: absolute;
+	width: 150vw;
+	height: 100%;
+	margin-left: -60vw;
+	z-index: -1;
+	top: 0px;
+
+	&--gris {
+		background: #F1F1F2;
+	}
+
+	&--black {
+		background: $black;
+	}
+
+	&--rose {
+		background: $rose;
+		// width: 100vw;
+    // height: 100%;
+		// margin-left: 0;
+    // left: 66%;
+    // transform: translateX(-50%);
+	}
+}
 .size-auto,
 .size-full,
 .size-large,

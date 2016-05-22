@@ -61,6 +61,9 @@ jQuery( document ).ready( function() {
 
 
 jQuery( document ).ready(function() {
+
+  // Change the height of the twtiteer viewport on sidebar
+  // jQuery('.timeline-Viewport').css("height", "260px");
   // change the width of the youtube player
   var videoIframe = jQuery(".home__video p iframe")
   videoIframe.width("100%");
@@ -78,7 +81,6 @@ jQuery( document ).ready(function() {
       // showing up the right one
       jQuery('.videoID-'+idVideo+' p').css("z-index", "2");
       jQuery('.videoIDLi-'+idVideo+':after').css("visibility", "visible");
-      console.log("jes uis la");
     });
   // Faire disparaitre l'anti-spam (hidden field) de la newsletter
   jQuery("#wp-uspcontent-media-buttons").empty();
@@ -88,8 +90,34 @@ jQuery( document ).ready(function() {
   var newsletterHomme       = jQuery(".newsletter__homme");
   var newsletterBoutonHomme = jQuery(".newsletter__button--homme");
   var newsletterBoutonFemme = jQuery(".newsletter__button--femme");
+
+  var newsletterFemmeFooter       = jQuery(".home__newsletter .newsletter__femme");
+  var newsletterHommeFooter       = jQuery(".home__newsletter .newsletter__homme");
+  var newsletterBoutonHommeFooter = jQuery(".home__newsletter .newsletter__button--homme");
+  var newsletterBoutonFemmeFooter = jQuery(".home__newsletter .newsletter__button--femme");
+  newsletterFemmeFooter.hide();
+  newsletterBoutonHommeFooter.css("background-color", "#949797");
+
+  newsletterBoutonHommeFooter.on("click", function(){
+    newsletterBoutonFemmeFooter.css("background-color", "white");
+    newsletterBoutonHommeFooter.css("background-color", "#949797");
+    newsletterBoutonHommeFooter.css("color", "white");
+    newsletterFemmeFooter.hide();
+    newsletterHommeFooter.fadeIn( "slow", function() {
+    });
+  });
+
+  newsletterBoutonFemmeFooter.on("click", function(){
+    newsletterBoutonHommeFooter.css("background-color", "white");
+    newsletterBoutonFemmeFooter.css("background-color", "#949797");
+    newsletterBoutonFemmeFooter.css("color", "white");
+    newsletterHommeFooter.hide();
+    newsletterFemmeFooter.fadeIn( "slow", function() {
+    });
+  });
   var popupContainer        = jQuery("#popup");
   var popupCrossContainer   = jQuery("#popup__cross--container");
+
 
 
   newsletterFemme.hide();
@@ -111,22 +139,12 @@ jQuery( document ).ready(function() {
     });
   });
 
+
+
   popupCrossContainer.on("click", function(){
     popupContainer.fadeOut( "slow", function() {
     });
-    console.log("inside");
   });
-
-  if (jQuery('body > article').hasClass("popup")) {
-    jQuery('html').click(function() {
-      closeNewsletter()
-      alert("Jai clique sur le htnl");
-    });
-
-    jQuery('.popup').click(function(event){
-        event.stopPropagation();
-    });
-  }
 
   // Navigation toggle mega menu on hover
   var subMenu       = jQuery(".sub-menu .menu-item, .nav__thumbnails")
@@ -142,4 +160,5 @@ jQuery( document ).ready(function() {
     }
   });
 });
+
 

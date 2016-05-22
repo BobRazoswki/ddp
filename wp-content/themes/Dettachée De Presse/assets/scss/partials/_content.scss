@@ -1,4 +1,6 @@
 .content {
     float: left;
-    min-height: 50vh;
+    display: block;
+    position: relative;
+    clear: left;
 }

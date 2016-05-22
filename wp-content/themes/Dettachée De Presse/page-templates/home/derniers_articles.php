@@ -24,7 +24,7 @@ $args2 = array(
 // Loop 2
 $second_query = new WP_Query($args2); // exclude category
 while($second_query->have_posts()) : $second_query->the_post(); ?>
-<article class="last__post last__post--6 large--6">
+<article class="last__post last__post--6 large--6 medium--6 small--12 extrasmall--12">
   <figure>
     <!-- <?php the_post_thumbnail(); ?> -->
     <img src="http://fakeimg.pl/960x320/" alt="" />

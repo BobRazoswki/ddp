@@ -9,7 +9,7 @@ $args = array(
 $custom_posts = get_posts($args);
 foreach($custom_posts as $post) : setup_postdata($post);
   ?>
-  <span class="home__videoIdPlayer videoID-<?php echo the_ID(); ?>" data-videoid="<?php echo the_ID(); ?>"><?php  the_content(); ?></span>
+  <span class="home__videoIdPlayer videoID-<?= the_ID(); ?>" data-videoid="<?= the_ID(); ?>"><?php  the_content(); ?></span>
  <?php
 endforeach;
 ?>
@@ -22,7 +22,7 @@ $args = array(
 $custom_posts = get_posts($args);
 foreach($custom_posts as $post) : setup_postdata($post);
   ?>
-  <li class="home__video--liens videoIDLi-<?php echo the_ID(); ?>" data-videoid="<?php echo the_ID(); ?>"><?php the_title(); ?></li>
+  <li class="home__video--liens videoIDLi-<?= the_ID(); ?>" data-videoid="<?= the_ID(); ?>"><?php the_title(); ?></li>
  <?php
 endforeach;
 ?>

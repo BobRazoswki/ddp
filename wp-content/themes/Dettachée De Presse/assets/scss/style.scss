@@ -18,6 +18,11 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+* {
+	-webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
@@ -47,6 +52,10 @@ table {
 	border-spacing: 0;
 }
 
+a {
+	text-decoration: none;
+}
+
 .size-auto,
 .size-full,
 .size-large,
@@ -69,4 +78,7 @@ table {
 @import "partials/slider";
 @import "partials/last_posts";
 @import "partials/home";
+@import "partials/footer";
 @import "partials/default";
+// les medias
+@import "partials/media1102";

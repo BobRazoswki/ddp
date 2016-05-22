@@ -212,7 +212,7 @@ function register_my_widget_theme()  {
 
 		'description' => 'Sidebar pour mes pages.', // description facultatif
 
-		'before_widget' => '<li id="%1$s" class="widget %2$s">', // class attribuer pour le contenu (css)
+		'before_widget' => '<li id="%1$s" class="widget %2$s large--12 medium--4 small--6 extrasmall--12">', // class attribuer pour le contenu (css)
 
 		'after_widget' => '</li>',
 

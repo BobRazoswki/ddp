@@ -37,8 +37,8 @@
       border: 2px solid $bleu-ciel;
       position: relative;
       display: inline-block;
-      height: 40px;
-      max-width: 85px;
+      height: 44px;
+      max-width: 90px;
       top: -93px;
     }
   }
@@ -100,4 +100,13 @@ input#ninja_forms_field_9, input#ninja_forms_field_10 {
 
 input#ninja_forms_field_9 {
     margin-top: -10px;
+}
+
+.ninja-forms-response-msg {
+    position: fixed;
+    width: 100vw;
+    text-align: center;
+    left: 0;
+    top: 0;
+    height: 40px;
 }

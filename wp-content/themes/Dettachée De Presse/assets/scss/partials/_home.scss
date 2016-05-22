@@ -1,26 +1,142 @@
 .home {
 
-  &__button--voir-plus {
-    position: relative;
-    padding: 10px 25px;
-    margin-top: 20px;
-    border: 1px solid #A9D7E0;
-    font-size: 16px;
-    font-family: josefin_slabregular;
-    background: #fff;
-    color: #A9D7E0;
-    text-align: center;
-    margin: 30px auto 0px auto;
-    display: block;
-    max-width: 70px;
-    text-decoration: none;
+  &__infoencontinu {
+    padding: 40px;
+    &--li {
+      list-style-type: disc;
+      color: gray;
+      margin-left: 38px;
+      margin-top: 12px;
+
+      & a {
+        color: gray;
+      }
+    }
   }
 
-  &__button--voir-plus:hover {
-    border: 1px solid $white;
-    background: $bleu-ciel;
-    color: $white;
-    @include transition(1s all ease);
+  &__newsletter {
+    height: 130px;
+
+    &--padding {
+      padding: 40px;
+    }
+
+    & .newsletter__button--container {
+      border: 2px solid $gris-fonce;
+      width: 84px;
+    }
+
+    & .newsletter__button--femme, .newsletter__button--homme {
+      background-color: $white;
+      color: $gris-fonce;
+      margin-left: -5px;
+    }
+
+    & .newsletter input#ninja_forms_field_5, .newsletter input#ninja_forms_field_6 {
+      width: 300px;
+    }
+
+    & .newsletter {
+      margin-top: -40px;
+    }
+
+    & div {
+
+      & p:first-of-type {
+        font-size: 30px;
+        text-transform: uppercase;
+        font-weight: bolder;
+      }
+
+      & p {
+        font-size: 28px;
+      }
+
+      & .newsletter__homme, & .newsletter__femme {
+          top: -3px;
+      }
+
+      & .newsletter__button--container {
+          top: 0;
+      }
+    }
+  }
+
+  &__aumenu {
+    &--1 {
+      & span {
+        position: relative;
+        top: -90px;
+        text-align: center;
+        display: block;
+        text-transform: uppercase;
+        color: white;
+        font-size: 35px;
+      }
+      & img {
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    &--2 {
+      padding: 20px;
+      background: $very-light-green;
+      margin-left: 10px;
+      min-height: 412px;
+
+      img {
+        width: auto;
+        max-height: 150px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      span {
+        text-transform: uppercase;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        display: block;
+        color: $gris-fonce;
+        font-size: 13px;
+      }
+
+      p {
+        text-align: center;
+      }
+    }
+  }
+
+  &__button {
+    &--container {
+      float: left;
+      left: 50%;
+      position: relative;
+      transform: translateX(-50%);
+    }
+    &--voir-plus {
+      position: relative;
+      padding: 10px 25px;
+      margin-top: 20px;
+      border: 1px solid #A9D7E0;
+      font-size: 16px;
+      font-family: josefin_slabregular;
+      background: #fff;
+      color: #A9D7E0;
+      text-align: center;
+      margin: 30px auto 0px auto;
+      display: block;
+      max-width: 140px;
+      text-decoration: none;
+    }
+
+    &--voir-plus:hover {
+      border: 1px solid $white;
+      background: $bleu-ciel;
+      color: $white;
+      @include transition(1s all ease);
+    }
   }
 
   &__h3 {
@@ -81,13 +197,76 @@
     text-transform: uppercase;
     margin-bottom: 6px;
     font-family: 'josefin_slabsemibold';
+
+    &--store {
+      text-align: center;
+      display: block;
+      position: relative;
+
+      & a {
+        margin-left: 20px;
+        font-size: 1.6em;
+      }
+    }
+
+
+    &--store {
+      &-hr:before, &-hr:after {
+        content: '';
+        display: inline-block;
+        width: 30%;
+        margin-left: 20px;
+        margin-bottom: 5px;
+        height: 100%;
+        border-bottom: 1px solid #000;
+      }
+
+      &:before {
+        margin-left: -100%;
+      }
+
+      &:after {
+        margin-right: -100%;
+      }
+    }
+    //
+    // &--store:before {
+    //   content: '';
+    //   display: inline-block;
+    //   width: 90%;
+    //   margin-left: 20px;
+    //   margin-bottom: 5px;
+    //   height: 100%;
+    //   border-bottom: 1px solid #000;
+    // }
+    //
+    // &--store:after {
+    //   content: '';
+    //   display: inline-block;
+    //   width: 90%;
+    //   margin-left: 20px;
+    //   margin-bottom: 5px;
+    //   height: 100%;
+    //   margin-right: -100%;
+    //   border-bottom: 1px solid #000;
+    // }
+
+    &--infoencontinu {
+      font-size: 1.8rem;
+    }
+
+    &--brandfactory {
+      margin-bottom: 6px;
+      width: 100px;
+      font-size: 32px;
+    }
   }
 
   &__button {
     padding: 15px 10px;
     margin-top: 20px;
     display: block;
-    width: 100px;
+    min-width: 100px;
     text-align: center;
     text-decoration: none;
     font-family: 'josefin_slabsemibold';
@@ -98,6 +277,7 @@
       background: $white;
       color: $gris-clair;
       border: 1px solid $gris-clair;
+      width: 130px;
     }
 
     &--gris:hover {
@@ -111,6 +291,22 @@
       background: $orange;
       color: $white;
       border: 1px solid $white;
+      width: 120px;
+    }
+
+    &--aumenu {
+      @include transition(1s all ease);
+      background: $very-light-green;
+      color: $white;
+      border: 1px solid $white;
+      width: 130px;
+
+    }
+
+    &--aumenu:hover {
+      background: $white;
+      color: $very-light-green;
+      border: 1px solid $very-light-green;
     }
 
     &--orange:hover {
@@ -118,6 +314,63 @@
       color: $orange;
       border: 1px solid $orange;
     }
+
+    &--whiterose {
+      @include transition(1s all ease);
+      background: $white;
+      color: $rose;
+      border: 1px solid $rose;
+      margin-left: auto;
+      margin-right: auto;
+      top: 72%;
+      position: relative;
+      width: 160px;
+    }
+
+    &--whiterose:hover {
+      background: $rose;
+      color: $white;
+      border: 1px solid $rose;
+    }
+
+    &--miss {
+      @include transition(1s all ease);
+      text-transform: capitalize;;
+      background: $red;
+      color: $white;
+      border: 1px solid $red;
+      margin-left: auto;
+      margin-right: auto;
+      width: 130px;
+      top: 71%;
+      position: relative;
+    }
+
+    &--miss:hover {
+      background: $white;
+      color: $red;
+      border: 1px solid $white;
+    }
+
+    &--mr {
+      @include transition(1s all ease);
+      text-transform: capitalize;;
+      background: $bleu-fonce;
+      color: $white;
+      border: 1px solid $bleu-fonce;
+      position: relative;
+      top: 72%;
+      width: 120px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    &--mr:hover {
+      background: $white;
+      color: $bleu-fonce;
+      border: 1px solid $white;
+    }
+
   }
 
   &__startup {
@@ -140,9 +393,14 @@
     }
 
     img {
-      width: 100%;
-      height: auto;
       border-radius: 50%;
+      max-height: 150px;
+      width: auto;
+      /* text-align: center; */
+      left: 50%;
+      position: relative;
+      transform: translateX(-50%);
+      margin-bottom: 40px;
     }
 
     &--textes {
@@ -157,6 +415,71 @@
     &--img img {
       width: 100%;
       height: auto;
+    }
+  }
+
+  &__lifestyle {
+
+    &--div {
+      background-size: cover;
+      position: relative;
+    }
+
+    &--evasion {
+      background-image: url("http://localhost:8890/ddp/wp-content/uploads/2016/05/Screen-Shot-2016-05-20-at-10.44.44-AM.png");
+      height: 340px;
+    }
+
+    &--miss {
+      background-image: url("http://localhost:8890/ddp/wp-content/uploads/2016/05/Screen-Shot-2016-05-20-at-10.44.52-AM.png");
+      height: 340px;
+    }
+
+    &--mr {
+      background-image: url("http://localhost:8890/ddp/wp-content/uploads/2016/05/Screen-Shot-2016-05-20-at-10.44.59-AM.png");
+      height: 340px;
+    }
+
+    &--mariage {
+      background-image: url("http://localhost:8890/ddp/wp-content/uploads/2016/05/Screen-Shot-2016-05-20-at-10.45.13-AM.png");
+      height: 96px;
+      max-height: 96px;
+      position: relative;
+      float: left;
+      width: 100%;
+      background-size: contain;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    &--venteddp {
+      background-image: url("http://localhost:8890/ddp/wp-content/uploads/2016/05/Screen-Shot-2016-05-20-at-10.45.24-AM.png");
+      height: 342px;
+      max-height: 342px;
+      position: relative;
+      float: left;
+      width: 100%;
+      background-size: contain;
+      margin-bottom: 20px;
+    }
+
+    &--decouvrir {
+      position: relative;
+      text-transform: uppercase;
+      font-family: fantasy;
+      font-size: 14px;
+      top: 34px;
+      text-align: center;
+      display: block;
+    }
+
+    &--mariage-p {
+      font-size: 32px;
+      display: block;
+      text-align: center;
+      top: 25px;
+      position: relative;
     }
   }
 
@@ -204,7 +527,7 @@
         padding: 30px 0px;
         background: $rose-clair;
         text-align: center;
-        max-height: 16px;
+        max-height: 80px;
         &:hover {
           background: $rose;
         }

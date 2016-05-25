@@ -107,7 +107,7 @@ class description_walker extends Walker_Nav_Menu
 add_action( 'admin_menu', 'register_my_custom_menu_page' );
 
 function register_my_custom_menu_page(){
-	add_theme_page( 'Dettach&eacute;e de Presse', 'Dettach&eacute;e de Presse', 'manage_options', 'custompage', 'my_custom_menu_page', "dashicons-heart", 30 );
+	add_menu_page( 'Dettach&eacute;e de Presse', 'Dettach&eacute;e de Presse', 'manage_options', 'custompage', 'my_custom_menu_page', "dashicons-heart", 3 );
 }
 
 function my_custom_menu_page(){
@@ -271,8 +271,8 @@ function load_custom_wp_admin_style() {
 }
 
 add_action( 'admin_enqueue_scripts', 'load_custom_wp_admin_style' );
-add_action('wp_enqueue_scripts', 'wpc_styles');
-add_action('wp_enqueue_style', 'wpc_styles');
+add_action('wp_head', 'wpc_styles');
+add_action('wp_head', 'wpc_styles');
 
 
 function set_newuser_cookie() {

@@ -17,7 +17,8 @@
   -webkit-justify-content: center;
   -moz-justify-content: center;
   -ms-justify-content: center;
-  z-index: 9;
+  height: 40px;
+  z-index: 10;
 
   & > li.menu-item:not(:first-child):before {
     content: "•";
@@ -42,7 +43,7 @@
       width:35%;
       display: block;
       position:absolute;
-      top:32px;
+      top:40px;
       left:0;
       height: 0px;
       overflow-y: hidden;
@@ -57,7 +58,7 @@
         text-align: center;
         position: relative;
         border-bottom: 1px solid yellow;
-        height: 21px;
+        height: 38px;
 
         a {
           color:black;
@@ -88,7 +89,7 @@
       box-sizing: border-box;
       display: block;
       position:absolute;
-      top:32px;
+      top:40px;
       right:0;
       height: 0px;
       overflow-y: hidden;
@@ -131,6 +132,10 @@
 #menu-item-10408, #menu-item-10412 {
   font-weight: bold;
   text-decoration: underline;
+}
+
+li#text-4 {
+    margin-top: 7px;
 }
 
 .sub-menu {

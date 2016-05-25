@@ -1,9 +1,12 @@
 .newsletter {
   // top: -90px;
-  width: 100%;
+  width: 30%;
   text-align: right;
   float: right;
   position: relative;
+  z-index: 9;
+  margin-top: 30px;
+  background: white;
 
   & input#ninja_forms_field_5, input#ninja_forms_field_6 {
     width: 150px;
@@ -12,12 +15,10 @@
 
   &__homme {
     position: relative;
-    top: -96px;
   }
 
   &__femme {
     position: relative;
-    top: -88px;
   }
 
   &__button {
@@ -39,7 +40,6 @@
       display: inline-block;
       height: 44px;
       max-width: 90px;
-      top: -93px;
     }
   }
 }

@@ -7,35 +7,35 @@ jQuery(document).ready(function() {
 ;(function ( wpoa, undefined ) {
 
     // <private properties>
-	
+
 	var wp_media_dialog_field; // field to populate after the admin selects an image using the wordpress media dialog
 	var timeout_interval;
 	var timeout_idle_time = 0;
 	var timeout_warning_reached = false;
-	
+
     // <public methods and properties>
-	
+
 	// init the client-side wpoa functionality:
 	wpoa.init = function() {
-		
+
 		// store the client's GMT offset (timezone) for converting server time into local time on a per-client basis (this makes the time at which a provider was linked more accurate to the specific user):
-		d = new Date; 
+		d = new Date;
 		gmtoffset = d.getTimezoneOffset() / 60;
 		document.cookie = 'gmtoffset=' + gmtoffset;
-		
+
 		// START of Settings Page functionality
-		
+
 		// handle accordion sections:
 		jQuery(".wpoa-settings h3").click(function(e) {
 			jQuery(this).parent().find(".form-padding").slideToggle();
 		});
-		
+
 		// handle help tip buttons:
 		jQuery(".tip-button").click(function(e) {
 			e.preventDefault();
 			jQuery(this).parents(".has-tip").find(".tip-message").fadeToggle();
 		});
-		
+
 		// automatically show warning tips when the user enters a sensitive form field:
 		jQuery(".wpoa-settings input, .wpoa-settings select").focus(function(e) {
 			e.preventDefault();
@@ -46,7 +46,7 @@ jQuery(document).ready(function() {
 				jQuery(this).parents(".has-tip").find(".tip-message").fadeIn();
 			}
 		});
-		
+
 		// handle global togglers:
 		jQuery("#wpoa-settings-sections-on").click(function(e) {
 			e.preventDefault();
@@ -64,9 +64,9 @@ jQuery(document).ready(function() {
 			e.preventDefault();
 			jQuery(".tip-message").fadeOut();
 		});
-		
+
 		// START of login form designer features
-		
+
 		// handle login form design select box:
 		/*
 		jQuery("[name=wpoa_login_form_design]").change(function() {
@@ -86,7 +86,7 @@ jQuery(document).ready(function() {
 		});
 		jQuery("[name=wpoa_login_form_design]").change(); // fire this once to populate the sub-form
 		*/
-		
+
 		// new design button:
 		jQuery("#wpoa-login-form-new").click(function(e) {
 			// show the edit design sub-section and hide the design selector:
@@ -96,7 +96,7 @@ jQuery(document).ready(function() {
 			jQuery("#wpoa-login-form-design-form h4").text('New Design');
 			jQuery("#wpoa-login-form-design-form").show();
 		});
-		
+
 		// edit design button:
 		jQuery("#wpoa-login-form-edit").click(function(e) {
 			var design_name = jQuery("#wpoa-login-form-design :selected").text();
@@ -123,7 +123,7 @@ jQuery(document).ready(function() {
 				jQuery("#wpoa-login-form-design-form").show();
 			}
 		});
-		
+
 		// delete design button:
 		jQuery("#wpoa-login-form-delete").click(function(e) {
 			// get the designs:
@@ -136,7 +136,7 @@ jQuery(document).ready(function() {
 			// update the designs array for POST:
 			jQuery("[name=wpoa_login_form_designs]").val(JSON.stringify(designs));
 		});
-		
+
 		// edit design ok button:
 		jQuery("#wpoa-login-form-ok").click(function(e) {
 			// applies changes to the current design by updating the designs array stored as JSON in a hidden form field...
@@ -220,13 +220,13 @@ jQuery(document).ready(function() {
 				jQuery("#wpoa-login-form-design-form").hide();
 			}
 		});
-		
+
 		// cancels the changes to the current design
 		jQuery("#wpoa-login-form-cancel").click(function(e) {
 			jQuery("#wpoa-login-form-design").parents("tr").show();
 			jQuery("#wpoa-login-form-design-form").hide();
 		});
-		
+
 		// END of login form designer features
 
 		// login redirect sub-settings:
@@ -241,7 +241,7 @@ jQuery(document).ready(function() {
 				jQuery("[name=wpoa_login_redirect_url]").show();
 			}
 		});
-		
+
 		// logout redirect sub-settings:
 		jQuery("[name=wpoa_login_redirect]").change();
 		jQuery("[name=wpoa_logout_redirect]").change(function() {
@@ -256,21 +256,21 @@ jQuery(document).ready(function() {
 			}
 		});
 		jQuery("[name=wpoa_logout_redirect]").change();
-		
+
 		// show the wordpress media dialog for selecting a logo image:
 		jQuery('#wpoa_logo_image_button').click(function(e) {
 			e.preventDefault();
 			wp_media_dialog_field = jQuery('#wpoa_logo_image');
 			wpoa.selectMedia();
 		});
-		
+
 		// show the wordpress media dialog for selecting a bg image:
 		jQuery('#wpoa_bg_image_button').click(function(e) {
 			e.preventDefault();
 			wp_media_dialog_field = jQuery('#wpoa_bg_image');
 			wpoa.selectMedia();
 		});
-		
+
 		jQuery("#wpoa-paypal-button").hover(
 		function() {
 			jQuery("#wpoa-heart").css("opacity", "1");
@@ -278,11 +278,11 @@ jQuery(document).ready(function() {
 		function() {
 			jQuery("#wpoa-heart").css("opacity", "0");
 		});
-		
+
 		// END of Settings Page functionality
-		
+
 		// START of Profile Page functionality
-		
+
 		// attach unlink button click events:
 		jQuery(".wpoa-unlink-account").click(function(event) {
 			event.preventDefault();
@@ -290,7 +290,7 @@ jQuery(document).ready(function() {
 			var wpoa_identity_row = btn.data("wpoa-identity-row");
 			//jQuery(this).replaceWith("<span>Please wait...</span>");
 			btn.hide();
-			btn.after("<span> Please wait...</span>");
+			btn.after("<span> Veuillez patienter...</span>");
 			var post_data = {
 				action: "wpoa_unlink_account",
 				wpoa_identity_row: wpoa_identity_row,
@@ -309,11 +309,11 @@ jQuery(document).ready(function() {
 				}
 			});
 		});
-		
+
 		// END Profile Page functionality
-		
+
 		// START Login Form functionality
-		
+
 		// handle login button click:
 		jQuery(".wpoa-login-button").click(function(event) {
 			event.preventDefault();
@@ -331,7 +331,7 @@ jQuery(document).ready(function() {
 			jQuery(".wpoa-login-form #wpoa-title").text(logging_in_title);
 			//return false;
 		});
-		
+
 		//handle logout button click:
 		jQuery(".wpoa-logout-button").click(function(event) {
 			// fade out the login form:
@@ -346,7 +346,7 @@ jQuery(document).ready(function() {
 			jQuery(".wpoa-login-form #wpoa-title").text(logging_out_title);
 			//return false;
 		});
-		
+
 		// show or log the client's login result which includes success or error messages:
 		var msg = jQuery("#wpoa-result").html();
 		//var msg = wpoa_cvars.login_message; // TODO: this method doesn't work that well since we don't clear the session variable at the server...
@@ -360,7 +360,7 @@ jQuery(document).ready(function() {
 				console.log(msg);
 			}
 		}
-		
+
 		// create the login session timeout if the admin enabled this setting:
 		if (wpoa_cvars.logged_in === '1' && wpoa_cvars.logout_inactive_users !== '0') {
 			// bind mousemove, keypress events to reset the timeout:
@@ -373,11 +373,11 @@ jQuery(document).ready(function() {
 			// start a timer to keep track of each minute that passes:
 			timeout_interval = setInterval(wpoa.timeoutIncrement, 60000);
 		}
-		
+
 		// END of Login Form functionality
-		
+
 		// START of Login Screen customizations
-		
+
 		// hide the login form if the admin enabled this setting:
 		// TODO: consider .remove() as well...maybe too intrusive though...and remember that bots don't use javascript so this won't remove it for bots and those bots can still spam the login form...
 		if (wpoa_cvars.hide_login_form == 1) {
@@ -385,7 +385,7 @@ jQuery(document).ready(function() {
 			jQuery("#login #nav").hide();
 			jQuery("#login #backtoblog").hide();
 		}
-		
+
 		// show custom logo and bg if the admin enabled this setting:
 		if (document.URL.indexOf("wp-login") >= 0) {
 			if (wpoa_cvars.logo_image) {
@@ -396,22 +396,22 @@ jQuery(document).ready(function() {
 				jQuery("body").css("background-size", "cover");
 			}
 		}
-		
+
 		// END of Login Screen customizations
-		
+
 	} // END of wpoa.init()
-	
+
 	// handle idle timeout:
 	wpoa.timeoutIncrement = function() {
 		var duration = wpoa_cvars.logout_inactive_users;
 		if (timeout_idle_time == duration - 1) {
 			// warning reached, next time we logout:
 			timeout_idle_time += 1;
-			wpoa.notify('Your session will expire in 1 minute due to inactivity.');
+			wpoa.notify('Votre session va expirer dans 1 min');
 		}
 		else if (timeout_idle_time == duration) {
 			// idle duration reached, logout the user:
-			wpoa.notify('Logging out due to inactivity...');
+			wpoa.notify('Vous allez être déconnecté...');
 			wpoa.processLogout();
 		}
 		/*
@@ -422,12 +422,12 @@ jQuery(document).ready(function() {
 		}
 		*/
 	}
-	
+
 	// shows the associated tip message for a setting:
 	wpoa.showTip = function(id) {
 		jQuery(id).parents("tr").find(".tip-message").fadeIn();
 	}
-	
+
 	// shows the default wordpress media dialog for selecting or uploading an image:
 	wpoa.selectMedia = function() {
 		var custom_uploader;
@@ -436,9 +436,9 @@ jQuery(document).ready(function() {
 			return;
 		}
 		custom_uploader = wp.media.frames.file_frame = wp.media({
-			title: 'Choose Image',
+			title: 'Choisissez une image',
 			button: {
-				text: 'Choose Image'
+				text: 'Choisissez une image'
 			},
 			multiple: false
 		});
@@ -457,7 +457,7 @@ jQuery(document).ready(function() {
 		jQuery("body").prepend(h);
 		jQuery(".wpoa-login-message").fadeOut(5000);
 	}
-	
+
 	// this was going to be introduced for the login form design editor, but it was determined that having multiple lightboxes (e.g. edit design -> lightbox -> choose media -> another lightbox) is counter-productive to UX, but this could be used later for other things...
 	wpoa.dialog = function(msg) {
 		/*
@@ -475,7 +475,7 @@ jQuery(document).ready(function() {
 		jQuery("body").addClass("wpoa-lightbox-visible");
 		*/
 	}
-	
+
 	// logout:
 	wpoa.processLogout = function(callback) {
 		var data = {
@@ -489,14 +489,14 @@ jQuery(document).ready(function() {
 			}
 		});
 	}
-	
+
     // <private methods>
-	
+
     /* e.g.
 	function say(msg) {
         console.log(msg);
     };
 	*/
-	
+
     // check to evaluate whether 'wpoa' exists in the global namespace - if not, assign window.wpoa an object literal:
 })(window.wpoa = window.wpoa || {});

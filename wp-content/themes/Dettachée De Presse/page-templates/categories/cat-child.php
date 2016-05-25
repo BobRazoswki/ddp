@@ -12,6 +12,7 @@
   $cat_of_the_post = get_the_category();
    ?>
   <div class="element-item <?php echo $cat_of_the_post[0]->category_nicename ?>" data-category="<?php echo $cat_of_the_post[0]->category_nicename ?>">
+
     <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
   </div>
   <?php endforeach;

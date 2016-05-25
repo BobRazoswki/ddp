@@ -4,7 +4,7 @@
     <?php global $post;
       $args = array(
         'category' => 574,
-        'post_per_page' => 3
+        'post_per_page' => 20
       );
       $custom_posts = get_posts($args);
       foreach($custom_posts as $post) : setup_postdata($post);

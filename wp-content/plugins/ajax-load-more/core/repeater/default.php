@@ -1,9 +1,17 @@
-<li<?php if (! has_post_thumbnail() ) { echo ' class="no-img"'; } ?>>
-   <?php if ( has_post_thumbnail() ) { the_post_thumbnail(array(150,150));
-   }?>
-   <h3><a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a></h3>
-   <p class="entry-meta">
-       <?php the_time("F d, Y"); ?>
-   </p>
-   <?php the_excerpt(); ?>
-</li>
+<article class="post" role="main">
+  <section class="medium--12 small--12 extrasmall--12">
+    <header class="post__header">
+      <h4 class="post__h4"><?php the_title(); ?></h4>
+      <span class="post__date home__h4--store-hr home__h4--store ">
+        <?php the_time('j F Y'); ?>
+      </span>
+    </header>
+    <figure class="post__thumbnails">
+     <?php the_post_thumbnail(array('alt' => get_the_title())); ?>
+    </figure>
+     <?php the_content(); ?>
+     <footer class="load__more">
+       fb comment
+	 </footer>
+   </section>
+</article>

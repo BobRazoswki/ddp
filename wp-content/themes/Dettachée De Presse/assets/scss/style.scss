@@ -22,6 +22,7 @@ time, mark, audio, video {
 	-webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
 	box-sizing: border-box;
+	outline: none;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
@@ -56,6 +57,9 @@ a {
 	text-decoration: none;
 }
 
+main {
+    margin-top: 80px;
+}
 .size-auto,
 .size-full,
 .size-large,
@@ -63,6 +67,10 @@ a {
 .size-thumbnail {
 	max-width: 100%;
 	height: auto;
+}
+p {
+    padding-bottom: 10px;
+    line-height: 24px;
 }
 @import "mixins";
 @import "variables";
@@ -79,6 +87,13 @@ a {
 @import "partials/last_posts";
 @import "partials/home";
 @import "partials/footer";
+@import "partials/post";
+@import "partials/usp";
+@import "partials/preloader";
+@import "partials/search";
 @import "partials/default";
+.aligncenter, img.aligncenter {
+	clear: none;
+}
 // les medias
 @import "partials/media1102";

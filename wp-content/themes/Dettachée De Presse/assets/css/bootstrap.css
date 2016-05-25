@@ -4,7 +4,8 @@
 
 .container {
   width: 80%;
-  margin: 0 auto; }
+  margin: 0 auto;
+  max-width: 1026px; }
 
 @media (min-width: 1200px) {
   .large--1 {

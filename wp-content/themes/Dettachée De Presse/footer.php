@@ -1,3 +1,4 @@
+</main>
     <footer class="container">
       <?php get_template_part( 'page-templates/footer/newsletter' ); ?>
       <?php get_template_part( 'page-templates/footer/en_continu' ); ?>

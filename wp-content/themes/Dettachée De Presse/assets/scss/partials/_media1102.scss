@@ -1,5 +1,15 @@
 @media (max-width: 1200px) {
-  li#text-8 {
+  .post {
+    section{
+      width: inherit;;
+    }
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .home li#text-8 {
     width: 100%;
   }
 

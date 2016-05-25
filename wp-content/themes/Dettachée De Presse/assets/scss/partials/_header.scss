@@ -9,14 +9,17 @@
   }
 
   &__ddp {
+    display: inline-block;
     & a {
+      z-index: 9;
+      background-color: white;
       width: 200px;
       height: auto;
       display: block;
-      top: 30px;
+      margin-top: 25px;
       position: relative;
       cursor: pointer;
-      z-index: 9;
+      z-index: 10;
     }
 
     & img {
@@ -27,12 +30,20 @@
 }
 
 .header {
-  height: 170px;
+  height: 160px;
+  background: white;
+
+  &__container {
+    background: white;
+    height: 160px;
+    z-index: 10;
+    position: relative;
+  }
 
   &__navigation {
-      top: -70px;
       display: block;
       position: relative;
+      height: 40px;
   }
 }
 

@@ -25,6 +25,16 @@
 	?>
 </head>
 <script>
+
+    //<![CDATA[
+        jQuery(window).load(function() { // makes sure the whole site is loaded
+            jQuery('#status').fadeOut(); // will first fade out the loading animation
+            jQuery('#preloader').delay(350).fadeOut('slow'); // will fade out the white DIV that covers the website.
+            jQuery('body').delay(350).css({'overflow':'visible'});
+        })
+    //]]>
+
+
   window.fbAsyncInit = function() {
     FB.init({
       appId      : '980257155403488',
@@ -41,7 +51,10 @@
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
 </script>
-<body <?php //body_class( $class ); ?> >
+<body class='bg' >
+	<div id="preloader">
+	    <div id="status">&nbsp;</div>
+	</div>
 	<?php
 		if (isset($_COOKIE['sitename_newvisitor']) === false) {
 			echo "<article id='popup' class='popup'>";
@@ -86,3 +99,4 @@
 	<?php get_template_part( 'page-templates/header/header' ); ?>
 	<?php get_template_part( 'page-templates/header/nav' ); ?>
 </header>
+<main>

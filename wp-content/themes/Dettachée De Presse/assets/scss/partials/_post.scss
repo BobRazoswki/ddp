@@ -1,0 +1,58 @@
+.load__more {
+  margin-top: 200px;
+}
+
+.post {
+
+  section{
+    background: white;
+    // padding: 40px;
+    // float: none !important;
+    width: 63%;
+    padding: 40px 20px;
+    float: none!important;
+    margin-right: 10px;
+    // clear: both;
+  }
+
+  &__date {
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    &:before {
+      margin-right: 20px;
+    }
+  }
+
+  &__h4 {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+  }
+
+  &__thumbnails {
+    width: 100%;
+    height: auto;
+    display: block;
+    text-align: center;
+  }
+
+  &__header {
+    text-align: center;
+  }
+}
+
+// .alm-reveal:nth-of-type(1) {
+//     overflow: visible;
+// }
+//
+// .alm-reveal{ overflow: hidden;
+// }
+article.post p, .comment-content p, article.page p {
+    padding-bottom: 17px;
+}
+
+.alm-listing li {
+    margin: 0 20px 30px;
+    padding: 0px 0 0 15px;
+    list-style-type: disc;
+}

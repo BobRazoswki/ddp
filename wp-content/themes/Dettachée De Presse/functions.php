@@ -8,6 +8,57 @@
 
 // add_theme_support( 'post-thumbnails' );
 
+function popup_newsletter() {
+	if (!isset($_COOKIE['sitename_newvisitor'])) {
+		echo "<article id='popup' class='popup'>";
+		echo "<div id='popup__cross--container' class='popup__cross--container'>";
+			echo "<span class='popup__cross popup__cross--left'></span>";
+			echo "<span class='popup__cross popup__cross--right'></span>";
+		echo "</div>";
+			global $post;
+			$args = array(
+				'posts_per_page' => 3,
+				'category' => 568
+			);
+			echo '<h3 class="popup__title">L\'EMAIL QUI FAIT DU BIEN!</h3>';
+			echo '<ul class="popup__post">';
+				$custom_posts = get_posts($args);
+				foreach($custom_posts as $post) : setup_postdata($post);
+					echo '<li class="popup__post--li">';
+						the_post_thumbnail( 'thumbnail' );
+						echo '<span class="popup__post--title">';
+							the_title();
+						echo '</span>';
+					echo '</li>';
+				endforeach;
+			echo '</ul>';
+			echo '<section class="newsletter">';
+				echo '<h3 class="newsletter__h3">INSCRIVEZ-VOUS À LA NEWSLETTER</h3>';
+				echo '<section class="newsletter__container">';
+					echo '<button class="newsletter__button--homme" type="button" name="button__homme">H</button>';
+					echo '<button class="newsletter__button--femme" type="button" name="button__femme">F</button>';
+						echo '<span class="newsletter__homme">';
+								if( function_exists( 'ninja_forms_display_form' ) ){ ninja_forms_display_form( 5 ); }
+						echo '</span>';
+						echo '<span class="newsletter__femme">';
+								if( function_exists( 'ninja_forms_display_form' ) ){ ninja_forms_display_form( 6 ); }
+						echo '</span>';
+					echo '</section>';
+			echo '</section>';
+		echo '</article>';
+	}
+}
+function add_slug_body_class( $classes ) {
+	global $post;
+
+	if ( isset( $post ) ) {
+		$classes[] = $post->post_type . '-' . $post->post_name;
+	}
+		return $classes;
+}
+
+add_filter( 'body_class', 'add_slug_body_class' );
+
 if ( ! isset( $content_width ) ) $content_width = 900;
 
 function custom_theme_setup() {

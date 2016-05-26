@@ -9,7 +9,7 @@
   width: 60vw;
   left: 50%;
   top: 20%;
-  transform: translateX(-50%) translateY(-20%);
+  @include transform(translateX(-50%) translateY(-20%));
 
   &__title {
     text-align: center;
@@ -23,7 +23,7 @@
     margin: 15px 10px;
     text-align: center;
     width: 100%;
-    transform: translateX(-34%) translateY(0%);
+    @include transform(translateX(-34%) translateY(0%));
     left: 50%;
 
     &--li {

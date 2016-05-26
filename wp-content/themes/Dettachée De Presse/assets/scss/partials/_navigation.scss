@@ -4,21 +4,26 @@
   text-align:center;
   background: black;
   text-transform: uppercase;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  align-items: center;
-  -webkit-align-items: center;
-  -moz-align-items: center;
-  -ms-align-items: center;
-  justify-content: center;
-  -webkit-justify-content: center;
-  -moz-justify-content: center;
-  -ms-justify-content: center;
+  @include flexCrossBrowser;
+  @include align-items(center);
+  @include justify-content(center);
   height: 40px;
   z-index: 10;
+
+  > li > .sub-menu {
+    display: flex !important;
+    flex-direction: column;
+    li {
+      flex: 1;
+      align-items: center;
+      display: flex;
+      .sub-menu {
+        right: 0;
+        left: initial;
+        top: 0;
+      }
+    }
+  }
 
   & > li.menu-item:not(:first-child):before {
     content: "•";
@@ -118,7 +123,7 @@
       }
     }
 
-    &:hover {
+    &:hover:not(#menu-item-10491) {
       .sub-menu{
         height: 200px;
       }
@@ -135,7 +140,7 @@
 }
 
 li#text-4 {
-    margin-top: 7px;
+  margin-top: 7px;
 }
 
 .sub-menu {

@@ -1,6 +1,7 @@
 <article class="container header__navigation">
 	<?php
 		wp_nav_menu( array(
+			'menu' => 'nav',
 			'container' =>false,
 			'menu_class' => 'nav',
 			'echo' => true,
@@ -11,6 +12,20 @@
 			'depth' => 0,
 			'walker' => new description_walker())
 		);
+	?>
+	<?php
+		// wp_nav_menu( array(
+		// 	'menu' => 'burger',
+		// 	'container' =>false,
+		// 	'menu_class' => 'burger',
+		// 	'echo' => true,
+		// 	'before' => '',
+		// 	'after' => '',
+		// 	'link_before' => '',
+		// 	'link_after' => '',
+		// 	'depth' => 0,
+		// 	'walker' => '')
+		// );
 	?>
 	<div class="search__form--container">
 		<form role="search" method="get" id="searchform" class="search__form" action="<?php echo esc_url( home_url( '/' ) ); ?>">

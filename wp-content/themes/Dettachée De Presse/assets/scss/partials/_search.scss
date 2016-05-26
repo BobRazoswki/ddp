@@ -1,11 +1,12 @@
 .search {
+
   &__form {
     position: relative;
     display: block;
     height: 80px;
 
     &--showingResults {
-      display: block;
+      display: none;
       background: $rose;
       font-size: 1.4rem;
       height: 40px;
@@ -20,8 +21,8 @@
       content: " ";
       height: 16px;
       width: 21px;
-      background: url(http://localhost:8890/ddp/wp-content/uploads/2016/05/triangle.png);
-      transform: rotate(180deg);
+      background: url('http://localhost:8890/ddp/wp-content/uploads/2016/05/triangle.png');
+      @include transform(rotate(180deg));
       display: block;
       z-index: 9999;
       top: 17px;
@@ -61,7 +62,7 @@
     & div {
       top: 50%;
       position: relative;
-      transform: translateY(-50%);
+      @include transform(translateY(-50%));
     }
 
     &--container {
@@ -71,7 +72,53 @@
       text-align: center;
       position: relative;
       @include transition(1s all ease);
-      transform: translateY(-180%);
+      @include transform(translateY(-180%));
     }
   }
+
+  &page {
+    &__container {
+      margin-top: 200px!important;
+    }
+    &__results {
+      border: 1px solid rgba(0, 0, 0, 0.17);
+      margin-bottom: 10px;
+      margin-top: 10px;
+      background: white;
+
+      header {
+        top: 0;
+        display: block;
+        width: 100%;
+        background: burlywood;
+        color: white;
+        padding-top: 10px!important;
+        padding-bottom: 10px!important;
+      }
+
+      figure {
+        min-height: 100px;
+        min-width: 100px;
+        display: block;
+        position: relative;
+        float: left;
+        clear: left;
+      }
+    }
+  }
+
+  &-results {
+    & .search__form {
+      &--showingResults {
+        display: block;
+      }
+      &--container {
+        @include transform(translateY(0%));
+      }
+    }
+  }
+}
+
+.translateY0 {
+  @include transform(translateY(0%));
 }

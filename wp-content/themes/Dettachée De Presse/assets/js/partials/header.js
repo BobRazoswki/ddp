@@ -1,4 +1,12 @@
 jQuery( document ).ready(function() {
+  var newsletterBoutons = jQuery(".newsletter__button");
+
+  newsletterBoutons.on("click", function(){
+    var newsletter = jQuery(this).parent().parent();
+    console.log(jQuery(this));
+    newsletter[0].classList.remove("newsletter--homme", "newsletter--femme");
+    newsletter[0].classList.add("newsletter--" + this.name);
+  });
 
   // Change the height of the twtiteer viewport on sidebar
   // jQuery('.timeline-Viewport').css("height", "260px");
@@ -6,7 +14,6 @@ jQuery( document ).ready(function() {
   var videoIframe = jQuery(".home__video p iframe")
   videoIframe.width("100%");
   videoIframe.height("350px");
-
 
 
     var videoID          = jQuery(".home__video--liens");
@@ -24,60 +31,78 @@ jQuery( document ).ready(function() {
   jQuery("#wp-uspcontent-media-buttons").empty();
 
   // Formulaire Newsletter H/F
-  var newsletterFemme       = jQuery(".newsletter__femme");
-  var newsletterHomme       = jQuery(".newsletter__homme");
-  var newsletterBoutonHomme = jQuery(".newsletter__button--homme");
-  var newsletterBoutonFemme = jQuery(".newsletter__button--femme");
-
-  var newsletterFemmeFooter       = jQuery(".home__newsletter .newsletter__femme");
-  var newsletterHommeFooter       = jQuery(".home__newsletter .newsletter__homme");
-  var newsletterBoutonHommeFooter = jQuery(".home__newsletter .newsletter__button--homme");
-  var newsletterBoutonFemmeFooter = jQuery(".home__newsletter .newsletter__button--femme");
-  newsletterFemmeFooter.hide();
-  newsletterBoutonHommeFooter.css("background-color", "#949797");
-
-  newsletterBoutonHommeFooter.on("click", function(){
-    newsletterBoutonFemmeFooter.css("background-color", "white");
-    newsletterBoutonHommeFooter.css("background-color", "#949797");
-    newsletterBoutonHommeFooter.css("color", "white");
-    newsletterFemmeFooter.hide();
-    newsletterHommeFooter.fadeIn( "slow", function() {
-    });
-  });
-
-  newsletterBoutonFemmeFooter.on("click", function(){
-    newsletterBoutonHommeFooter.css("background-color", "white");
-    newsletterBoutonFemmeFooter.css("background-color", "#949797");
-    newsletterBoutonFemmeFooter.css("color", "white");
-    newsletterHommeFooter.hide();
-    newsletterFemmeFooter.fadeIn( "slow", function() {
-    });
-  });
+  // var newsletterFemme       = jQuery(".newsletter__femme");
+  // var newsletterHomme       = jQuery(".newsletter__homme");
+  // var newsletterBoutonHomme = jQuery(".newsletter__button--homme");
+  // var newsletterBoutonFemme = jQuery(".newsletter__button--femme");
+  //
+  // var newsletterFemmeFooter       = jQuery(".home__newsletter .newsletter__femme");
+  // var newsletterHommeFooter       = jQuery(".home__newsletter .newsletter__homme");
+  // var newsletterBoutonHommeFooter = jQuery(".home__newsletter .newsletter__button--homme");
+  // var newsletterBoutonFemmeFooter = jQuery(".home__newsletter .newsletter__button--femme");
+  // newsletterFemmeFooter.hide();
+  // newsletterBoutonHommeFooter.css("background-color", "#949797");
+  //
+  //
+  // var newsletter = jQuery(".newsletter");
+  //
+  // function switchNewsletter(el) {
+  //   console.log(el);
+  // }
+  // newsletterBoutonHomme.on("click", function(e){
+  //   switchNewsletter(e);
+  // });
+  //
+  // newsletterBoutonFemmeFooter.on("click", function(){
+  //   newsletterBoutonHommeFooter.css("background-color", "white");
+  //   newsletterBoutonFemmeFooter.css("background-color", "#949797");
+  //   newsletterBoutonFemmeFooter.css("color", "white");
+  //   newsletterHommeFooter.hide();
+  //   newsletterFemmeFooter.fadeIn( "slow", function() {
+  //   });
+  // });
   var popupContainer        = jQuery("#popup");
   var popupCrossContainer   = jQuery("#popup__cross--container");
 
 
+  //
+  // newsletterFemme.hide();
+  // newsletterBoutonHomme.css("background-color", "#3789A5");
+  //
+  // newsletterBoutonHomme.on("click", function(){
+  //   newsletterBoutonFemme.css("background-color", "white");
+  //   newsletterBoutonHomme.css("background-color", "#3789A5");
+  //   newsletterFemme.hide();
+  //   newsletterHomme.fadeIn( "slow", function() {
+  //   });
+  // });
+  //
+  // newsletterBoutonFemme.on("click", function(){
+  //   newsletterBoutonHomme.css("background-color", "white");
+  //   newsletterBoutonFemme.css("background-color", "#3789A5");
+  //   newsletterHomme.hide();
+  //   newsletterFemme.fadeIn( "slow", function() {
+  //   });
+  // });
 
-  newsletterFemme.hide();
-  newsletterBoutonHomme.css("background-color", "#3789A5");
+// ESSAIS INFRUCTUEUX
 
-  newsletterBoutonHomme.on("click", function(){
-    newsletterBoutonFemme.css("background-color", "white");
-    newsletterBoutonHomme.css("background-color", "#3789A5");
-    newsletterFemme.hide();
-    newsletterHomme.fadeIn( "slow", function() {
+// jQuery( document ).ready(function() {
+//   var menuHasCHildren = jQuery("ul.burger > li.menu-item-has-children > a");
+//   var menuSubMenu = jQuery("ul.burger > li.menu-item-has-children > .sub-menu");
+//   menuHasCHildren.on("click",function(e) {
+//   jQuery(this).find(".sub-menu").show();
+//     // e.stopPropagation();
+//     e.preventDefault();
+//   });
+// });
+
+    var searchLoop = jQuery(".search");
+    var searchFormContainer = jQuery(".search__form--container");
+    searchLoop.on("click", function(){
+      console.log("oui oui");
+      searchFormContainer.toggleClass("translateY0");
     });
-  });
-
-  newsletterBoutonFemme.on("click", function(){
-    newsletterBoutonHomme.css("background-color", "white");
-    newsletterBoutonFemme.css("background-color", "#3789A5");
-    newsletterHomme.hide();
-    newsletterFemme.fadeIn( "slow", function() {
-    });
-  });
-
-
 
   popupCrossContainer.on("click", function(){
     popupContainer.fadeOut( "slow", function() {
@@ -85,14 +110,14 @@ jQuery( document ).ready(function() {
   });
 
   // Navigation toggle mega menu on hover
-  var subMenu       = jQuery(".sub-menu .menu-item, .nav__thumbnails")
-  var mainMenuItems = jQuery(".nav__linkWithNoDepth")
+  var subMenu       = jQuery(".nav .sub-menu .menu-item, .nav__thumbnails")
+  var mainMenuItems = jQuery(".nav .nav__linkWithNoDepth")
 
 
   jQuery('#menu-nav > li').each(function(){
-    if(jQuery(this).find('.sub-menu li ul').length){
+    if(jQuery(this).find('.nav .sub-menu li ul').length){
       //alert('yeah!');
-      jQuery(this).find('.sub-menu').first().addClass('multiple');
+      jQuery(this).find('.nav .sub-menu').first().addClass('multiple');
     }else{
       //alert(":'(");
     }

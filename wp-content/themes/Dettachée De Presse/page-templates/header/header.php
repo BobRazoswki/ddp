@@ -2,37 +2,37 @@
 	$logo_url = get_option('logo_url');
 	$logo_url_store = get_option('logo_url_store');
  ?>
- <article class="container header__container">
+ <section class="container header__container">
 
-	<section class="newsletter">
-		<span class="newsletter__button--container">
-			<button class="newsletter__button--homme" type="button" name="button__homme">H</button>
-			<button class="newsletter__button--femme" type="button" name="button__femme">F</button>
-		</span>
-		<span class="newsletter__homme">
+	<div class="newsletter newsletter--header newsletter--homme">
+		<div class="newsletter__button--container">
+			<button class="newsletter__button newsletter__button--homme newsletter__button--actif" type="button" name="homme">H</button>
+			<button class="newsletter__button newsletter__button--femme" type="button" name="femme">F</button>
+		</div>
+		<div class="newsletter__form newsletter__form--homme">
 			<?php
 				if( function_exists( 'ninja_forms_display_form' ) ){ ninja_forms_display_form( 5 ); }
 			?>
-		</span>
-		<span class="newsletter__femme">
+		</div>
+		<div class="newsletter__form newsletter__form--femme">
 			<?php
 				if( function_exists( 'ninja_forms_display_form' ) ){ ninja_forms_display_form( 6 ); }
 			?>
-		</span>
-	</section>
-	
-	<section class="post__submission">
-		<a href="<?php echo site_url(); ?>/soumission-darticle/">Soumettre un article<span class="post__submission--plus">+</span></a>
-	</section>
+		</div>
+	</div>
 
-	<section class="logo__ddp">
+	<div class="post__submission">
+		<a href="<?php echo site_url(); ?>/soumission-darticle/">Soumettre un article<span class="post__submission--plus">+</span></a>
+	</div>
+
+	<div class="logo__ddp">
 		<a href="<?php echo site_url(); ?>">
 			<img src="<?php echo $logo_url ?>" alt="" />
-			<!-- echo site_url(); ?>/wp-content/uploads/2016/04/300x600.2.png  -->
 		</a>
-	</section>
-	<section class="logo__store">
-		<img src="<?php echo $logo_url_store ?>" alt="" />
-	</section>
+	</div>
 
-</article>
+	<div class="logo__store">
+		<img src="<?php echo $logo_url_store ?>" alt="" />
+	</div>
+
+</section>

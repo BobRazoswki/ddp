@@ -58,7 +58,12 @@ a {
 }
 
 main {
-    margin-top: 80px;
+  margin-top: 80px;
+}
+
+img {
+	max-width: 100%;
+  height: auto;
 }
 .size-auto,
 .size-full,
@@ -68,10 +73,7 @@ main {
 	max-width: 100%;
 	height: auto;
 }
-p {
-    padding-bottom: 10px;
-    line-height: 24px;
-}
+
 @import "mixins";
 @import "variables";
 @import "partials/popup";
@@ -91,7 +93,9 @@ p {
 @import "partials/usp";
 @import "partials/preloader";
 @import "partials/search";
+@import "partials/burger";
 @import "partials/default";
+
 .aligncenter, img.aligncenter {
 	clear: none;
 }

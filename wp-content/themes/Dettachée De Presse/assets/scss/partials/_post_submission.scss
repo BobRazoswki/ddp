@@ -1,15 +1,23 @@
 .post__submission {
   position: relative;
   float: right;
-  margin-top: 100px;
+  margin-top: 95px;
   z-index: 9;
-  margin-right: -30%;
+  right: 0;
+  width: 300px;
+  margin-right: -300px;
 
   & a {
     text-decoration: none;
     background: $gris-fonce;
-    padding: 10px 15px;
+    padding: 0px 10px;
     color: $white;
+    width: 300px;
+    position: relative;
+    display: block;
+    text-align: center;
+    font-size: 1.2rem;
+    padding-bottom: 5px;
   }
 
   & a:hover {
@@ -20,7 +28,6 @@
   &--plus {
     font-size: 2.2rem;
     margin-left: 15px;
-    top: 4px;
     position: relative;
   }
 }
@@ -50,11 +57,11 @@
 
 
 .wpoa-layout-align-left {
-    text-align: center;
-    width: 140px;
-    left: 50%;
-    position: relative;
-    transform: translateX(-50%);
-    margin-top: 50px;
-    margin-bottom: -20px;
+  text-align: center;
+  width: 140px;
+  left: 50%;
+  position: relative;
+  @include transform(translateX(-50%));
+  margin-top: 50px;
+  margin-bottom: -20px;
 }

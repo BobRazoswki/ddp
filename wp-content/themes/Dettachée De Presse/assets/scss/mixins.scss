@@ -30,6 +30,27 @@
           transform: $transform;
 }
 
+@mixin align-items($align-items) {
+  -webkit-align-items: $align-items;
+     -moz-align-items: $align-items;
+      -ms-align-items: $align-items;
+          align-items: $align-items;
+}
+
+@mixin justify-content($justify-content) {
+  -webkit-justify-content: $justify-content;
+     -moz-justify-content: $justify-content;
+      -ms-justify-content: $justify-content;
+          justify-content: $justify-content;
+}
+
+@mixin flexCrossBrowser {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
 
 @mixin grid-columns() {
   $grid: 12;
@@ -45,15 +66,15 @@
 }
 
 
-@mixin dividers() {
-  $filters_number: 20;
-  $i: 10;
-  @for $i from (0 + 5) through $filters_number {
-    .divider {
-      &__#{$i} {
-        height: #{$i}px;
-        display: block;
-      }
-    }
-  }
-}
+// @mixin dividers() {
+//   $filters_number: 20;
+//   $i: 10;
+//   @for $i from (0 + 5) through $filters_number {
+//     .divider {
+//       &__#{$i} {
+//         height: #{$i}px;
+//         display: block;
+//       }
+//     }
+//   }
+// }

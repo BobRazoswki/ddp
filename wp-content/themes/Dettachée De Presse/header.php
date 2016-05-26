@@ -25,7 +25,6 @@
 	?>
 </head>
 <script>
-
     //<![CDATA[
         jQuery(window).load(function() { // makes sure the whole site is loaded
             jQuery('#status').fadeOut(); // will first fade out the loading animation
@@ -51,52 +50,13 @@
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
 </script>
-<body class='bg' >
+<body id='bg' <?php body_class( $class ); ?>>
 	<div id="preloader">
 	    <div id="status">&nbsp;</div>
 	</div>
-	<?php
-		if (isset($_COOKIE['sitename_newvisitor']) === false) {
-			echo "<article id='popup' class='popup'>";
-			echo "<div id='popup__cross--container' class='popup__cross--container'>";
-				echo "<span class='popup__cross popup__cross--left'></span>";
-				echo "<span class='popup__cross popup__cross--right'></span>";
-			echo "</div>";
-				global $post;
-				$args = array(
-					'posts_per_page' => 3,
-					'category' => 568
-				);
-				echo '<h3 class="popup__title">L\'EMAIL QUI FAIT DU BIEN!</h3>';
-				echo '<ul class="popup__post">';
-					$custom_posts = get_posts($args);
-					foreach($custom_posts as $post) : setup_postdata($post);
-						echo '<li class="popup__post--li">';
-							the_post_thumbnail( 'thumbnail' );
-							echo '<span class="popup__post--title">';
-								the_title();
-							echo '</span>';
-						echo '</li>';
-					endforeach;
-				echo '</ul>';
-				echo '<section class="newsletter">';
-					echo '<h3 class="newsletter__h3">INSCRIVEZ-VOUS À LA NEWSLETTER</h3>';
-					echo '<section class="newsletter__container">';
-						echo '<button class="newsletter__button--homme" type="button" name="button__homme">H</button>';
-						echo '<button class="newsletter__button--femme" type="button" name="button__femme">F</button>';
-							echo '<span class="newsletter__homme">';
-									if( function_exists( 'ninja_forms_display_form' ) ){ ninja_forms_display_form( 5 ); }
-							echo '</span>';
-							echo '<span class="newsletter__femme">';
-									if( function_exists( 'ninja_forms_display_form' ) ){ ninja_forms_display_form( 6 ); }
-							echo '</span>';
-						echo '</section>';
-				echo '</section>';
-			echo '</article>';
-		}
-	?>
-<header class="header">
-	<?php get_template_part( 'page-templates/header/header' ); ?>
-	<?php get_template_part( 'page-templates/header/nav' ); ?>
-</header>
+	<?php //popup_newsletter(); ?>
+	<header class="header">
+		<?php get_template_part( 'page-templates/header/header' ); ?>
+		<?php get_template_part( 'page-templates/header/nav' ); ?>
+	</header>
 <main>

@@ -302,6 +302,10 @@ add_action( 'widgets_init', 'register_my_widget_theme' );
 function wpc_styles() {
 	//Dependencies
 	wp_register_script( 'jquery', get_template_directory_uri().'/build/assets/lib/jquery/jquery.min.js' );
+	wp_register_script( 'owlJs', get_template_directory_uri().'/build/assets/lib/owl/owl.carousel.min.js' );
+	wp_register_style( 'owlCarousel', get_template_directory_uri().'/build/assets/lib/owl/owl.carousel.css' );
+	wp_register_style( 'owlDefault', get_template_directory_uri().'/build/assets/lib/owl/owl.theme.css' );
+	wp_register_style( 'owlGreen', get_template_directory_uri().'/build/assets/lib/owl/owl.transitions.css' );
 
 	//Themes files
 	wp_register_script( 'js', get_template_directory_uri().'/build/assets/js/main.min.js' );
@@ -310,6 +314,11 @@ function wpc_styles() {
 	//Requires
 	//wp_enqueue_script( 'angular' );
 	wp_enqueue_script( 'jquery' );
+	wp_enqueue_style( 'owlCarousel' );
+	wp_enqueue_script( 'owlJs' );
+	wp_enqueue_style( 'owlDefault' );
+	wp_enqueue_style( 'owlGreen' );
+
 	wp_enqueue_script( 'js' );
 	wp_enqueue_style( 'css' );
 }

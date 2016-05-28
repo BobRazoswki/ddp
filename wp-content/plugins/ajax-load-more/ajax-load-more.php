@@ -7,14 +7,15 @@ Text Domain: ajax-load-more
 Author: Darren Cooney
 Twitter: @KaptonKaos
 Author URI: http://connekthq.com
-Version: 2.10.1
+Version: 2.11.0
 License: GPL
 Copyright: Darren Cooney & Connekt Media
+
 */	 
 
    		
-define('ALM_VERSION', '2.10.1');
-define('ALM_RELEASE', 'May 8, 2016');
+define('ALM_VERSION', '2.11.0');
+define('ALM_RELEASE', 'May 25, 2016');
 define('ALM_STORE_URL', 'https://connekthq.com');	
 
 
@@ -155,6 +156,7 @@ if( !class_exists('AjaxLoadMore') ):
          if (!defined('ALM_PAGING_ITEM_NAME')) define('ALM_PAGING_ITEM_NAME', '6898');
          if (!defined('ALM_PRELOADED_ITEM_NAME')) define('ALM_PRELOADED_ITEM_NAME', '4293');
          if (!defined('ALM_PREV_POST_ITEM_NAME')) define('ALM_PREV_POST_ITEM_NAME', '9686');
+         if (!defined('ALM_RESTAPI_ITEM_NAME')) define('ALM_RESTAPI_ITEM_NAME', '17105');
          if (!defined('ALM_SEO_ITEM_NAME')) define('ALM_SEO_ITEM_NAME', '3482');
          if (!defined('ALM_THEME_REPEATERS_ITEM_NAME')) define('ALM_THEME_REPEATERS_ITEM_NAME', '8860');
       	
@@ -389,8 +391,8 @@ if( !class_exists('AjaxLoadMore') ):
    		if($post_status == '') $post_status = 'publish'; 
    		
    		// Page
-   		$numPosts = (isset($_GET['posts_per_page'])) ? $_GET['posts_per_page'] : 5;		
-   		$page = (isset($_GET['pageNumber'])) ? $_GET['pageNumber'] : 0;
+   		$posts_per_page = (isset($_GET['posts_per_page'])) ? $_GET['posts_per_page'] : 5;		
+   		$page = (isset($_GET['page'])) ? $_GET['page'] : 0;
    		
    		// Preload Add-on
    		$preloaded = (isset($_GET['preloaded'])) ? $_GET['preloaded'] : 'false'; 
@@ -405,6 +407,9 @@ if( !class_exists('AjaxLoadMore') ):
    		$is_previous_post = (isset($_GET['previous_post'])) ? $_GET['previous_post'] : false;
    		$previous_post_id = (isset($_GET['previous_post_id'])) ? $_GET['previous_post_id'] : '';
          
+         // Paging Add-on
+         $paging = (isset($_GET['paging'])) ? $_GET['paging'] : false;
+         
          //SEO Add-on
    		$seo_start_page = (isset($_GET['seo_start_page'])) ? $_GET['seo_start_page'] : 1;         
    		
@@ -414,18 +419,24 @@ if( !class_exists('AjaxLoadMore') ):
    		// Set up initial args      
          $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
    		$args = array(
-   			'post_type' => $postType,
-   			'posts_per_page' => $numPosts,
-   			'offset' => $offset + ($numPosts*$page),
-   			'order' => $order,
-   			'orderby' => $orderby,	
-   			'post_status' => $post_status,
-   			'ignore_sticky_posts' => false,
-   			'paged' => $paged,
+   			'post_type'                => $postType,
+   			'posts_per_page'           => $posts_per_page,
+   			'offset'                   => $offset + ($posts_per_page*$page),
+   			'order'                    => $order,
+   			'orderby'                  => $orderby,	
+   			'post_status'              => $post_status,
+   			'ignore_sticky_posts'      => false,
+   			'paged'                    => $paged,
    		);
+   		
+   		// Paging
+   		// If !paging, turn off pagination information to improve wp_query performance
+   		if(!$paging){      		
+   			$args['no_found_rows'] = true;      		
+   		}
          
    	   // Post Format & Taxonomy
-   	   // * Both use tax_query, so we need to combine these queries
+   	   // - Both use tax_query, so we combine these queries
    		if(!empty($post_format) || !empty($taxonomy)){      		
       		
             $tax_query_total = count(explode(":", $taxonomy)); // Total $taxonomy objects
@@ -549,8 +560,8 @@ if( !class_exists('AjaxLoadMore') ):
    			
    	   }
    	   
-         // Meta_key, used for ordering by meta value
-         if(!empty($meta_key)){
+         // Meta_key
+         if(!empty($meta_key)){ // ordering by meta value
 	         if (strpos($orderby, 'meta_value') !== false) { // Only order by meta_key, if $orderby is set to meta_value{_num}
 	            $meta_key_single = explode(":", $meta_key);
                $args['meta_key'] = $meta_key_single[0];
@@ -670,7 +681,7 @@ if( !class_exists('AjaxLoadMore') ):
 	   				$alm_loop_count++;  
 	   				$alm_current++;	   
 	   	         $alm_page = $alm_page_count; // Get page number      
-	   	         $alm_item = ($alm_page_count * $numPosts) - $numPosts + $alm_loop_count; // Get current item            
+	   	         $alm_item = ($alm_page_count * $posts_per_page) - $posts_per_page + $alm_loop_count; // Get current item            
 	   				
 	   				// Alternating Templates
 	   				if($alternate && has_action('alm_alternating_installed') && $alm_page <= $alternate_sequence_max){
@@ -691,9 +702,9 @@ if( !class_exists('AjaxLoadMore') ):
       			   }  
 	   				
 	   				if($theme_repeater != 'null' && has_action('alm_get_theme_repeater')){
-		   				do_action('alm_get_theme_repeater', $theme_repeater, $alm_found_posts, $alm_page, $alm_item, $alm_current);
+		   				do_action('alm_get_theme_repeater', $theme_repeater, $alm_found_posts, $alm_page, $alm_item, $alm_current); // Theme Repeater
 						}else{
-							include( alm_get_current_repeater($repeater, $type) );//Include repeater template
+							include( alm_get_current_repeater($repeater, $type) ); //Include repeater template
 						}
 	   					   					
 	            endwhile; wp_reset_query();

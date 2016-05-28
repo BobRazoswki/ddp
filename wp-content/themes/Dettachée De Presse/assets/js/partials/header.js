@@ -1,11 +1,16 @@
 jQuery( document ).ready(function() {
-  var newsletterBoutons = jQuery(".newsletter__button");
 
+// Remove the free version sentence of the slider plugin
+jQuery(".amazingcarousel-image > div").empty(); //css("display", "none");
+
+  var newsletterBoutons = jQuery(".newsletter__button");
   newsletterBoutons.on("click", function(){
-    var newsletter = jQuery(this).parent().parent();
-    console.log(jQuery(this));
+    var newsletter       = jQuery(this).parent().parent();
+    var newsletterButton = jQuery(this);
     newsletter[0].classList.remove("newsletter--homme", "newsletter--femme");
     newsletter[0].classList.add("newsletter--" + this.name);
+    newsletterBoutons.removeClass("newsletter__button--actif");
+    newsletterButton[0].classList.add("newsletter__button--actif");
   });
 
   // Change the height of the twtiteer viewport on sidebar

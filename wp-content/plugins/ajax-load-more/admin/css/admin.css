@@ -876,7 +876,8 @@ a.layout-hover{
 	
 .preload_amount,
 .cache_id,
-.alternate_template_wrap{
+.alternate_template_wrap,
+.restapi_options{
    display: none;
 }
 	

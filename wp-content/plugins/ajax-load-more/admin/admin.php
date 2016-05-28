@@ -972,6 +972,12 @@ function alm_admin_init(){
    	do_action('alm_preloaded_settings');   	
    }
    
+	
+	// REST API
+	if(has_action('alm_rest_api_settings')){	   
+   	do_action('alm_rest_api_settings');   	
+   }
+   
    
 	// SEO
 	if(has_action('alm_seo_settings')){	

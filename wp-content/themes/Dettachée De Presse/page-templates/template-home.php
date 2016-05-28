@@ -3,38 +3,19 @@
 get_header();
 ?>
 <div class="container">
-  <section id="slideshow"class="large--12">
-    <div class="container">
-          <div class="c_slider"></div>
-        <div class="slider">
-            <?php
-              $args = array(
-                'category' => 569
-              );
-              global $post;
-              $custom_posts = get_posts($args);
-              foreach($custom_posts as $post) : setup_postdata($post);
-              ?><!--
-              -->
-              <a href="#">
-                <figure>
-                <?php
-                  // the_post_thumbnail();
-                ?>
-                <img src="http://fakeimg.pl/960x320/" alt="" />
-                 <figcaption>
-                   <?php the_title(); ?>
-                   <span class="slider__figcaption--excerpt"><?php the_excerpt(); ?></span>
-                 </figcaption>
-               </figure>
-              </a><!--
-              -->
-              <?php
-              endforeach;
-            ?>
-          </div>
-      </div>
-    <span id="timeline"></span>
+  <section id=""class="">
+    <?php echo do_shortcode('[wonderplugin_carousel id="1"]'); ?>
+    <?php
+      // $args = array(
+      //   'category' => 569
+      // );
+      // global $post;
+      // $custom_posts = get_posts($args);
+      // foreach($custom_posts as $post) : setup_postdata($post);
+      ?>
+      <?php
+      //endforeach;
+    ?>
   </section>
   <section class="content large--8 medium--6 small--12 extrasmall--12">
     <div class="home__strate">

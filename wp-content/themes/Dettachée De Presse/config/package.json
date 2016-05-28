@@ -8,7 +8,6 @@
   },
   "author": "",
   "license": "ISC",
-
   "devDependencies": {
     "browser-sync": "2.11.2 - 2.9999.9999",
     "del": "2.2.0 - 2.9999.9999",
@@ -28,5 +27,8 @@
     "gulp-sass": "2.2.0 - 2.9999.9999",
     "gulp-uglify": "1.1.0 - 2.9999.9999",
     "gulp-watch": "4.3.5 - 2.9999.9999"
+  },
+  "dependencies": {
+    "owl.carousel": "^2.1.4"
   }
 }

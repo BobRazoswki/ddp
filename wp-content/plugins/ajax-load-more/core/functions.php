@@ -10,6 +10,7 @@
 */
 
 function alm_get_current_repeater($repeater, $type) {
+   
 	$template = $repeater;
 	$include = '';
 		
@@ -42,6 +43,7 @@ function alm_get_current_repeater($repeater, $type) {
 	}
 	
 	return $include;
+	
 }
 
 

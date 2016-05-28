@@ -54,6 +54,11 @@ if( !class_exists('ALM_SHORTCODE') ):
    		
    		extract(shortcode_atts(array(
    			'restapi' => false,
+   			'restapi_base' => '/wp-json',
+   			'restapi_namespace' => 'ajaxloadmore',
+   			'restapi_endpoint' => 'posts',
+   			'restapi_template_id' => '',
+   			'restapi_debug' => false,
    			'comments' => false,
    			'comments_per_page' => '5',
    			'comments_type' => 'comment',
@@ -149,8 +154,11 @@ if( !class_exists('ALM_SHORTCODE') ):
    		if($seo === "true" || $previous_post)				
             $transition_container = "true";
          
-         if($restapi === 'true')
+         if($restapi === 'true'){
             $restapi = true;  
+            
+            $preloaded = false;
+         }
           
          // Get container elements (ul | div)
          
@@ -246,8 +254,12 @@ if( !class_exists('ALM_SHORTCODE') ):
             }            
          }
          // Frontpage
-         elseif(is_front_page() || is_home()){
+         elseif(is_front_page()){
             $canonicalURL = get_home_url().'/';
+         }
+         // Home (Blog Default)
+         elseif(is_home()){
+            $canonicalURL = get_permalink(get_option('page_for_posts'));
          }
          // Category
          elseif(is_category()){
@@ -503,7 +515,12 @@ if( !class_exists('ALM_SHORTCODE') ):
    		if(has_action('alm_rest_api_installed') && $restapi === true){  		   
    		   $restapi_return = apply_filters(
    		   	'alm_rest_api_shortcode', 
-      		   'true'
+      		   'true',
+      		   $restapi_base,
+      		   $restapi_namespace,
+      		   $restapi_endpoint,
+      		   $restapi_template_id,
+      		   $restapi_debug
    		   );    		    		   	
    			$ajaxloadmore .= $restapi_return;		
          }
@@ -636,9 +653,13 @@ if( !class_exists('ALM_SHORTCODE') ):
                  
          
    		// REST API Add-on - add template to page
-   		if(has_action('alm_get_rest_api_template') && $restapi){
-   			$rest_type = alm_get_repeater_type($repeater);
-   			do_action('alm_get_rest_api_template', $repeater, $rest_type);
+   		if(has_action('alm_rest_api_installed') && $restapi){
+      		if($theme_repeater != 'null' && has_action('alm_get_rest_theme_repeater')){
+         		do_action('alm_get_rest_theme_repeater', $theme_repeater);
+            } else {
+   			   $rest_type = alm_get_repeater_type($repeater);
+   			   do_action('alm_get_rest_api_template', $repeater, $rest_type);
+   			}
    		} 
    			
    		return $ajaxloadmore; // End ALM object

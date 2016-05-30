@@ -17,7 +17,7 @@ get_header();
       //endforeach;
     ?>
   </section>
-  <section class="content large--8 medium--6 small--12 extrasmall--12">
+  <section class="content large--8 medium--12 small--12 extrasmall--12">
     <div class="home__strate">
       <h3 class="home__h3 home__h3--bleu">Derniers Articles</h3>
       <?php
@@ -61,7 +61,8 @@ get_header();
       </div>
     </div>
 
-    <div class="home__strate">
+    <div class="home__strate home__strate--startup">
+      <div class="bg__startup"></div>
       <h3 class="home__h3">Start Up du jour</h3>
 
       <?php global $post;
@@ -112,36 +113,38 @@ get_header();
     </div>
 
     <div class="home__strate">
+      <div class=" home__strate--video">
+
+
       <h3 class="home__h3 home__h3--rose">Récentes videos</h3>
       <div class="home__video large--12">
-
       <?php global $post;
       $args = array(
         'category' => 570,
-        'post_per_page' => 4
+        'post_per_page' => 3
       );
       $custom_posts = get_posts($args);
       foreach($custom_posts as $post) : setup_postdata($post);
         ?>
-        <span class="home__videoIdPlayer videoID-<?= the_ID(); ?>" data-videoid="<?= the_ID(); ?>"><?php  the_content(); ?></span>
+        <div class="youtube" id="<?php the_title(); ?>" style="width: 500px; height: 281px;"></div>
+        <!-- <span class="home__videoIdPlayer videoID-<?= the_ID(); ?>" data-videoid="<?= the_ID(); ?>"><?php  the_content(); ?></span> -->
        <?php
       endforeach;
       ?>
-      <ul class="home__video--lienscontainer">
-      <?php global $post;
-      $args = array(
-        'category' => 570,
-        'post_per_page' => 4
-      );
-      $custom_posts = get_posts($args);
-      foreach($custom_posts as $post) : setup_postdata($post);
+      <!-- <ul class="home__video--lienscontainer">
+      <?php
+      //global $post;
+      //$args = array(
+      //  'category' => 570,
+      //  'post_per_page' => 3
+      //);
+      //$custom_posts = get_posts($args);
+      //foreach($custom_posts as $post) : setup_postdata($post);
         ?>
         <li class="home__video--liens videoIDLi-<?= the_ID(); ?>" data-videoid="<?= the_ID(); ?>"><?php the_title(); ?></li>
-       <?php
-      endforeach;
-      ?>
-        </ul>
-
+        <?php //endforeach; ?>
+        </ul> -->
+</div>
     </div>
 
     <div class="home__strate">

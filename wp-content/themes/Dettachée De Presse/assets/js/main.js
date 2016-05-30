@@ -78,22 +78,22 @@ jQuery(".amazingcarousel-image > div").empty(); //css("display", "none");
   // Change the height of the twtiteer viewport on sidebar
   // jQuery('.timeline-Viewport').css("height", "260px");
   // change the width of the youtube player
-  var videoIframe = jQuery(".home__video p iframe")
-  videoIframe.width("100%");
-  videoIframe.height("350px");
-
-
-    var videoID          = jQuery(".home__video--liens");
-
-    videoID.on("click", function(){
-      var idVideo = jQuery(this).attr("data-videoid");
-      // reset the other to make them go on non visible layer
-      jQuery(".home__videoIdPlayer p").css("z-index", "1");
-      jQuery(".home__video--liens:after").css("display", "none");
-      // showing up the right one
-      jQuery('.videoID-'+idVideo+' p').css("z-index", "2");
-      jQuery('.videoIDLi-'+idVideo+':after').css("visibility", "visible");
-    });
+  // var videoIframe = jQuery(".home__video p iframe")
+  // videoIframe.width("100%");
+  // videoIframe.height("350px");
+  //
+  //
+  //   var videoID          = jQuery(".home__video--liens");
+  //
+  //   videoID.on("click", function(){
+  //     var idVideo = jQuery(this).attr("data-videoid");
+  //     // reset the other to make them go on non visible layer
+  //     jQuery(".home__videoIdPlayer").css("z-index", "1");
+  //     jQuery(".home__video--liens:after").css("display", "none");
+  //     // showing up the right one
+  //     jQuery('.videoID-'+idVideo).css("z-index", "2");
+  //     jQuery('.videoIDLi-'+idVideo+':after').css("visibility", "visible");
+  //   });
   // Faire disparaitre l'anti-spam (hidden field) de la newsletter
   jQuery("#wp-uspcontent-media-buttons").empty();
 
@@ -189,6 +189,62 @@ jQuery(".amazingcarousel-image > div").empty(); //css("display", "none");
       //alert(":'(");
     }
   });
+
+  jQuery(document).ready(function(){
+    var startupBlockHeight     = jQuery(".home__strate--startup").height() + 6;
+    var startupBlockMarginLeft = jQuery(".container").css("margin-left");
+    var styles = {
+        height: startupBlockHeight,
+        width: jQuery(window).width(),
+        marginLeft: "-" + startupBlockMarginLeft
+      };
+    jQuery(".bg__startup").css(styles);
+  });
 });
 
 
+'use strict';
+function r(f){/in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
+r(function(){
+    if (!document.getElementsByClassName) {
+        // IE8 support
+        var getElementsByClassName = function(node, classname) {
+            var a = [];
+            var re = new RegExp('(^| )'+classname+'( |$)');
+            var els = node.getElementsByTagName("*");
+            for(var i=0,j=els.length; i<j; i++)
+                if(re.test(els[i].className))a.push(els[i]);
+            return a;
+        }
+        var videos = getElementsByClassName(document.body,"youtube");
+    } else {
+        var videos = document.getElementsByClassName("youtube");
+    }
+
+    var nb_videos = videos.length;
+    for (var i=0; i<nb_videos; i++) {
+        // Based on the YouTube ID, we can easily find the thumbnail image
+        videos[i].style.backgroundImage = 'url(http://i.ytimg.com/vi/' + videos[i].id + '/sddefault.jpg)';
+
+        // Overlay the Play icon to make it look like a video player
+        var play = document.createElement("div");
+        play.setAttribute("class","play");
+        videos[i].appendChild(play);
+
+        videos[i].onclick = function() {
+            // Create an iFrame with autoplay set to true
+            var iframe = document.createElement("iframe");
+            var iframe_url = "https://www.youtube.com/embed/" + this.id + "?autoplay=1&autohide=1";
+            if (this.getAttribute("data-params")) iframe_url+='&'+this.getAttribute("data-params");
+            iframe.setAttribute("src",iframe_url);
+            iframe.setAttribute("frameborder",'0');
+
+            // The height and width of the iFrame should be the same as parent
+            iframe.style.width  = this.style.width;
+            iframe.style.height = this.style.height;
+
+            // Replace the YouTube thumbnail with YouTube Player
+            this.parentNode.replaceChild(iframe, this);
+        }
+    }
+});

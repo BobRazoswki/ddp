@@ -1,5 +1,18 @@
 jQuery( document ).ready(function() {
 
+  //Burger menu
+  jQuery('.burger__button').click(function(){
+    jQuery(this).toggleClass('open');
+    jQuery('#menu-burger').toggleClass('open');
+  });
+  jQuery('#menu-burger>li').click(function(){
+    jQuery(this).toggleClass('open');
+  });
+  jQuery('#menu-burger>li>a').click(function(e){
+    e.preventDefault();
+    console.log('hey');
+  });
+
 // Remove the free version sentence of the slider plugin
 jQuery(".amazingcarousel-image > div").empty(); //css("display", "none");
 
@@ -16,22 +29,22 @@ jQuery(".amazingcarousel-image > div").empty(); //css("display", "none");
   // Change the height of the twtiteer viewport on sidebar
   // jQuery('.timeline-Viewport').css("height", "260px");
   // change the width of the youtube player
-  var videoIframe = jQuery(".home__video p iframe")
-  videoIframe.width("100%");
-  videoIframe.height("350px");
-
-
-    var videoID          = jQuery(".home__video--liens");
-
-    videoID.on("click", function(){
-      var idVideo = jQuery(this).attr("data-videoid");
-      // reset the other to make them go on non visible layer
-      jQuery(".home__videoIdPlayer p").css("z-index", "1");
-      jQuery(".home__video--liens:after").css("display", "none");
-      // showing up the right one
-      jQuery('.videoID-'+idVideo+' p').css("z-index", "2");
-      jQuery('.videoIDLi-'+idVideo+':after').css("visibility", "visible");
-    });
+  // var videoIframe = jQuery(".home__video p iframe")
+  // videoIframe.width("100%");
+  // videoIframe.height("350px");
+  //
+  //
+  //   var videoID          = jQuery(".home__video--liens");
+  //
+  //   videoID.on("click", function(){
+  //     var idVideo = jQuery(this).attr("data-videoid");
+  //     // reset the other to make them go on non visible layer
+  //     jQuery(".home__videoIdPlayer").css("z-index", "1");
+  //     jQuery(".home__video--liens:after").css("display", "none");
+  //     // showing up the right one
+  //     jQuery('.videoID-'+idVideo).css("z-index", "2");
+  //     jQuery('.videoIDLi-'+idVideo+':after').css("visibility", "visible");
+  //   });
   // Faire disparaitre l'anti-spam (hidden field) de la newsletter
   jQuery("#wp-uspcontent-media-buttons").empty();
 
@@ -126,5 +139,16 @@ jQuery(".amazingcarousel-image > div").empty(); //css("display", "none");
     }else{
       //alert(":'(");
     }
+  });
+
+  jQuery(document).ready(function(){
+    var startupBlockHeight     = jQuery(".home__strate--startup").height() + 6;
+    var startupBlockMarginLeft = jQuery(".container").css("margin-left");
+    var styles = {
+        height: startupBlockHeight,
+        width: jQuery(window).width(),
+        marginLeft: "-" + startupBlockMarginLeft
+      };
+    jQuery(".bg__startup").css(styles);
   });
 });

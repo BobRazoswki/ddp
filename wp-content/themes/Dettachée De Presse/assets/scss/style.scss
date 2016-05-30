@@ -94,10 +94,14 @@ img {
 @import "partials/preloader";
 @import "partials/search";
 @import "partials/burger";
+@import "partials/youtube";
 @import "partials/default";
+@import "partials/toni";
 
 .aligncenter, img.aligncenter {
 	clear: none;
 }
 // les medias
 @import "partials/media1102";
+@import "partials/media970";
+@import "partials/media700";

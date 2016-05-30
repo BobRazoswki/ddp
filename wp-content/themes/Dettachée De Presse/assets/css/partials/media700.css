@@ -1,0 +1,3 @@
+@media (max-width: 700px) {
+  #wonderplugincarousel-1 .amazingcarousel-prev, #wonderplugincarousel-1 .amazingcarousel-next {
+    display: none !important; } }

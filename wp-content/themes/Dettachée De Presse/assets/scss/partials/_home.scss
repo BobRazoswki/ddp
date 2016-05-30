@@ -543,3 +543,12 @@
     }
   }
 }
+
+.bg {
+  &__startup {
+    position: absolute;
+    background: $gris-bg;
+    margin-top: 20px;
+    z-index: -1;
+  }
+}

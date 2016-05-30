@@ -1,5 +1,18 @@
 jQuery( document ).ready(function() {
 
+  //Burger menu
+  jQuery('.burger__button').click(function(){
+    jQuery(this).toggleClass('open');
+    jQuery('#menu-burger').toggleClass('open');
+  });
+  jQuery('#menu-burger>li').click(function(){
+    jQuery(this).toggleClass('open');
+  });
+  jQuery('#menu-burger>li>a').click(function(e){
+    e.preventDefault();
+    console.log('hey');
+  });
+
 // Remove the free version sentence of the slider plugin
 jQuery(".amazingcarousel-image > div").empty(); //css("display", "none");
 

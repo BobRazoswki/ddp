@@ -6,7 +6,75 @@
 // include_once 'metaboxes/customizer-spec.php';
 // $wpalchemy_media_access = new WPAlchemy_MediaAccess();
 
-add_theme_support( 'post-thumbnails' );
+// add_theme_support( 'post-thumbnails' );
+
+function popup_newsletter() {
+	if (!isset($_COOKIE['sitename_newvisitor'])) {
+		echo "<article id='popup' class='popup'>";
+		echo "<div id='popup__cross--container' class='popup__cross--container'>";
+			echo "<span class='popup__cross popup__cross--left'></span>";
+			echo "<span class='popup__cross popup__cross--right'></span>";
+		echo "</div>";
+			global $post;
+			$args = array(
+				'posts_per_page' => 3,
+				'category' => 568
+			);
+			echo '<h3 class="popup__title">L\'EMAIL QUI FAIT DU BIEN!</h3>';
+			echo '<ul class="popup__post">';
+				$custom_posts = get_posts($args);
+				foreach($custom_posts as $post) : setup_postdata($post);
+					echo '<li class="popup__post--li">';
+						the_post_thumbnail( 'thumbnail' );
+						echo '<span class="popup__post--title">';
+							the_title();
+						echo '</span>';
+					echo '</li>';
+				endforeach;
+			echo '</ul>';
+			echo '<section class="newsletter">';
+				echo '<h3 class="newsletter__h3">INSCRIVEZ-VOUS À LA NEWSLETTER</h3>';
+				echo '<section class="newsletter__container">';
+					echo '<button class="newsletter__button--homme" type="button" name="button__homme">H</button>';
+					echo '<button class="newsletter__button--femme" type="button" name="button__femme">F</button>';
+						echo '<span class="newsletter__homme">';
+								if( function_exists( 'ninja_forms_display_form' ) ){ ninja_forms_display_form( 5 ); }
+						echo '</span>';
+						echo '<span class="newsletter__femme">';
+								if( function_exists( 'ninja_forms_display_form' ) ){ ninja_forms_display_form( 6 ); }
+						echo '</span>';
+					echo '</section>';
+			echo '</section>';
+		echo '</article>';
+	}
+}
+function add_slug_body_class( $classes ) {
+	global $post;
+
+	if ( isset( $post ) ) {
+		$classes[] = $post->post_type . '-' . $post->post_name;
+	}
+		return $classes;
+}
+
+add_filter( 'body_class', 'add_slug_body_class' );
+
+if ( ! isset( $content_width ) ) $content_width = 900;
+
+function custom_theme_setup() {
+	add_theme_support( 'post-thumbnails');
+  add_theme_support( 'automatic-feed-links' );
+  add_theme_support( "title-tag" );
+  add_theme_support( "custom-header");
+  add_theme_support( "custom-background");
+}
+
+add_action( 'after_setup_theme', 'custom_theme_setup' );
+
+function wpdocs_theme_add_editor_styles() {
+    add_editor_style( 'custom-editor-style.css' );
+}
+add_action( 'admin_init', 'wpdocs_theme_add_editor_styles' );
 
 class description_walker extends Walker_Nav_Menu
 {
@@ -90,7 +158,7 @@ class description_walker extends Walker_Nav_Menu
 add_action( 'admin_menu', 'register_my_custom_menu_page' );
 
 function register_my_custom_menu_page(){
-	add_theme_page( 'Dettachée de Presse', 'Dettachée de Presse', 'manage_options', 'custompage', 'my_custom_menu_page', "dashicons-heart", 30 );
+	add_menu_page( 'Dettach&eacute;e de Presse', 'Dettach&eacute;e de Presse', 'manage_options', 'custompage', 'my_custom_menu_page', "dashicons-heart", 3 );
 }
 
 function my_custom_menu_page(){
@@ -195,7 +263,7 @@ function register_my_widget_theme()  {
 
 		'description' => 'Sidebar pour mes pages.', // description facultatif
 
-		'before_widget' => '<li id="%1$s" class="widget %2$s">', // class attribuer pour le contenu (css)
+		'before_widget' => '<li id="%1$s" class="widget %2$s large--12 medium--4 small--6 extrasmall--12">', // class attribuer pour le contenu (css)
 
 		'after_widget' => '</li>',
 
@@ -234,6 +302,10 @@ add_action( 'widgets_init', 'register_my_widget_theme' );
 function wpc_styles() {
 	//Dependencies
 	wp_register_script( 'jquery', get_template_directory_uri().'/build/assets/lib/jquery/jquery.min.js' );
+	wp_register_script( 'owlJs', get_template_directory_uri().'/build/assets/lib/owl/owl.carousel.min.js' );
+	wp_register_style( 'owlCarousel', get_template_directory_uri().'/build/assets/lib/owl/owl.carousel.css' );
+	wp_register_style( 'owlDefault', get_template_directory_uri().'/build/assets/lib/owl/owl.theme.css' );
+	wp_register_style( 'owlGreen', get_template_directory_uri().'/build/assets/lib/owl/owl.transitions.css' );
 
 	//Themes files
 	wp_register_script( 'js', get_template_directory_uri().'/build/assets/js/main.min.js' );
@@ -242,6 +314,11 @@ function wpc_styles() {
 	//Requires
 	//wp_enqueue_script( 'angular' );
 	wp_enqueue_script( 'jquery' );
+	wp_enqueue_style( 'owlCarousel' );
+	wp_enqueue_script( 'owlJs' );
+	wp_enqueue_style( 'owlDefault' );
+	wp_enqueue_style( 'owlGreen' );
+
 	wp_enqueue_script( 'js' );
 	wp_enqueue_style( 'css' );
 }
@@ -254,17 +331,23 @@ function load_custom_wp_admin_style() {
 }
 
 add_action( 'admin_enqueue_scripts', 'load_custom_wp_admin_style' );
+add_action('wp_head', 'wpc_styles');
+add_action('wp_head', 'wpc_styles');
 
-add_action('wp_enqueue_scripts', 'wpc_styles');
-add_action('wp_enqueue_style', 'wpc_styles');
 
+function set_newuser_cookie() {
+	if ( !is_admin() && !isset($_COOKIE['sitename_newvisitor'])) {
+		setcookie( 'sitename_newvisitor', 1, time()+3600*24*100, COOKIEPATH, COOKIE_DOMAIN, false);
+	}
+}
+add_action( 'init', 'set_newuser_cookie');
 
 /** Customization SweetBid **/
 
 function wpc_dashboard_widget_function() {
 	echo
 	"<ul>
-		<li>Une création <a href='http://sweetbid.fr'>SweetBid</a></li>
+		<li>Une cr&eacute;ation <a href='http://sweetbid.fr'>SweetBid</a></li>
 	</ul>";
 }
 
@@ -275,6 +358,6 @@ function wpc_add_dashboard_widgets() {
 add_action('wp_dashboard_setup', 'wpc_add_dashboard_widgets' );
 
 function remove_footer_admin () {
-echo 'Fait avec &#9829; par ton geek préféré :D';
+echo 'Fait avec &#9829; par ton geek pr&eacute;f&eacute;r&eacute; :D';
  }
  add_filter('admin_footer_text', 'remove_footer_admin');

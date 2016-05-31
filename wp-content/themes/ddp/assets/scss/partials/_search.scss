@@ -117,7 +117,7 @@
         padding-bottom: 10px;
 
         & strong {
-          font-family: 'josefin_slabsemibold';
+          @include font($Jsemibold, 1.4rem, uppercase);
         }
       }
 

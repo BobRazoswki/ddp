@@ -1,5 +1,5 @@
 .logo {
-  
+
   &__store img {
     position: absolute;
     top: 0;
@@ -11,7 +11,7 @@
     display: inline-block;
     & a {
       z-index: 9;
-      background-color: white;
+      background-color: $white;
       width: 200px;
       height: auto;
       display: block;
@@ -30,19 +30,20 @@
 
 .header {
   height: 160px;
-  background: white;
+  background: $white;
 
   &__container {
-    background: white;
+    background: $white;
     height: 160px;
     z-index: 10;
     position: relative;
   }
 
   &__navigation {
-      display: block;
-      position: relative;
-      height: 40px;
+    background: $black;
+    display: block;
+    position: relative;
+    height: 40px;
   }
 }
 

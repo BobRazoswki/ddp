@@ -54,9 +54,8 @@
     margin-top: 25px;
 
     &title {
-      text-transform: uppercase;
       margin-bottom: 10px;
-      font-family: 'josefin_slabsemibold';
+      @include font($Jsemibold, 1.4rem, uppercase);
     }
 
     &__sociaux {

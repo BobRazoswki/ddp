@@ -16,8 +16,8 @@
     position: relative;
     display: block;
     text-align: center;
-    font-size: 1.2rem;
     padding-bottom: 5px;
+    @include font($Jbold, 1.4rem, none);
   }
 
   & a:hover {

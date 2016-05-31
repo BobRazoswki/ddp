@@ -10,11 +10,6 @@
     display: none !important;
   }
 
-  input#ninja_forms_field_5, input#ninja_forms_field_6 {
-    width: 150px;
-    font-size: 15px;
-  }
-
   &__form {
     position: relative;
     visibility: hidden;
@@ -37,7 +32,6 @@
   }
 
   &__button {
-
     display: inline-block;
     position: relative;
     border: none;
@@ -47,7 +41,6 @@
     z-index: 9;
 
     &--container {
-
       height: 44px;
       max-width: 89px;
     }
@@ -59,6 +52,7 @@
   .newsletter__button {
     background-color: $white;
     color: $bleu-ciel;
+    @include font($Jbold, 1.4rem, uppercase);
   }
   .newsletter__button--actif {
     background: $bleu-fonce;
@@ -66,6 +60,17 @@
   }
   .newsletter__button--container {
     border: 2px solid #A9D7E0;
+  }
+  .newsletter__form {
+    @include font($Jlight, 1.4rem, none);
+  }
+  input#ninja_forms_field_9, input#ninja_forms_field_10 {
+    @include font($Jbold, 1.35rem, uppercase);
+  }
+  input#ninja_forms_field_5, input#ninja_forms_field_6 {
+    width: 156px;
+    border: 1px solid $bleu-ciel;
+    @include font($Oregular, 1rem, none);
   }
 }
 
@@ -112,7 +117,7 @@ div#ninja_forms_form_5_all_fields_wrap, div#ninja_forms_form_6_all_fields_wrap {
 input#ninja_forms_field_5, input#ninja_forms_field_6 {
   height: 44px;
   border: none;
-  padding-left: 16px;
+  padding-left: 6px;
   margin-left: 8px;
 }
 
@@ -122,7 +127,6 @@ input#ninja_forms_field_9, input#ninja_forms_field_10 {
   background: $black;
   color: $white;
   height: 44px;
-  margin-top: -1px;
   width: 50px;
   font-size: 18px;
 }

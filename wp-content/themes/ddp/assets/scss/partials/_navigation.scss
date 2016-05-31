@@ -2,7 +2,6 @@
   width:100%;
   position: relative;
   text-align:center;
-  background: black;
   text-transform: uppercase;
   @include flexCrossBrowser;
   @include align-items(center);
@@ -33,7 +32,7 @@
 
   & > li.menu-item:not(:first-child):before {
     content: "•";
-    color: $white;
+    color: $jaune-menu;
     display: inline-block;
     right: 9px;
     position: relative;
@@ -52,7 +51,7 @@
   li {
     padding:10px 8px;
     display:inline-block;
-    font-size: 14px;
+    @include font($Jbold, 1.25rem, uppercase);
     margin-top: 0px;
 
     a {

@@ -7,15 +7,14 @@ Text Domain: ajax-load-more
 Author: Darren Cooney
 Twitter: @KaptonKaos
 Author URI: http://connekthq.com
-Version: 2.11.0
+Version: 2.11.1
 License: GPL
 Copyright: Darren Cooney & Connekt Media
-
-*/	 
+*/	  
 
    		
-define('ALM_VERSION', '2.11.0');
-define('ALM_RELEASE', 'May 25, 2016');
+define('ALM_VERSION', '2.11.1');
+define('ALM_RELEASE', 'May 30, 2016');
 define('ALM_STORE_URL', 'https://connekthq.com');	
 
 
@@ -388,7 +387,16 @@ if( !class_exists('AjaxLoadMore') ):
    		$exclude = (isset($_GET['exclude'])) ? $_GET['exclude'] : '';		
    		$offset = (isset($_GET['offset'])) ? $_GET['offset'] : 0;
    		$post_status = $_GET['post_status'];
-   		if($post_status == '') $post_status = 'publish'; 
+   		if($post_status == '') $post_status = 'publish';   		
+   		if($post_status != 'publish'){
+      		// If not 'publish', confirm user has rights to view these old posts.
+      		if (current_user_can( 'edit_theme_options' )){
+         		$post_status = $post_status;
+            } else {
+               $post_status = 'publish';
+            }
+         }
+   		
    		
    		// Page
    		$posts_per_page = (isset($_GET['posts_per_page'])) ? $_GET['posts_per_page'] : 5;		

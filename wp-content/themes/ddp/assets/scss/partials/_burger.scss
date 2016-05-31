@@ -98,15 +98,12 @@
       & > a{
         color:white;
         margin-bottom: 5px;
-        font-size: 1rem;
-        text-transform: uppercase;
-        font-family: 'josefin_slabsemibold';
+        @include font($Jbold, 1rem, uppercase);
       }
       .sub-menu{
         a{
           color:#aaa;
-          font-size: 0.8rem;
-          font-family: 'josefin_slabregular';
+          @include font($Jregular, 0.8rem, none);
         }
       }
     }

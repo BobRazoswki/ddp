@@ -25,9 +25,7 @@
 //   &:after{
 //     content: "Votre site Dettachée est en train de charger!";
 //     position: absolute;
-//     font-family: 'josefin_slabsemibold';
-//     text-transform: uppercase;
-//     font-size: 2.2rem;
+//     @include font($Jsemibold, 2.2rem, uppercase);
 //     color: black;
 //     left: 50%;
 //     top: 20%;

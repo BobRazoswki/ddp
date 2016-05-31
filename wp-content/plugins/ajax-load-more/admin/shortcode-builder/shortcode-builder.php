@@ -1048,22 +1048,19 @@
                <input class="alm_element numbers-only" name="exclude-posts" type="text" id="exclude-posts" value="" placeholder="199, 216, 345, etc...">
             </div>
          </div>
-      </div>
-   </div>   
-   
-   <!-- Post Status -->
-   <div class="row input post-status" id="alm-post-status">
-      <h3 class="heading"><?php _e('Post Status', 'ajax-load-more'); ?></h3>
-      <div class="expand-wrap">
+         <div class="clear"></div>
+         <hr/>
          <div class="section-title">
+            <h4><?php _e('Post Status', 'ajax-load-more'); ?> <a href="javascript:void(0)" class="fa fa-question-circle tooltip" title="<?php _e('Post Status parameters are only available for logged in (admin) users. Non logged in users will only have access to view content in a \'publish\' state. ','ajax-load-more'); ?>"></a></h4>
    		 	<p><?php _e('Select status of the post.', 'ajax-load-more'); ?></p>
    		 </div>
          <div class="wrap">
             <div class="inner">               
                <select class="alm_element" name="post-status" id="post-status">
                    <option value="publish" selected="selected"><?php _e('Published', 'ajax-load-more'); ?></option>
-                   <option value="future">Future</option>
+                   <option value="any">Any</option>
                    <option value="draft">Draft</option>
+                   <option value="future">Future</option>
                    <option value="pending">Pending</option>
                    <option value="private">Private</option>
                    <option value="trash">Trash</option>
@@ -1071,7 +1068,7 @@
             </div>
          </div>
       </div>
-   </div>
+   </div>   
     
    <!-- Ordering -->
    <div class="row ordering" id="alm-order">

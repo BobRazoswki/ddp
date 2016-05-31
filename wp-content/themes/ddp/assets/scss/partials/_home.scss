@@ -27,14 +27,11 @@
     & div {
 
       & p:first-of-type {
-        font-size: 2rem;
-        text-transform: uppercase;
-        font-weight: bolder;
+        @include font($Jbold, 2rem, uppercase);
       }
 
       & p {
-        font-size: 1.1rem;
-        text-transform: uppercase;
+        @include font($Jbold, 1.1rem, uppercase);
       }
 
       & .newsletter__homme, & .newsletter__femme {
@@ -105,8 +102,7 @@
       padding: 10px 25px;
       margin-top: 20px;
       border: 1px solid #A9D7E0;
-      font-size: 16px;
-      font-family: 'josefin_slabregular';
+      @include font($Jregular, 1.4rem, uppercase);
       background: #fff;
       color: #A9D7E0;
       text-align: center;
@@ -183,9 +179,8 @@
   }
 
   &__h4 {
-    text-transform: uppercase;
     margin-bottom: 6px;
-    font-family: 'josefin_slabsemibold';
+    @include font($Jsemibold, 1.6rem, uppercase);
 
     &--store {
       text-align: center;
@@ -194,7 +189,6 @@
 
       & a {
         margin-left: 20px;
-        font-size: 1.6em;
       }
     }
 
@@ -220,8 +214,7 @@
     }
 
     &--infoencontinu {
-      font-size: 1.6rem;
-      font-family: 'josefin_slabregular';
+      @include font($Jregular, 1.6rem, uppercase);
     }
 
     &--brandfactory {
@@ -238,8 +231,8 @@
     min-width: 100px;
     text-align: center;
     text-decoration: none;
-    font-family: 'josefin_slabsemibold';
-    text-transform: uppercase;
+    @include font($Jsemibold, 1.4rem, uppercase);
+
 
     &--gris {
       @include transition(1s all ease);
@@ -359,6 +352,9 @@
 
     &--img {
       text-align: center;
+      & img {
+        border-radius: 50%;
+      }
     }
 
     &--hastag {
@@ -452,9 +448,7 @@
 
     &--decouvrir {
       position: relative;
-      text-transform: uppercase;
-      font-family: 'josefin_slabsemibold';
-      font-size: 14px;
+      @include font($Jsemibold, 1.2rem, uppercase);
       top: 34px;
       text-align: center;
       display: block;
@@ -528,8 +522,7 @@
         display: inline-block;
         text-decoration: none;
         color: $white;
-        text-transform: uppercase;
-        font-family: 'josefin_slabsemibold';
+        @include font($Jsemibold, 1.4rem, uppercase);
         width: 25%;
         float: left;
         padding: 30px 0px;

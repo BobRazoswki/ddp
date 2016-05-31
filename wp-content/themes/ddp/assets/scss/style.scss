@@ -31,11 +31,11 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
-	font-family: 'josefin_slabregular';
+	@include font($Jregular, inherit, inherit);
 }
 
 input {
-	font-family: 'josefin_slabregular';
+	@include font($Jregular, inherit, inherit);
 }
 ol, ul {
 	list-style: none;

@@ -311,11 +311,12 @@ if( !class_exists('ALM_SHORTCODE') ):
    		// - Set other add-on params to false
    		if($comments){
       		$previous_post = false;
-      		$preloaded = false;
+      		//$preloaded = false; // Fixed in Comments v1.1
       		$seo = false;
       		$paging = false;
       		$cache = false;
    		}
+   		
    		
    		
    		// ********************************
@@ -323,6 +324,7 @@ if( !class_exists('ALM_SHORTCODE') ):
    		// Retreive preloaded posts and append to ajax load more object
    		if(has_action('alm_preload_installed') && $preloaded === 'true'){   
    		   
+   		   $preloaded_output = '';
    		   $preload_offset = $offset;
    		   
    		   // If SEO, set $preloaded_amount to $posts_per_page
@@ -337,9 +339,16 @@ if( !class_exists('ALM_SHORTCODE') ):
    		      if($paged > 1){
       		      $preload_offset = $preloaded_amount * ($paged-2);
    		      }
-            }          
+            }    
             
       		$preloaded_arr = array( // Create preload data array
+         		'comments'           => $comments,
+      			'comments_per_page'  => $comments_per_page,
+      			'comments_type'      => $comments_type,
+      			'comments_style'     => $comments_style,
+      			'comments_template'  => $comments_template,
+      			'comments_callback'  => $comments_callback,
+      			'comments_post_id'   => $comments_post_id,
          		'post_type'          => $post_type,
          		'post_format'        => $post_format,
          		'category'           => $category,
@@ -375,87 +384,102 @@ if( !class_exists('ALM_SHORTCODE') ):
                     		
             $type = alm_get_repeater_type($repeater); 	
             
-            $args = apply_filters('alm_preload_args', $preloaded_arr); // Create preloaded $args            
-            $args = apply_filters('alm_modify_query_args', $args, $slug); // ALM Core Filter Hook
-            
-   			$alm_preload_query = new WP_Query($args);
-   			$alm_total_posts = $alm_preload_query->found_posts - $offset;
-            $output = '';
-            $noscript = '';
-            	         
-            
-            // Alternating Templates
-            if($alternate === 'true' && has_action('alm_alternating_installed')){
-               $alternate_sequence_array = '';
-               if($alternate_sequence === 'even'){
-                  $alternate_sequence_array = 'even';
-               }else{
-                  $alternate_sequence_array = explode(',', $alternate_sequence);
-               }
-   				$global_repeater = $repeater;
-   				$global_type = $type;
-   				$global_theme_repeater = $theme_repeater;
-   			}
-   			
-            
-   			if ($alm_preload_query->have_posts()) :
-   				$alm_loop_count = 0; // Count var
-   				$alm_page = 0; // Set page to 0
-   				$alm_found_posts = $alm_total_posts;
-   				$alm_current = 0;
-   			   while ($alm_preload_query->have_posts()) : $alm_preload_query->the_post();
-   			   	$alm_loop_count++; 
-      	         $alm_current++;
-      	         $alm_item = $alm_loop_count; // Get current item in loop 	   	         
-      	         
-      	         // Alternating Templates
-      	         if($alternate === 'true' && has_action('alm_alternating_installed')){
-   	   	         if (function_exists('alm_alternate_is_in_array')) {
-      	   	         if(alm_alternate_is_in_array($alm_current, $alternate_sequence_array)){ // If $alm_current is found in array
-         	   	         if($alternate_theme_repeater != 'null' && has_filter('alm_get_theme_repeater')){
-            	   	         $theme_repeater = $alternate_theme_repeater;
-               			   }else{
-                  			   $repeater = $alternate_repeater;
-                  			   $type = alm_get_repeater_type($repeater);
-               			   }  
-            			   }else{ // Reset $repeater values
-               			   $repeater = $global_repeater;
-               			   $type = $global_type;
-               			   $theme_repeater = $global_theme_repeater;
-            			   } 
-         			   }
-      			   }    	
-      			   		   	
-      			   $output .= apply_filters('alm_preload_inc', $repeater, $type, $theme_repeater, $alm_found_posts, $alm_page, $alm_item, $alm_current);
-   
-               endwhile; wp_reset_query();
+            if(!$comments){
+               $args = apply_filters('alm_preload_args', $preloaded_arr); // Create preloaded $args            
+               $args = apply_filters('alm_modify_query_args', $args, $slug); // ALM Core Filter Hook
                
-               if(has_action('alm_seo_installed') && $seo === 'true'){ // If SEO, add noscript paging
-                  // Create noscript paging for SEO if preload and seo are enabled
-                  $noscript = alm_paging_no_script($alm_preload_query);
+      			$alm_preload_query = new WP_Query($args);
+      			$alm_total_posts = $alm_preload_query->found_posts - $offset;
+               $output = '';
+               $noscript = '';               	         
+               
+               // Alternating Templates
+               if($alternate === 'true' && has_action('alm_alternating_installed')){
+                  $alternate_sequence_array = '';
+                  if($alternate_sequence === 'even'){
+                     $alternate_sequence_array = 'even';
+                  }else{
+                     $alternate_sequence_array = explode(',', $alternate_sequence);
+                  }
+      				$global_repeater = $repeater;
+      				$global_type = $type;
+      				$global_theme_repeater = $theme_repeater;
+      			}      			
+               
+      			if ($alm_preload_query->have_posts()) :
+      				$alm_loop_count = 0; // Count var
+      				$alm_page = 0; // Set page to 0
+      				$alm_found_posts = $alm_total_posts;
+      				$alm_current = 0;
+      			   while ($alm_preload_query->have_posts()) : $alm_preload_query->the_post();
+      			   	$alm_loop_count++; 
+         	         $alm_current++;
+         	         $alm_item = $alm_loop_count; // Get current item in loop 	   	         
+         	         
+         	         // Alternating Templates
+         	         if($alternate === 'true' && has_action('alm_alternating_installed')){
+      	   	         if (function_exists('alm_alternate_is_in_array')) {
+         	   	         if(alm_alternate_is_in_array($alm_current, $alternate_sequence_array)){ // If $alm_current is found in array
+            	   	         if($alternate_theme_repeater != 'null' && has_filter('alm_get_theme_repeater')){
+               	   	         $theme_repeater = $alternate_theme_repeater;
+                  			   }else{
+                     			   $repeater = $alternate_repeater;
+                     			   $type = alm_get_repeater_type($repeater);
+                  			   }  
+               			   }else{ // Reset $repeater values
+                  			   $repeater = $global_repeater;
+                  			   $type = $global_type;
+                  			   $theme_repeater = $global_theme_repeater;
+               			   } 
+            			   }
+         			   }    	
+         			   		   	
+         			   $output .= apply_filters('alm_preload_inc', $repeater, $type, $theme_repeater, $alm_found_posts, $alm_page, $alm_item, $alm_current);
+      
+                  endwhile; wp_reset_query();
+                  
+                  if(has_action('alm_seo_installed') && $seo === 'true'){ // If SEO, add noscript paging
+                     // Create noscript paging for SEO if preload and seo are enabled
+                     $noscript = alm_paging_no_script($alm_preload_query);
+                  }
+                  
+      			endif;
+      			
+      			$preloaded_output .= '<'.$container_element.' class="alm-listing alm-preloaded'. $classname .' '. $css_classes .'" data-total-posts="'. $alm_total_posts .'">';
+      			if($seo === "true") $preloaded_output .= '<div class="alm-reveal alm-seo" data-page="1" data-url="'.$canonicalURL.'">';
+      			      			
+      			$preloaded_output .= $output;
+      			
+      			if($seo === "true") $preloaded_output .= '</div>';      			
+      			$preloaded_output .= '</'.$container_element.'>';   			
+      			
+      			if(has_action('alm_seo_installed')){ // If SEO, add noscript paging
+      			   $preloaded_output .= $noscript;
+      			}
+      			
+      			// Reset templates (custom and theme) if $alternate is true
+      			if($alternate === 'true' && has_action('alm_alternating_installed')){
+      				$repeater = $global_repeater;
+      				$type = $global_type;
+      				$theme_repeater = $theme_repeater;
+      			}
+            } 
+            
+            // Preloaded Comments
+            else {    
+                   
+         		if(has_action('alm_comments_installed') && $comments){         		
+         		   $preloaded_comments = apply_filters('alm_comments_preloaded', $preloaded_arr); //[located in comments add-on]                                     
+                  $preloaded_output .= '<'.$comments_style.' class="alm-listing alm-preloaded commentlist alm-comments-preloaded '. $classname .' '. $css_classes .'">';
+                  if($seo === "true") $preloaded_output .= '<div class="alm-reveal alm-seo" data-page="1" data-url="'.$canonicalURL.'">';
+                  
+                  $preloaded_output .= $preloaded_comments;
+                 
+                  if($seo === "true") $preloaded_output .= '</div>';
+                  $preloaded_output .= '</'.$container_element.'>';
                }
                
-   			endif;
-   			$preloaded_output = '<'.$container_element.' class="alm-listing alm-preloaded'. $classname .' '. $css_classes .'" data-total-posts="'. $alm_total_posts .'">';
-   			if($seo === "true"){
-   			   $preloaded_output .= '<div class="alm-reveal alm-seo" data-page="1" data-url="'.$canonicalURL.'">';
-   			}
-   			$preloaded_output .= $output;
-   			if($seo === "true"){
-   			   $preloaded_output .= '</div>';
-   			}
-   			$preloaded_output .= '</'.$container_element.'>';   			
-   			
-   			if(has_action('alm_seo_installed')){ // If SEO, add noscript paging
-   			   $preloaded_output .= $noscript;
-   			}
-   			
-   			// Reset templates (custom and theme) if $alternate is true
-   			if($alternate === 'true' && has_action('alm_alternating_installed')){
-   				$repeater = $global_repeater;
-   				$type = $global_type;
-   				$theme_repeater = $theme_repeater;
-   			}
+            }            
    			
    			$ajaxloadmore .= $preloaded_output; // Add $preloaded_output data to $ajaxloadmore
          }

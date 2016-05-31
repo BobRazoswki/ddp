@@ -4,7 +4,7 @@ Donate link: https://connekthq.com/donate/
 Tags: infinite scroll, scroll, infinite, lazy load, lazy loading, pagination, ajax pagination, ajax, ajax posts, ajax load posts, loop, query, dynamic, shortcode builder, wp_query, search, tags, category, post types, taxonomy, meta_query, archives, date, infinite scrolling, woocommerce
 Requires at least: 3.6
 Tested up to: 4.5.2
-Stable tag: 2.11.0
+Stable tag: 2.11.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,7 +16,7 @@ Ajax Load More is a powerful solution for infinite scrolling and lazy loading po
 
 Build complex custom WordPress queries using the Ajax Load More shortcode builder then add the generated shortcode to your page via the content editor or directly into your template files. 
 
-Ajax Load More is fully compatible with popular ecommerce plugins such as WooCommerce, Easy Digital Downloads and JigoShop.
+Ajax Load More is fully compatible with popular ecommerce plugins such as WooCommerce and Easy Digital Downloads.
 
 **[Get More Information](https://connekthq.com/plugins/ajax-load-more/)**
 
@@ -26,8 +26,7 @@ Ajax Load More is fully compatible with popular ecommerce plugins such as WooCom
 * **Customizable Repeater Templates** - Edit and extend the functionality of Ajax Load More by creating your own repeater template to match the look and feel of your website (see screenshots).
 * **Setting Panel** - Customize your version of Ajax Load More by updating various plugin settings (see screenshots).
 * **Multiple Instances** - You can include multiple instances of Ajax Load More on a single page, post or template.
-* **Multisite Compatibility** - Manage unique repeater templates across all sites in your network.
-* **REST API** - As of Ajax Load More 2.11.0 user can infinite scroll posts and pages with the [WP REST API](https://wordpress.org/plugins/rest-api/).
+* **Multisite Compatibility** - As of Ajax Load More 2.7.2 you can now manage repeater templates across all sites in your network.
 
 Check out the **[demo site](https://connekthq.com/plugins/ajax-load-more/)** for more information!
 
@@ -330,6 +329,12 @@ How to install Ajax Load More.
 
 
 == Changelog ==
+
+= 2.11.1 - May 30, 2016 =
+* SECURITY - Security fix for posts_status parameter. posts_status is now only available for logged in (admin) users. Non logged in users will only have access to view content in a 'publish' state.
+* UPDATE - Added support for preloading comments with the Comments and Preloaded add-ons.
+* Shortcode Builder UI improvments
+
 
 = 2.11.0 - May 25, 2016 =
 * NEW - Adding required functionality for the new REST API add-on.
@@ -671,7 +676,7 @@ How to install Ajax Load More.
 = 2.0.2 =
 * Fixed issue with tinymce conflict
 
-= 2.0.1 =
+= 2.0.1 - June 20, 2014 =
 * Ajax Load More
 
 == Upgrade Notice ==

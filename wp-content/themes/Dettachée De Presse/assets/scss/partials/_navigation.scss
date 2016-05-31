@@ -27,7 +27,7 @@
 
   & > li.menu-item:not(:first-child):before {
     content: "•";
-    color: $white;
+    color: $bullet-yellow;
     display: inline-block;
     right: 9px;
     position: relative;

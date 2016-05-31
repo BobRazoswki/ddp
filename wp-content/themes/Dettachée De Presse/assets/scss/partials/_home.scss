@@ -284,7 +284,7 @@
       @include transform(translateX(-50%));
     }
 
-    &--aumenu:hover {
+    &--aumenu:hover, &--brandfactory:hover {
       background: $very-light-green;
       color: $white;
       border: 1px solid $white;
@@ -407,23 +407,19 @@
     &--div {
       background-size: cover;
       position: relative;
+      height: 340px;
     }
 
     &--evasion {
       background-image: url("http://localhost:8890/ddp/wp-content/uploads/2016/05/Screen-Shot-2016-05-20-at-10.44.44-AM.png");
-      height: 340px;
     }
 
     &--miss {
       background-image: url("http://localhost:8890/ddp/wp-content/uploads/2016/05/miss_ddp.png");
-      height: 340px;
-      background-color: $gris-clair;
     }
 
     &--mr {
       background-image: url("http://localhost:8890/ddp/wp-content/uploads/2016/05/mr__ddp.png");
-      height: 340px;
-      background-color: $gris-clair;
     }
 
     &--mariage {

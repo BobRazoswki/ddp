@@ -4,6 +4,23 @@
     height: auto;
 }
 
+
+
+a.amazingcarousel-posttitle-link {
+    text-transform: uppercase;
+    font-family: 'josefin_slabsemibold';
+    font-size: 1.4em;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: block;
+    color: black;
+}
+#wonderplugincarousel-1 .amazingcarousel-description {
+    color: $gris-fonce;
+    font-size: 1.2em;
+    padding-top: 6px;
+    font-family: 'josefin_slabregular';
+}
 // #slideshow {
 //   position: relative;
 //   width: 100%;

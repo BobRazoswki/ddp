@@ -19,8 +19,12 @@
 	}
 }
 
-#bg {
+.single {
 	background-color: #F9F9F9;
+}
+
+#bg {
+	background-color: $white;
 }
 
 // Wordpress CSS Reset

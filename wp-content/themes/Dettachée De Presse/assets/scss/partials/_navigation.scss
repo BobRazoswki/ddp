@@ -10,17 +10,23 @@
   height: 40px;
   z-index: 10;
 
-  > li > .sub-menu {
-    display: flex !important;
-    flex-direction: column;
-    li {
-      flex: 1;
-      align-items: center;
-      display: flex;
-      .sub-menu {
-        right: 0;
-        left: initial;
-        top: 0;
+  > li.menu-item{
+    margin-top: 2px;
+    & > .sub-menu {
+      display: flex !important;
+      flex-direction: column;
+      li {
+        flex: 1;
+        align-items: center;
+        display: flex;
+        .sub-menu {
+          right: 0;
+          left: initial;
+          top: 0;
+          li{
+            height:25px;
+          }
+        }
       }
     }
   }
@@ -47,7 +53,7 @@
     padding:10px 8px;
     display:inline-block;
     font-size: 14px;
-    margin-top: 2px;
+    margin-top: 0px;
 
     a {
       position: relative;

@@ -1,13 +1,73 @@
 #menu-nav{
   & > li{
-    &.jaune:hover > a:after{
-      background-color:$jaune;
+    &.jaune:hover{
+      & > a:after{
+        background-color:$jaune;
+      }
+      .sub-menu{
+        & > li:hover{
+            background-color:$jaune;
+        }
+      }
     }
-    &.bleu:hover > a:after{
-      background-color:$red;
+    &.bleu:hover{
+      & > a:after{
+        background-color:$red;
+      }
+      .sub-menu{
+        & > li:hover{
+            background-color:$red;
+        }
+      }
     }
-    &.rouge:hover > a:after{
-      background-color:$bleu-fonce;
+    &.rouge:hover{
+      & > a:after{
+        background-color:$bleu-fonce;
+      }
+      .sub-menu{
+        & > li:hover{
+            background-color:$bleu-fonce;
+        }
+      }
+    }
+  }
+}
+#menu-burger{
+  & > li{
+    position:relative;
+    & > a:before{
+      content:'';
+      display: block;
+      position:absolute;
+      top:0;
+      left:-5px;
+      width:3px;
+      height:37px;
+    }
+    &.jaune{
+      & > a:before{
+        background-color:$jaune;
+      }
+    }
+    &.bleu{
+      & > a:before{
+        background-color:$red;
+      }
+    }
+    &.rouge{
+      & > a:before{
+        background-color:$bleu-fonce;
+      }
+    }
+  }
+}
+@media screen and (max-width:599px){
+  #menu-burger{
+    & > li{
+      & > a:before{
+        height:100%;
+        left:-10px;
+      }
     }
   }
 }

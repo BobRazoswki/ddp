@@ -1,21 +1,4 @@
 jQuery( document ).ready(function() {
-  var hightlighting = jQuery(".search__form--showingResults").attr("data-results");
-
-  // function highlightSearch() {
-      var text = jQuery(".search__form--showingResults").attr("data-results");
-      var query = new RegExp("(\\B" + text + "\\B)", "gim");
-      var e = document.getElementById("bg").innerHTML;
-      var enew = e.replace(/(<span>|<\/span>)/igm, "");
-      document.getElementById("bg").innerHTML = enew;
-      var newe = enew.replace(query, "<span class='highlight'>$1</span>");
-      document.getElementById("bg").innerHTML = newe;
-  // }
-// str1 = hightlighting;
-//   var re = new RegExp(str1, "g");
-//   "pattern matching .".replace(re, "regex");
-
-  // var words = document.body.textContent || document.body.innerText,
-  // matches = words.match(/+hightlighting+/gmi);
 
   //Burger menu
   jQuery('.burger__button').click(function(){

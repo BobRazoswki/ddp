@@ -86,45 +86,19 @@
       margin-top: 10px;
       background: white;
 
-      & > p {
-        margin-top: 12px;
-      }
-
       header {
         top: 0;
         display: block;
         width: 100%;
-        background: $gris-bg;
+        background: burlywood;
+        color: white;
         padding-top: 10px!important;
         padding-bottom: 10px!important;
-        & a {
-          color: $black;
-          text-transform: uppercase;
-          &:hover, &:visited, &:focus {
-            color: $black;
-          }
-        }
-      }
-
-      footer {
-        position: absolute;
-        bottom: 0;
-        padding-left: 160px;
-        background: $gris-bg;
-        display: block;
-        width: 100%;
-        padding-top: 10px;
-        padding-bottom: 10px;
-
-        & strong {
-          font-family: 'josefin_slabsemibold';
-        }
       }
 
       figure {
-        min-height: 160px;
-        min-width: 160px;
-        height: 160px;
+        min-height: 100px;
+        min-width: 100px;
         display: block;
         position: relative;
         float: left;
@@ -143,10 +117,6 @@
       }
     }
   }
-}
-
-.highlight {
-  background: $bleu-ciel;
 }
 
 .translateY0 {

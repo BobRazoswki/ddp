@@ -2,32 +2,6 @@
   position: relative;
   float: right;
 
-  &__coupdecoeur {
-    text-transform: uppercase;
-
-    &:after, &:before {
-      content: " ";
-      display: inline-block;
-      width: 25%;
-      background: black;
-      position: absolute;
-      border-bottom: 1px solid black;
-      top: 6px;
-    }
-
-    &:before {
-      right: 0%;
-    }
-
-    &:after {
-      left: 0%;
-    }
-
-    &--red {
-      color: $red;
-    }
-  }
-
   & li {
     * {
       max-width: 100%;

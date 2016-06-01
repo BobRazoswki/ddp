@@ -8,6 +8,8 @@
 
 // add_theme_support( 'post-thumbnails' );
 
+add_image_size( 'home__thumbnail', 400, 400, true );
+
 function popup_newsletter() {
 	if (!isset($_COOKIE['sitename_newvisitor'])) {
 		echo "<article id='popup' class='popup'>";
@@ -254,43 +256,54 @@ include 'page-templates/customizer/ddp.php';
 
 function register_my_widget_theme()  {
 // sidebar pour les pages
+	register_sidebar(array(
+		'id' => 'page-sidebar', // identifiant
+		'name' => 'Sidebar Page', // Nom a afficher dans le tableau de bord
+		'description' => 'Sidebar pour mes pages.', // description facultatif
+		'before_widget' => '<li id="%1$s" class="widget %2$s large--12 medium--4 small--6 extrasmall--12">', // class attribuer pour le contenu (css)
+		'after_widget' => '</li>',
+		'before_title' => '<h2 class="widgettitle">', // class attribuer  pour le titre (css)
+		'after_title' => '</h2>',
+	));
 
 	register_sidebar(array(
-
-		'id' => 'page-sidebar', // identifiant
-
-		'name' => 'Sidebar Page', // Nom a afficher dans le tableau de bord
-
+		'id' => 'home--1', // identifiant
+		'name' => 'Home 1', // Nom a afficher dans le tableau de bord
 		'description' => 'Sidebar pour mes pages.', // description facultatif
-
 		'before_widget' => '<li id="%1$s" class="widget %2$s large--12 medium--4 small--6 extrasmall--12">', // class attribuer pour le contenu (css)
-
 		'after_widget' => '</li>',
-
 		'before_title' => '<h2 class="widgettitle">', // class attribuer  pour le titre (css)
-
 		'after_title' => '</h2>',
-
+	));
+	register_sidebar(array(
+		'id' => 'home--2', // identifiant
+		'name' => 'Home 2', // Nom a afficher dans le tableau de bord
+		'description' => 'Sidebar pour mes pages.', // description facultatif
+		'before_widget' => '<li id="%1$s" class="widget %2$s large--12 medium--4 small--6 extrasmall--12">', // class attribuer pour le contenu (css)
+		'after_widget' => '</li>',
+		'before_title' => '<h2 class="widgettitle">', // class attribuer  pour le titre (css)
+		'after_title' => '</h2>',
+	));
+	register_sidebar(array(
+		'id' => 'home--3', // identifiant
+		'name' => 'Home 3', // Nom a afficher dans le tableau de bord
+		'description' => 'Sidebar pour mes pages.', // description facultatif
+		'before_widget' => '<li id="%1$s" class="widget %2$s large--12 medium--4 small--6 extrasmall--12">', // class attribuer pour le contenu (css)
+		'after_widget' => '</li>',
+		'before_title' => '<h2 class="widgettitle">', // class attribuer  pour le titre (css)
+		'after_title' => '</h2>',
 	));
 
 // sidebar pour lers articles
 
 	register_sidebar(array(
-
 		'id' => 'article-sidebar', // identifiant
-
 		'name' => 'Sidebar Article', // Nom a afficher dans le tableau de bord
-
 		'description' => 'Sidebar pour mes articles.',// description facultatif
-
 		'before_widget' => '<li id="%1$s" class="widget %2$s">', // class attribuer pour le contenu (css)
-
 		'after_widget' => '</li>',
-
 		'before_title' => '<h2 class="widgettitle">', // class attribuer  pour le titre (css)
-
 		'after_title' => '</h2>',
-
 	));
 
 }
@@ -302,10 +315,6 @@ add_action( 'widgets_init', 'register_my_widget_theme' );
 function wpc_styles() {
 	//Dependencies
 	wp_register_script( 'jquery', get_template_directory_uri().'/build/assets/lib/jquery/jquery.min.js' );
-	wp_register_script( 'owlJs', get_template_directory_uri().'/build/assets/lib/owl/owl.carousel.min.js' );
-	wp_register_style( 'owlCarousel', get_template_directory_uri().'/build/assets/lib/owl/owl.carousel.css' );
-	wp_register_style( 'owlDefault', get_template_directory_uri().'/build/assets/lib/owl/owl.theme.css' );
-	wp_register_style( 'owlGreen', get_template_directory_uri().'/build/assets/lib/owl/owl.transitions.css' );
 
 	//Themes files
 	wp_register_script( 'js', get_template_directory_uri().'/build/assets/js/main.min.js' );
@@ -314,10 +323,6 @@ function wpc_styles() {
 	//Requires
 	//wp_enqueue_script( 'angular' );
 	wp_enqueue_script( 'jquery' );
-	wp_enqueue_style( 'owlCarousel' );
-	wp_enqueue_script( 'owlJs' );
-	wp_enqueue_style( 'owlDefault' );
-	wp_enqueue_style( 'owlGreen' );
 
 	wp_enqueue_script( 'js' );
 	wp_enqueue_style( 'css' );

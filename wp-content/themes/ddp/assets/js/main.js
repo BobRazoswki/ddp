@@ -63,13 +63,18 @@ jQuery( document ).ready( function() {
 jQuery( document ).ready(function() {
 
   // var text = jQuery(".search__form--showingResults").attr("data-results");
-  //       var query = new RegExp("(\\B" + text + "\\B)", "gim");
+  //       var query = new RegExp(".*(" + text + ").*", "gim");
+  //       console.log(query);
   //       var e = document.getElementById("bg").innerHTML;
   //       var enew = e.replace(/(<span>|<\/span>)/igm, "");
-  //       document.getElementById("bg").innerHTML = enew;
+  //       // document.getElementById("bg").innerHTML = enew;
   //       var newe = enew.replace(query, "<span class='highlight'>$1</span>");
   //       document.getElementById("bg").innerHTML = newe;
 
+  jQuery(".video__lien").on("click", function(){
+    jQuery(".video__lien").removeClass("video__lien--actif");
+    jQuery(this).addClass("video__lien--actif");
+  });
 
   //Burger menu
   jQuery('.burger__button').click(function(){
@@ -97,27 +102,20 @@ jQuery(".amazingcarousel-image > div").remove(); //css("display", "none");
     newsletterButton[0].classList.add("newsletter__button--actif");
   });
 
-  // Change the height of the twtiteer viewport on sidebar
-  // jQuery('.timeline-Viewport').css("height", "260px");
-  // change the width of the youtube player
-  // var videoIframe = jQuery(".home__video p iframe")
-  // videoIframe.width("100%");
-  // videoIframe.height("350px");
-  //
-  //
-  //   var videoID          = jQuery(".home__video--liens");
-  //
-  //   videoID.on("click", function(){
-  //     var idVideo = jQuery(this).attr("data-videoid");
-  //     // reset the other to make them go on non visible layer
-  //     jQuery(".home__videoIdPlayer").css("z-index", "1");
-  //     jQuery(".home__video--liens:after").css("display", "none");
-  //     // showing up the right one
-  //     jQuery('.videoID-'+idVideo).css("z-index", "2");
-  //     jQuery('.videoIDLi-'+idVideo+':after').css("visibility", "visible");
-  //   });
+  //Change the height of the twtiteer viewport on sidebar
+  jQuery('.timeline-Viewport').css("height", "260px");
+
+  //change the width of the youtube player
+
+    var videoID = jQuery(".video__lien");
+
+    videoID.on("click", function(){
+      var idVideo = jQuery(this).attr("data-videoid");
+      jQuery(".youtube").removeClass("youtube--actif");
+      jQuery("." + idVideo).addClass("youtube--actif");
+    });
   // Faire disparaitre l'anti-spam (hidden field) de la newsletter
-  jQuery("#wp-uspcontent-media-buttons").empty();
+  jQuery("#wp-uspcontent-media-buttons").remove();
 
   // Formulaire Newsletter H/F
   // var newsletterFemme       = jQuery(".newsletter__femme");

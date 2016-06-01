@@ -1,16 +1,17 @@
 #menu-nav {
-  width:100%;
+  width: auto;
+  display: inline-block;
   position: relative;
   text-align:center;
   text-transform: uppercase;
-  @include flexCrossBrowser;
-  @include align-items(center);
-  @include justify-content(center);
   height: 40px;
   z-index: 10;
+  background: $black;
 
   > li.menu-item{
-    margin-top: 2px;
+    height: 100%;
+    vertical-align: top;
+
     & > .sub-menu {
       display: flex !important;
       flex-direction: column;
@@ -30,34 +31,39 @@
     }
   }
 
-  & > li.menu-item:not(:first-child):before {
+  & > li.menu-item:not(:first-child) a:before {
     content: "•";
     color: $jaune-menu;
-    display: inline-block;
-    right: 9px;
-    position: relative;
+    display: block;
+    position: absolute;
+    top: calc(50% - 6px);
+    left: -5px;
   }
 
   & > li > a:after{
     content:'';
     display: block;
     position: absolute;
-    top: 24px;
+    bottom: 0;
     left: 0;
     width: 100%;
     height: 4px;
   }
 
   li {
-    padding:10px 8px;
     display:inline-block;
-    @include font($Jbold, 1.25rem, uppercase);
+    @include font($Jbold, $extrasmall, uppercase);
     margin-top: 0px;
 
     a {
+      padding: 0 15px;
+      height: 100%;
       position: relative;
       color:white;
       text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .sub-menu{
@@ -147,6 +153,13 @@
       }
     }
   }
+}
+
+.menu__container {
+    width: 80%;
+    margin: 0 auto;
+    max-width: 1026px;
+    text-align: center;
 }
 
 #menu-item-10408, #menu-item-10412 {

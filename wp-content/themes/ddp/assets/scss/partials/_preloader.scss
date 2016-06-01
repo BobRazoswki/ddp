@@ -25,7 +25,7 @@
 //   &:after{
 //     content: "Votre site Dettachée est en train de charger!";
 //     position: absolute;
-//     @include font($Jsemibold, 2.2rem, uppercase);
+//     @include font($Jsemibold, $big, uppercase);
 //     color: black;
 //     left: 50%;
 //     top: 20%;

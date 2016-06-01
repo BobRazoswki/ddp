@@ -8,10 +8,9 @@
     &--showingResults {
       display: none;
       background: $rose;
-      font-size: 1.4rem;
+      @include font($Jregular, $medium, uppercase);
       height: 40px;
       position: relative;
-      text-transform: uppercase;
       & strong {
         text-transform: lowercase;
       }
@@ -34,7 +33,7 @@
 
 
     &--label {
-      font-size: 1.8em;
+      font-size: $medium;
       color: white;
       float: left;
       margin-top: 8px;
@@ -48,13 +47,13 @@
       height: 40px;
       position: relative;
       margin-left: -8px;
-      font-size: 1.4rem;
+      font-size: $smallmedium;
     }
 
     &--input {
       height: 40px;
       width: 60%;
-      font-size: 1.4em;
+      font-size: $smallmedium;
       border: none;
       padding-left: 20px;
     }
@@ -117,7 +116,7 @@
         padding-bottom: 10px;
 
         & strong {
-          @include font($Jsemibold, 1.4rem, uppercase);
+          @include font($Jsemibold, $smallmedium, uppercase);
         }
       }
 

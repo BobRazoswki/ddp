@@ -1,7 +1,7 @@
 @media (max-width: 1200px) {
   .post {
     section{
-      width: inherit;;
+      width: inherit;
     }
   }
   .home__textes {
@@ -46,7 +46,8 @@
   .home__newsletter {
     height: 100%;
     .newsletter {
-        margin-top: -50px;
+      margin-top: -30px;
+      padding-bottom: 30px;
     }
   }
 

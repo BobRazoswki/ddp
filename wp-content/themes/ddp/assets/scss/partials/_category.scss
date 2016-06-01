@@ -29,7 +29,7 @@
 }
 
 .button {
-  @include font($Jsemibold, 1.4rem, uppercase);
+  @include font($Jsemibold, $small, uppercase);
   display: inline-block;
   color: #222;
   cursor: pointer;

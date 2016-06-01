@@ -31,11 +31,12 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
-	@include font($Jregular, inherit, inherit);
+	font-size: 16px;
+	font-family: 'josefin_slabregular';
 }
 
 input {
-	@include font($Jregular, inherit, inherit);
+	font-family: 'josefin_slabregular';
 }
 ol, ul {
 	list-style: none;
@@ -103,5 +104,5 @@ img {
 }
 // les medias
 @import "partials/media1102";
-@import "partials/media970";
+@import "partials/media960";
 @import "partials/media700";

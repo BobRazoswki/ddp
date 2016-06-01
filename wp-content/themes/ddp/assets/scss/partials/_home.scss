@@ -1,7 +1,30 @@
 .home {
 
+  &__section {
+    padding: 40px 0;
+  }
+
+  &__content {
+    overflow: hidden;
+    article {
+      overflow: hidden;
+      & + article {
+        margin-top: 40px;
+      }
+    }
+  }
+
+  &--startup {
+    background: $gris-bg;
+  }
+
+  &__aside{
+    float: right;
+  }
+
   &__strate {
     overflow: hidden;
+    position: relative;
   }
 
   &__newsletter {
@@ -17,21 +40,20 @@
     }
 
     & .newsletter__button--femme, .newsletter__button--homme {
-      margin-left: -5px;
     }
 
     & .newsletter input#ninja_forms_field_5, .newsletter input#ninja_forms_field_6 {
-      width: 300px;
+      width: 100%;
     }
 
     & div {
 
       & p:first-of-type {
-        @include font($Jbold, 2rem, uppercase);
+        @include font($Jbold, $medium, uppercase);
       }
 
       & p {
-        @include font($Jbold, 1.1rem, uppercase);
+        @include font($Jbold, $small, uppercase);
       }
 
       & .newsletter__homme, & .newsletter__femme {
@@ -102,7 +124,7 @@
       padding: 10px 25px;
       margin-top: 20px;
       border: 1px solid #A9D7E0;
-      @include font($Jregular, 1.4rem, uppercase);
+      @include font($Jregular, $small, uppercase);
       background: #fff;
       color: #A9D7E0;
       text-align: center;
@@ -116,18 +138,17 @@
       border: 1px solid $white;
       background: $bleu-ciel;
       color: $white;
-      @include transition(1s all ease);
+      @include transition(.2s all ease);
     }
   }
 
   &__h3 {
     font-size: 30px;
     margin-bottom: 30px;
-    margin-top: 30px;
-    height: 46px;
     padding-left: 12px;
     position: relative;
     text-transform: uppercase;
+    line-height: 46px;
   }
 
   &__h3:before {
@@ -138,7 +159,7 @@
     border-radius: 50%;
     position: absolute;
     z-index: -1;
-    top: 18px;
+    top: calc(50% - 23px);
     left: 0;
   }
 
@@ -180,7 +201,7 @@
 
   &__h4 {
     margin-bottom: 6px;
-    @include font($Jsemibold, 1.6rem, uppercase);
+    @include font($Jsemibold, $medium, uppercase);
 
     &--store {
       text-align: center;
@@ -214,7 +235,7 @@
     }
 
     &--infoencontinu {
-      @include font($Jregular, 1.6rem, uppercase);
+      @include font($Jregular, $medium, uppercase);
     }
 
     &--brandfactory {
@@ -231,11 +252,11 @@
     min-width: 100px;
     text-align: center;
     text-decoration: none;
-    @include font($Jsemibold, 1.4rem, uppercase);
+    @include font($Jsemibold, $small, uppercase);
 
 
     &--gris {
-      @include transition(1s all ease);
+      @include transition(.2s all ease);
       background: $white;
       color: $gris-clair;
       border: 1px solid $gris-clair;
@@ -249,14 +270,14 @@
     }
 
     &--orange {
-      @include transition(1s all ease);
+      @include transition(.2s all ease);
       background: $orange;
       color: $white;
       border: 1px solid $white;
       width: 120px;
     }
     &--brandfactory {
-      @include transition(1s all ease);
+      @include transition(.2s all ease);
       background: $white;
       color: $very-light-green;
       border: 1px solid $very-light-green;
@@ -267,7 +288,7 @@
     }
 
     &--aumenu {
-      @include transition(1s all ease);
+      @include transition(.2s all ease);
       background: $white;
       color: $very-light-green;
       border: 1px solid $very-light-green;
@@ -277,7 +298,7 @@
       @include transform(translateX(-50%));
     }
 
-    &--aumenu:hover {
+    &--aumenu:hover, &--brandfactory:hover  {
       background: $very-light-green;
       color: $white;
       border: 1px solid $white;
@@ -290,14 +311,13 @@
     }
 
     &--whiterose {
-      @include transition(1s all ease);
+      @include transition(.2s all ease);
       background: $white;
       color: $rose;
       border: 1px solid $rose;
-      margin-left: auto;
-      margin-right: auto;
-      top: 72%;
-      position: relative;
+      bottom: 20px;
+      position: absolute;
+      left: calc(50% - 80px);
       width: 160px;
     }
 
@@ -308,7 +328,7 @@
     }
 
     &--miss {
-      @include transition(1s all ease);
+      @include transition(.2s all ease);
       text-transform: capitalize;;
       background: $red;
       color: $white;
@@ -316,8 +336,9 @@
       margin-left: auto;
       margin-right: auto;
       width: 130px;
-      top: 71%;
-      position: relative;
+      bottom: 20px;
+      left: calc(50% - 65px);
+      position: absolute;
     }
 
     &--miss:hover {
@@ -327,16 +348,15 @@
     }
 
     &--mr {
-      @include transition(1s all ease);
+      @include transition(.2s all ease);
       text-transform: capitalize;;
       background: $bleu-fonce;
       color: $white;
       border: 1px solid $bleu-fonce;
-      position: relative;
-      top: 71%;
+      position: absolute;
+      bottom: 20px;
       width: 120px;
-      margin-left: auto;
-      margin-right: auto;
+      left: calc(50% - 60px);
     }
 
     &--mr:hover {
@@ -354,6 +374,7 @@
       text-align: center;
       & img {
         border-radius: 50%;
+        max-width: 200px;
       }
     }
 
@@ -395,35 +416,32 @@
     &--img img {
       width: 100%;
       height: auto;
+      max-width: 200px;
     }
   }
 
   &__lifestyle {
 
     &--div {
-      background-size: cover;
+      text-align: center;
       position: relative;
     }
 
     &--evasion {
-      background-image: url("http://localhost:8890/ddp/wp-content/uploads/2016/05/Screen-Shot-2016-05-20-at-10.44.44-AM.png");
-      height: 340px;
+      // background-image: url("http://localhost:8890/ddp/wp-content/uploads/2016/05/Screen-Shot-2016-05-20-at-10.44.44-AM.png");
     }
 
     &--miss {
-      background-image: url("http://localhost:8890/ddp/wp-content/uploads/2016/05/miss_ddp.png");
-      height: 340px;
-      background-color: $gris-clair;
+      // background-image: url("http://localhost:8890/ddp/wp-content/uploads/2016/05/miss_ddp.png");
+      // b/ackground-color: $gris-clair;
     }
 
     &--mr {
-      background-image: url("http://localhost:8890/ddp/wp-content/uploads/2016/05/mr__ddp.png");
-      height: 340px;
-      background-color: $gris-clair;
+      // background-image: url("http://localhost:8890/ddp/wp-content/uploads/2016/05/mr__ddp.png");
+      // bac/kground-color: $gris-clair;
     }
 
     &--mariage {
-      background-image: url("http://localhost:8890/ddp/wp-content/uploads/2016/05/Screen-Shot-2016-05-20-at-10.45.13-AM.png");
       height: 96px;
       max-height: 96px;
       position: relative;
@@ -436,7 +454,6 @@
     }
 
     &--venteddp {
-      background-image: url("http://localhost:8890/ddp/wp-content/uploads/2016/05/Screen-Shot-2016-05-20-at-10.45.24-AM.png");
       height: 342px;
       max-height: 342px;
       position: relative;
@@ -448,7 +465,7 @@
 
     &--decouvrir {
       position: relative;
-      @include font($Jsemibold, 1.2rem, uppercase);
+      @include font($Jsemibold, $small, uppercase);
       top: 34px;
       text-align: center;
       display: block;
@@ -522,7 +539,7 @@
         display: inline-block;
         text-decoration: none;
         color: $white;
-        @include font($Jsemibold, 1.4rem, uppercase);
+        @include font($Jsemibold, $small, uppercase);
         width: 25%;
         float: left;
         padding: 30px 0px;

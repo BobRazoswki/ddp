@@ -1,9 +1,10 @@
 .newsletter {
-  width: 300px;
+  width: 40%;
   text-align: right;
   float: right;
   position: relative;
   z-index: 9;
+  overflow: hidden;
   margin-top: 28px;
 
   label {
@@ -35,7 +36,8 @@
     display: inline-block;
     position: relative;
     border: none;
-    width: 40px;
+    width: 50%;
+    float: left;
     height: 40px;
     font-size: 20px;
     z-index: 9;
@@ -49,10 +51,14 @@
 
 // Couleur de bouton
 .newsletter--header {
+  width: 300px;
+  .newsletter__form {
+    width: calc(100% - 84px);
+  }
   .newsletter__button {
     background-color: $white;
     color: $bleu-ciel;
-    @include font($Jbold, 1.4rem, uppercase);
+    @include font($Jbold, $small, uppercase);
   }
   .newsletter__button--actif {
     background: $bleu-fonce;
@@ -62,19 +68,23 @@
     border: 2px solid #A9D7E0;
   }
   .newsletter__form {
-    @include font($Jlight, 1.4rem, none);
+    @include font($Jlight, $small, none);
   }
   input#ninja_forms_field_9, input#ninja_forms_field_10 {
-    @include font($Jbold, 1.35rem, uppercase);
+    @include font($Jbold, $small, uppercase);
+    line-height: 41px;
   }
   input#ninja_forms_field_5, input#ninja_forms_field_6 {
-    width: 156px;
+    width: 100%;
     border: 1px solid $bleu-ciel;
-    @include font($Oregular, 1rem, none);
+    @include font($Oregular, $extrasmall, none);
   }
 }
 
 .newsletter--footer {
+  .newsletter__form {
+    width: calc(100% - 84px);
+  }
   .newsletter__button {
     background-color: $white;
     color: $gris-fonce;
@@ -85,7 +95,7 @@
   }
   .newsletter__button--container {
     border: 2px solid $gris-fonce;
-    margin-left: -140px;
+    // margin-left: -140px;
     margin-top: 15px;
   }
   .newsletter__form--homme, .newsletter__form--femme {
@@ -119,6 +129,10 @@ input#ninja_forms_field_5, input#ninja_forms_field_6 {
   border: none;
   padding-left: 6px;
   margin-left: 8px;
+}
+
+#ninja_forms_field_5_div_wrap, #ninja_forms_field_6_div_wrap, #ninja_forms_form_5_cont, #ninja_forms_form_6_cont {
+  width: 100%;
 }
 
 

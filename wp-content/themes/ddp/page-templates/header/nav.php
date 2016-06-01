@@ -1,5 +1,5 @@
 <article class="header__navigation">
-	<div class="container">
+	<div class="menu__container">
 		<?php
 			wp_nav_menu( array(
 				'menu' => 'nav',

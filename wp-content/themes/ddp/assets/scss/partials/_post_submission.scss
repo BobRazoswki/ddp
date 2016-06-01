@@ -10,14 +10,14 @@
   & a {
     text-decoration: none;
     background: $gris-fonce;
-    padding: 0px 10px;
+    padding: 0px 10px 10px;
     color: $white;
     width: 300px;
     position: relative;
     display: block;
     text-align: center;
-    padding-bottom: 5px;
-    @include font($Jbold, 1.4rem, none);
+    padding-bottom: 10px;
+    @include font($Jbold, $small, none);
   }
 
   & a:hover {
@@ -26,9 +26,10 @@
   }
 
   &--plus {
-    font-size: 2.2rem;
+    font-size: $big;
     margin-left: 15px;
     position: relative;
+    top: 3px;
   }
 }
 

@@ -1,14 +1,5 @@
-@media screen and (max-width:1199px){
-  #menu-nav{
-    display: none;
-  }
-}
-@media screen and (min-width:1200px){
-  #burger{
-    display: none;
-  }
-}
 #burger{
+  display: none;
   .burger{
     &__button-container{
       width:100%;
@@ -98,12 +89,12 @@
       & > a{
         color:white;
         margin-bottom: 5px;
-        @include font($Jbold, 1rem, uppercase);
+        @include font($Jbold, $small, uppercase);
       }
       .sub-menu{
         a{
           color:#aaa;
-          @include font($Jregular, 0.8rem, none);
+          @include font($Jregular, $extrasmall, none);
         }
       }
     }
@@ -146,7 +137,7 @@
           text-align: left;
           a{
             padding:2px 0 2px 5px;
-            font-size: 1rem;
+            font-size: $small;
             display: block;
           }
         }
@@ -163,5 +154,13 @@
   }
   .logo__ddp{
     display: none;
+  }
+}
+@media screen and (max-width:960px){
+  #menu-nav{
+    display: none;
+  }
+  #burger{
+    display: block;
   }
 }

@@ -2,31 +2,56 @@
   position: relative;
   float: right;
 
-  &__coupdecoeur {
-    text-transform: uppercase;
-
-    &:after, &:before {
-      content: " ";
-      display: inline-block;
-      width: 25%;
-      background: black;
-      position: absolute;
-      border-bottom: 1px solid black;
-      top: 6px;
-    }
-
-    &:before {
-      right: 0%;
-    }
-
-    &:after {
-      left: 0%;
-    }
-
-    &--red {
-      color: $red;
-    }
+  &__coupdecoeur--red {
+    color: $red;
   }
+  // &__sideborder {
+  //   text-transform: uppercase;
+  //
+  //   &:after, &:before {
+  //     content: " ";
+  //     display: inline-block;
+  //     width: 25%;
+  //     background: black;
+  //     position: absolute;
+  //     border-bottom: 1px solid black;
+  //     top: 6px;
+  //   }
+  //
+  //   &:before {
+  //     right: 0%;
+  //   }
+  //
+  //   &:after {
+  //     left: 0%;
+  //   }
+  // }
+  //
+  // &__coupdecoeur {
+  //   text-transform: uppercase;
+  //
+  //   &:after, &:before {
+  //     content: " ";
+  //     display: inline-block;
+  //     width: 25%;
+  //     background: black;
+  //     position: absolute;
+  //     border-bottom: 1px solid black;
+  //     top: 6px;
+  //   }
+  //
+  //   &:before {
+  //     right: 0%;
+  //   }
+  //
+  //   &:after {
+  //     left: 0%;
+  //   }
+  //
+  //   &--red {
+  //     color: $red;
+  //   }
+  // }
 
   & li {
     * {
@@ -55,7 +80,27 @@
 
     &title {
       margin-bottom: 10px;
-      @include font($Jsemibold, 1.4rem, uppercase);
+      @include font($Jsemibold, $smallmedium, uppercase);
+      text-transform: uppercase;
+      position: relative;
+
+      &:after, &:before {
+        content: " ";
+        display: inline-block;
+        width: 18%;
+        background: black;
+        position: absolute;
+        border-bottom: 1px solid black;
+        top: 9px;
+      }
+
+      &:before {
+        right: 0%;
+      }
+
+      &:after {
+        left: 0%;
+      }
     }
 
     &__sociaux {

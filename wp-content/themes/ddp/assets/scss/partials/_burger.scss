@@ -1,5 +1,6 @@
 #burger{
   display: none;
+  position: relative;
   .burger{
     &__button-container{
       width:100%;
@@ -61,6 +62,12 @@
     }
     &__searchbutton{
       float:right;
+      position: absolute;
+      top: 50%;
+      text-align: center;
+      right: 20px;
+      color: white;
+      transform: translateY(-50%);
     }
   }
 

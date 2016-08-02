@@ -1,4 +1,4 @@
-<div class="isotope">
+<section class="cat__child">
   <?php
   $thisCat = get_category(get_query_var('cat'));
   $thisCatID = $thisCat->term_id;
@@ -11,11 +11,16 @@
   foreach ( $myposts as $post ) : setup_postdata( $post );
   $cat_of_the_post = get_the_category();
    ?>
-  <div class="element-item <?php echo $cat_of_the_post[0]->category_nicename ?>" data-category="<?php echo $cat_of_the_post[0]->category_nicename ?>">
-
-    <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-  </div>
+   <article class="cat__child--article">
+    <?php the_post_thumbnail() ?>
+    <aside class="cat__child--aside">
+      <h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+      <p class="cat__child--p">
+        the_excerpt();
+      </p>
+    </aside>
+  </article>
   <?php endforeach;
   wp_reset_postdata();?>
 
-</div>
+</section>

@@ -9,7 +9,11 @@
   }
 
   .home__newsletter .newsletter {
-      width: 100%;
+    width: 100%;
+  }
+
+  .post__submission, .newsletter--header {
+    display: none;
   }
 
 }

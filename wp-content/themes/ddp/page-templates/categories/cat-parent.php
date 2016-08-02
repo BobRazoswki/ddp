@@ -14,11 +14,6 @@
   <?php
   $catIDClicked = "";
     foreach( $categories as $category ) :	setup_postdata($category);
-    // var_dump($category);
-      // $str = $category->name;
-      // $str = strtolower($str);
-      // $str = preg_replace('/[^a-zA-Z0-9\']/', '_', $str);
-      // $str = str_replace("'", '', $str);
       $catIDClicked = $category->id;
       echo '<button class="button" data-filter=".' . $category->category_nicename . '">' . $category->name  . '</button>';
     endforeach;

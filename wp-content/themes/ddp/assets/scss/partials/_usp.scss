@@ -1,4 +1,13 @@
 .usp {
+
+  &__h2 {
+    text-align: center;
+    @include font($Jregular, $smallmedium, uppercase);
+    font-size: 1.4em;
+    line-height: 28px;
+    text-transform: uppercase;
+  }
+
   &__ou {
     text-align: center;
     @include font($Jregular, $smallmedium, uppercase);
@@ -20,6 +29,10 @@
     line-height: 16px;
     text-shadow: none;
   }
+}
+
+.usp-label {
+    margin-bottom: 4px;
 }
 
 .usp-form input {

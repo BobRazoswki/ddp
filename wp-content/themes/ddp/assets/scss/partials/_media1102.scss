@@ -1,9 +1,21 @@
 @media (max-width: 1200px) {
+
+  .home__startup--img img {
+    margin-bottom: 40px;
+  }
+
   .post {
     section{
       width: inherit;
     }
   }
+  #menu-nav li a {
+    padding: 0 10px;
+  }
+  .home__aumenu--2 {
+    min-height: auto;
+  }
+
   .home__textes {
     margin-right: 0;
   }
@@ -25,11 +37,11 @@
   }
 
   .home__button--gris {
-    margin-bottom: 30px;
-    margin-left: auto;
-    margin-right: auto;
+      margin-bottom: 0px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 30px;
   }
-
   .home__brandfactory--img, .home__textes, .home__textes, .home__h4--brandfactory {
     width: 100%;
     left: 50%;
@@ -67,5 +79,11 @@
 
   .home__button--brandfactory {
     left: 50%;
+  }
+}
+
+@media (max-width: 1100px) {
+  #menu-nav li a {
+    padding: 0 5px;
   }
 }

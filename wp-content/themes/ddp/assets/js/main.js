@@ -86,7 +86,6 @@ jQuery( document ).ready(function() {
   });
   jQuery('#menu-burger>li>a').click(function(e){
     e.preventDefault();
-    console.log('hey');
   });
 
 // Remove the free version sentence of the slider plugin
@@ -117,77 +116,13 @@ jQuery(".amazingcarousel-image > div").remove(); //css("display", "none");
   // Faire disparaitre l'anti-spam (hidden field) de la newsletter
   jQuery("#wp-uspcontent-media-buttons").remove();
 
-  // Formulaire Newsletter H/F
-  // var newsletterFemme       = jQuery(".newsletter__femme");
-  // var newsletterHomme       = jQuery(".newsletter__homme");
-  // var newsletterBoutonHomme = jQuery(".newsletter__button--homme");
-  // var newsletterBoutonFemme = jQuery(".newsletter__button--femme");
-  //
-  // var newsletterFemmeFooter       = jQuery(".home__newsletter .newsletter__femme");
-  // var newsletterHommeFooter       = jQuery(".home__newsletter .newsletter__homme");
-  // var newsletterBoutonHommeFooter = jQuery(".home__newsletter .newsletter__button--homme");
-  // var newsletterBoutonFemmeFooter = jQuery(".home__newsletter .newsletter__button--femme");
-  // newsletterFemmeFooter.hide();
-  // newsletterBoutonHommeFooter.css("background-color", "#949797");
-  //
-  //
-  // var newsletter = jQuery(".newsletter");
-  //
-  // function switchNewsletter(el) {
-  //   console.log(el);
-  // }
-  // newsletterBoutonHomme.on("click", function(e){
-  //   switchNewsletter(e);
-  // });
-  //
-  // newsletterBoutonFemmeFooter.on("click", function(){
-  //   newsletterBoutonHommeFooter.css("background-color", "white");
-  //   newsletterBoutonFemmeFooter.css("background-color", "#949797");
-  //   newsletterBoutonFemmeFooter.css("color", "white");
-  //   newsletterHommeFooter.hide();
-  //   newsletterFemmeFooter.fadeIn( "slow", function() {
-  //   });
-  // });
   var popupContainer        = jQuery("#popup");
   var popupCrossContainer   = jQuery("#popup__cross--container");
 
 
-  //
-  // newsletterFemme.hide();
-  // newsletterBoutonHomme.css("background-color", "#3789A5");
-  //
-  // newsletterBoutonHomme.on("click", function(){
-  //   newsletterBoutonFemme.css("background-color", "white");
-  //   newsletterBoutonHomme.css("background-color", "#3789A5");
-  //   newsletterFemme.hide();
-  //   newsletterHomme.fadeIn( "slow", function() {
-  //   });
-  // });
-  //
-  // newsletterBoutonFemme.on("click", function(){
-  //   newsletterBoutonHomme.css("background-color", "white");
-  //   newsletterBoutonFemme.css("background-color", "#3789A5");
-  //   newsletterHomme.hide();
-  //   newsletterFemme.fadeIn( "slow", function() {
-  //   });
-  // });
-
-// ESSAIS INFRUCTUEUX
-
-// jQuery( document ).ready(function() {
-//   var menuHasCHildren = jQuery("ul.burger > li.menu-item-has-children > a");
-//   var menuSubMenu = jQuery("ul.burger > li.menu-item-has-children > .sub-menu");
-//   menuHasCHildren.on("click",function(e) {
-//   jQuery(this).find(".sub-menu").show();
-//     // e.stopPropagation();
-//     e.preventDefault();
-//   });
-// });
-
-    var searchLoop = jQuery(".search");
+    var searchLoop = jQuery(".search, .burger__searchbutton");
     var searchFormContainer = jQuery(".search__form--container");
     searchLoop.on("click", function(){
-      console.log("oui oui");
       searchFormContainer.toggleClass("translateY0");
     });
 

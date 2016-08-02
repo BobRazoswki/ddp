@@ -124,21 +124,21 @@ gulp.task("watch", function () {
 gulp.task("default", ["dev-styles", "dev-jsconcat", "watch"]);
 
 
-
-
-
-// Toni
-
-gulp.task('bower', function(cb){
-  bower.commands.install([], {save: true}, {})
-    .on('end', function(installed){
-      cb(); // notify gulp that this task is finished
-    });
-});
-
-gulp.src(['./bower.json'])
-  .pipe(install()
-);
+//
+//
+//
+// // Toni
+//
+// gulp.task('bower', function(cb){
+//   bower.commands.install([], {save: true}, {})
+//     .on('end', function(installed){
+//       cb(); // notify gulp that this task is finished
+//     });
+// });
+//
+// gulp.src(['./bower.json'])
+//   .pipe(install()
+// );
 
 
 
@@ -164,3 +164,90 @@ gulp.src(['./bower.json'])
   "gulp-watch": "^4.3.5"
 }
 */
+
+// Toni
+// sudo npm install gulp gulp-sass gulp-autoprefixer gulp-concat gulp-jsmin gulp-cssmin gulp-watch gulp-rename --save-dev
+
+// plugins
+// var gulp       = require('gulp'),
+//     sass       = require('gulp-sass'),
+//     autoprefix = require("gulp-autoprefixer"),
+//     concat     = require("gulp-concat"),
+//     cssmin     = require("gulp-cssmin"),
+//     jsmin     = require("gulp-jsmin"),
+//     watch     = require("gulp-watch"),
+//     rename     = require("gulp-rename");
+//
+//
+//
+// // paths
+// var paths = {
+//   dev: {
+//     scss: 'wp-content/themes/codingdays/dev/sass/**/*.scss',
+//     js: 'wp-content/themes/codingdays/dev/js/*.js'
+//   },
+//   assets: {
+//     css: 'wp-content/themes/codingdays/assets/css',
+//     tocssmin: 'wp-content/themes/codingdays/assets/css/style.css',
+//     js: 'wp-content/themes/codingdays/assets/js',
+//     js_min: 'wp-content/themes/codingdays/assets/js'
+//   }
+// };
+//
+// //Concat all css libs
+// gulp.task('concatLibs', function () {
+//   return gulp.src('wp-content/themes/codingdays/assets/lib/**/*.css')
+//     .pipe(concat("libs.css"))
+//     .pipe(gulp.dest(paths.assets.css));
+// });
+//
+//
+// // Sass compilation
+// gulp.task('sass',function(){
+//   gulp.src(paths.dev.scss)
+//     .pipe(sass())
+//     .pipe(gulp.dest(paths.assets.css))
+//     .pipe(cssmin())
+//     .pipe(rename({suffix:'.min'}))
+//     .pipe(gulp.dest(paths.assets.css))
+// });
+//
+// // CSS minified
+// gulp.task('cssmin',['sass'],function(){
+//   gulp.src(paths.assets.tocssmin)
+//     .pipe(cssmin())
+//     .pipe(rename({suffix:'.min'}))
+//     .pipe(gulp.dest(paths.assets.css))
+// });
+// // Just CSS minified
+// gulp.task('justcssmin',function(){
+//   gulp.src(paths.assets.tocssmin)
+//     .pipe(cssmin())
+//     .pipe(rename({suffix:'.min'}))
+//     .pipe(gulp.dest(paths.assets.css))
+// });
+//
+// // JS minified
+// gulp.task("jsmin", function(){
+//   gulp.src(paths.dev.js)
+//     .pipe(jsmin())
+//     .pipe(rename({suffix: '.min'}))
+//     .pipe(gulp.dest(paths.assets.js))
+// });
+//
+// // JS Libs minified
+// // gulp.task("minLibs", function(){
+// //   gulp.src('wp-content/themes/codingdays/assets/lib/bootstrap/js/bootstrap.js')
+// //     .pipe(jsmin())
+// //     .pipe(rename({suffix: '.min'}))
+// //     .pipe(gulp.dest('wp-content/themes/codingdays/assets/lib/bootstrap/js'))
+// // });
+//
+// // watch html, scss and js files
+// gulp.task("watch", function () {
+//   gulp.watch(paths.dev.scss, ["sass"]);
+//   gulp.watch(paths.dev.js,   ["jsmin"]);
+// });
+//
+// // Init
+// gulp.task("default", ["sass","jsmin","concatLibs","watch"]);

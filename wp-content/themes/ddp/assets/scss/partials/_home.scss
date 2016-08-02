@@ -80,6 +80,8 @@
       & img {
         width: 100%;
         height: auto;
+        min-height: 360px;
+        max-height: 360px;
       }
     }
 
@@ -87,8 +89,8 @@
       padding: 20px;
       background: $very-light-green;
       margin-left: 10px;
-      min-height: 412px;
-
+      min-height: 360px;
+      max-height: 360px;
       img {
         width: auto;
         max-height: 150px;
@@ -104,6 +106,7 @@
         display: block;
         color: $gris-fonce;
         font-size: 13px;
+        text-align: center;
       }
 
       p {
@@ -148,7 +151,7 @@
     padding-left: 12px;
     position: relative;
     text-transform: uppercase;
-    line-height: 46px;
+    line-height: 60px;
   }
 
   &__h3:before {
@@ -195,13 +198,12 @@
 
   &__textes {
     float: right;
-    margin-right: 20px;
     text-align: justify;
   }
 
   &__h4 {
     margin-bottom: 6px;
-    @include font($Jsemibold, $medium, uppercase);
+    @include font($Jsemibold, $extrasmallmedium, uppercase);
 
     &--store {
       text-align: center;
@@ -212,7 +214,6 @@
         margin-left: 20px;
       }
     }
-
 
     &--store {
       &-hr:before, &-hr:after {
@@ -374,7 +375,7 @@
       text-align: center;
       & img {
         border-radius: 50%;
-        max-width: 200px;
+        max-width: 170px;
       }
     }
 
@@ -422,23 +423,19 @@
 
   &__lifestyle {
 
+    &--evasion {
+      & img {
+        max-height: 333px;
+      }
+    }
+
     &--div {
       text-align: center;
       position: relative;
-    }
-
-    &--evasion {
-      // background-image: url("http://localhost:8890/ddp/wp-content/uploads/2016/05/Screen-Shot-2016-05-20-at-10.44.44-AM.png");
-    }
-
-    &--miss {
-      // background-image: url("http://localhost:8890/ddp/wp-content/uploads/2016/05/miss_ddp.png");
-      // b/ackground-color: $gris-clair;
-    }
-
-    &--mr {
-      // background-image: url("http://localhost:8890/ddp/wp-content/uploads/2016/05/mr__ddp.png");
-      // bac/kground-color: $gris-clair;
+      max-height: 333px;
+      max-width: 333px;
+      margin-bottom: 15px;
+      border: 1px solid #e4e1e1;
     }
 
     &--mariage {
@@ -448,9 +445,21 @@
       float: left;
       width: 100%;
       background-size: contain;
-      margin-top: 20px;
       margin-bottom: 20px;
-      font-style: italic;
+      background: $jaune-menu;
+      border: 1px solid $gris-bg;
+
+      &-p {
+        @include font($Edward, $superbig, none)
+        display: block;
+        text-align: center;
+        position: relative;
+        margin-top: 6px;
+      }
+
+      & img {
+        position: absolute;
+      }
     }
 
     &--venteddp {
@@ -466,17 +475,19 @@
     &--decouvrir {
       position: relative;
       @include font($Jsemibold, $small, uppercase);
-      top: 34px;
+      margin-top: 10px;
       text-align: center;
       display: block;
-    }
-
-    &--mariage-p {
-      font-size: 32px;
-      display: block;
-      text-align: center;
-      top: 25px;
-      position: relative;
+      &:after {
+        content: "";
+        display: inline-block;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 6px 0 6px 12px;
+        border-color: transparent transparent transparent #000;
+        margin-left: 8px;
+      }
     }
   }
 

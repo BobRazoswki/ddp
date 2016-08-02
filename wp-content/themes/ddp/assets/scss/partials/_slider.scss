@@ -3,3 +3,36 @@
     width: 100%;
     height: auto;
 }
+
+
+#wonderplugincarousel-1 .amazingcarousel-title a {
+  @include font($Jregular, $smallmedium, uppercase);
+  color: $black;
+}
+
+#wonderplugincarousel-1 .amazingcarousel-title {
+  margin-top: 30px;
+}
+
+#wonderplugincarousel-1 .amazingcarousel-description {
+  @include font($Jregular, $smallmedium, none);
+  padding-top: 6px;
+  padding-bottom: 6px;
+  color: $gris-fonce;
+  line-height: 26px;
+}
+
+#wonderplugincarousel-2 .amazingcarousel-next {
+  margin-right: -28px;
+}
+
+#wonderplugincarousel-2 .amazingcarousel-prev {
+  margin-left: -28px;
+}
+
+#wonderplugincarousel-2 .amazingcarousel-hover {
+  background-color: rgba(218, 218, 218, 0.77);
+  .amazingcarousel-title a {
+    color: $black;
+  }
+}

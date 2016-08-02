@@ -1,3 +1,16 @@
+#menu-nav>li:hover .sub-menu>li#menu-item-10408 {
+  border-bottom: 2px solid $rose;
+    &:hover{
+      background-color: $rose;
+    }
+    & ul.sub-menu li {
+      border-bottom: 2px solid $rose!important;
+      &:hover{
+        background-color: $rose!important;
+      }
+    }
+}
+
 #menu-nav{
   & > li{
     &.jaune:hover{
@@ -5,28 +18,37 @@
         background-color:$jaune;
       }
       .sub-menu{
-        & > li:hover{
-            background-color:$jaune;
-        }
-      }
-    }
-    &.bleu:hover{
-      & > a:after{
-        background-color:$red;
-      }
-      .sub-menu{
-        & > li:hover{
-            background-color:$red;
+        & > li {
+          border-bottom: 2px solid $jaune;
+          &:hover{
+            background-color: $jaune;
+          }
         }
       }
     }
     &.rouge:hover{
       & > a:after{
+        background-color:$red;
+      }
+      .sub-menu{
+        & > li {
+          border-bottom: 2px solid $red;
+          &:hover{
+            background-color: $red;
+          }
+        }
+      }
+    }
+    &.bleu:hover{
+      & > a:after{
         background-color:$bleu-fonce;
       }
       .sub-menu{
-        & > li:hover{
-            background-color:$bleu-fonce;
+        & > li {
+          border-bottom: 2px solid $bleu-fonce;
+          &:hover{
+            background-color: $bleu-fonce;
+          }
         }
       }
     }
@@ -49,12 +71,12 @@
         background-color:$jaune;
       }
     }
-    &.bleu{
+    &.rouge{
       & > a:before{
         background-color:$red;
       }
     }
-    &.rouge{
+    &.bleu{
       & > a:before{
         background-color:$bleu-fonce;
       }

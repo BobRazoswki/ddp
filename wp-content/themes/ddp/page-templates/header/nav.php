@@ -14,6 +14,7 @@
 				'walker' => new description_walker())
 			);
 		?>
+		</div>
 		<div id="burger">
 			<div class="burger__button-container">
 				<div class="burger__button">
@@ -51,5 +52,6 @@
  				 	Résultat de recherche pour: <strong><?php echo get_search_query(); ?></strong>
  		 	</span>
  			</div>
+		</div>
 	</div>
 </article>

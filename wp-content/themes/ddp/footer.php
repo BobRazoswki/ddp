@@ -38,8 +38,8 @@
               foreach($custom_posts as $post) : setup_postdata($post);
             ?>
              <li class="footer__infoencontinu--li">
-               <?php the_time('j F Y'); ?>
-               <?php the_title(); ?>
+               <span class="footer__infoencontinu--date"><?php the_time('j F Y'); ?> - </span>
+               <span class="footer__infoencontinu--titre"><?php the_title(); ?></span>
                <a href="<?php the_permalink(); ?> ">Lire...</a>
              </li>
            <?php

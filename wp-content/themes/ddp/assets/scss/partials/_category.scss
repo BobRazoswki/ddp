@@ -25,7 +25,7 @@
   left: 50%;
   position: relative;
   @include transform(translateX(-50%));
-  margin-top: 20px;
+  margin-top: -10px;
 }
 
 .button {
@@ -39,7 +39,7 @@
   border: 1px solid;
   padding-left: 6px;
   padding-right: 6px;
-  @include transition(1s all ease);
+  @include transition(.2s all ease);
 }
 
 .button:hover {
@@ -82,7 +82,7 @@
 
 .isotope {
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 60px;
 }
 
 .isotope:after {

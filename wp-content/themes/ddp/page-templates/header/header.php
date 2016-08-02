@@ -32,7 +32,9 @@
 	</div>
 
 	<div class="logo__store">
-		<img src="<?php echo $logo_url_store ?>" alt="" />
+		<a href="http://www.dettacheestore.fr/" target="_blank">
+			<img src="<?php echo $logo_url_store ?>" alt="" />
+		</a>
 	</div>
 
 </section>

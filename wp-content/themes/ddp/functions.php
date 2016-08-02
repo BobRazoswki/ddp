@@ -348,7 +348,6 @@ function set_newuser_cookie() {
 add_action( 'init', 'set_newuser_cookie');
 
 /** Customization SweetBid **/
-
 function wpc_dashboard_widget_function() {
 	echo
 	"<ul>

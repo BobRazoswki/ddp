@@ -155,11 +155,15 @@
   }
 }
 
+#menu-nav > li > ul.sub-menu > li > ul.sub-menu {
+  width: 50%;
+}
+
 .menu__container {
-    width: 80%;
-    margin: 0 auto;
-    max-width: 1026px;
-    text-align: center;
+  width: 80%;
+  margin: 0 auto;
+  max-width: 1026px;
+  text-align: center;
 }
 
 #menu-item-10408, #menu-item-10412 {

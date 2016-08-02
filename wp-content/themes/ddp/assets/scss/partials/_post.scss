@@ -1,4 +1,8 @@
 .post {
+
+  p {
+    @include font($Oregular, $small, none);
+  }
   section{
     background: $white;
     width: 63%;

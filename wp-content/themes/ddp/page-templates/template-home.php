@@ -10,19 +10,19 @@ get_header(); ?>
     <div class="home__content large--8 medium--12">
       <h3 class="home__h3 home__h3--bleu">Derniers Articles</h3>
       <?php
-      $args1 = array(
-        'posts_per_page' => 1,
-        'category' => -568
-      );
-      $first_query = new WP_Query($args1);
-      while($first_query->have_posts()) : $first_query->the_post(); ?>
-      <article class="last__post last__post--12 large--12">
+        $args1 = array(
+          'posts_per_page' => 1,
+          'category' => -568
+        );
+        $first_query = new WP_Query($args1);
+        while($first_query->have_posts()) : $first_query->the_post(); ?>
+      <div class="last__post last__post--12 large--12">
         <figure>
           <!-- <?php the_post_thumbnail(); ?> -->
           <img src="http://fakeimg.pl/960x320/" alt="" />
           <figcaption><?php  the_title();?></figcaption>
         </figure>
-      </article>
+      </div>
       <?php
       endwhile;
       wp_reset_postdata();
@@ -34,13 +34,13 @@ get_header(); ?>
       // Loop 2
       $second_query = new WP_Query($args2); // exclude category
       while($second_query->have_posts()) : $second_query->the_post(); ?>
-      <article class="last__post last__post--petit last__post--6 large--6 medium--6 small--12 extrasmall--12">
+      <div class="last__post last__post--petit last__post--6 large--6 medium--6 small--12 extrasmall--12">
         <figure>
           <!-- <?php the_post_thumbnail(); ?> -->
           <img src="http://fakeimg.pl/960x320/" alt="" />
           <figcaption><?php  the_title();?></figcaption>
         </figure>
-      </article>
+      </div>
       <?php
       endwhile;
       wp_reset_postdata();
@@ -71,7 +71,7 @@ get_header(); ?>
          <?php the_post_thumbnail('home__thumbnail'); ?>
        </div>
        <div class="home__textes large--8">
-         <h4 class="home__h4"><?php the_title(); ?></h4>
+         <h4 class="home__h4 home__h4--startup"><?php the_title(); ?></h4>
          <p><?php the_excerpt(); ?></p>
          <a href="#" class="home__startup--hastag">#JeSuisTropCool</a>
          <a href="<?php the_permalink(); ?>" class="home__button home__button--gris">Qui est-ce?</a>
@@ -141,26 +141,25 @@ get_header(); ?>
         <h3 class="home__h3 home__h3--jaune">Life <span class="home__h3--lifestyle">style</span></h3>
         <div class="home__lifestyle--container">
           <div class="home__lifestyle--div home__lifestyle--evasion large--6 medium--12 small--12">
-            <img src="http://localhost:8890/ddp/wp-content/uploads/2016/05/Screen-Shot-2016-05-20-at-10.44.44-AM.png" alt="" />
+            <img src="<?php echo site_url(); ?>/wp-content/uploads/2016/05/Screen-Shot-2016-05-20-at-10.44.44-AM.png" alt="" />
             <span class="home__button home__button--whiterose">Evasion</span>
           </div>
           <div class="home__lifestyle--div home__lifestyle--miss large--3 medium--6 small--12">
-            <img src="http://localhost:8890/ddp/wp-content/uploads/2016/05/miss_ddp.png" alt="" />
+            <img src="<?php echo site_url(); ?>/wp-content/uploads/2016/05/miss_ddp.png" alt="" />
             <span class="home__button home__button--miss">Miss Dettachée</span>
           </div>
           <div class="home__lifestyle--div home__lifestyle--mr large--3 medium--6 small--12">
-            <img src="http://localhost:8890/ddp/wp-content/uploads/2016/05/mr__ddp.png" alt="" />
+            <img src="<?php echo site_url(); ?>/wp-content/uploads/2016/05/mr__ddp.png" alt="" />
             <span class="home__button home__button--mr">Mr Dettachée</span>
           </div>
           <div class="home__lifestyle--mariage large---12">
-            <img src="http://localhost:8890/ddp/wp-content/uploads/2016/05/Screen-Shot-2016-05-20-at-10.45.13-AM.png" alt="" />
             <p class="home__lifestyle--mariage-p">
               Ils se marient !
             </p>
             <span class="home__lifestyle--decouvrir">Découvrir</span>
           </div>
           <div class="home__lifestyle--venteddp large--12">
-            <img src="http://localhost:8890/ddp/wp-content/uploads/2016/05/Screen-Shot-2016-05-20-at-10.45.24-AM.png" alt="" />
+            <img src="<?php echo site_url(); ?>/wp-content/uploads/2016/08/ventes-dettachee.jpg" alt="" />
             <span class="home__button home__button--whiterose">Découvrir</span>
           </div>
         </div>

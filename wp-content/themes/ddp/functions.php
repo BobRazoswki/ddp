@@ -1,14 +1,82 @@
 <?php
-
-// include_once WP_CONTENT_DIR . '/wpalchemy/MetaBox.php';
-// include_once WP_CONTENT_DIR . '/wpalchemy/MediaAccess.php';
-// include_once 'metaboxes/setup.php';
+include_once WP_CONTENT_DIR . '/wpalchemy/MetaBox.php';
+include_once WP_CONTENT_DIR . '/wpalchemy/MediaAccess.php';
+include_once 'metaboxes/setup.php';
 // include_once 'metaboxes/customizer-spec.php';
-// $wpalchemy_media_access = new WPAlchemy_MediaAccess();
+include_once 'metaboxes/full-spec.php';
+include_once 'metaboxes/months-spec.php';
+include_once 'metaboxes/postfooter-spec.php';
+$wpalchemy_media_access = new WPAlchemy_MediaAccess();
 
 // add_theme_support( 'post-thumbnails' );
-
+add_image_size( 'nav__thumbnail', 134, 134, true );
 add_image_size( 'home__thumbnail', 400, 400, true );
+add_image_size( 'cat__thumbnail', 180, 180, true );
+
+add_filter( 'post_thumbnail_html', 'my_post_thumbnail_html' );
+
+function my_post_thumbnail_html( $html ) {
+
+	if ( empty( $html ) )
+		$html = '<img src="' . site_url() . '/wp-content/uploads/2016/04/cropped-LOGO-DETTACHEE-512-1.png" alt="image par defaut des posts" />';
+
+	return $html;
+}
+
+function new_excerpt_length($length) {
+ return 20;
+}
+add_filter('excerpt_length', 'new_excerpt_length');
+
+
+//add_filter('user_contactmethods','my_new_contactmethods',10,1);
+
+// function wpb_author_info_box( $content ) {
+//
+// global $post;
+//
+// // Detect if it is a single post with a post author
+// if ( is_single() && isset( $post->post_author ) ) {
+//
+// // Get author's display name
+// $display_name = get_the_author_meta( 'display_name', $post->post_author );
+//
+// // If display name is not available then use nickname as display name
+// if ( empty( $display_name ) )
+// $display_name = get_the_author_meta( 'nickname', $post->post_author );
+//
+// // Get author's biographical information or description
+// $user_description = get_the_author_meta( 'user_description', $post->post_author );
+//
+// // Get author's website URL
+// $user_website = get_the_author_meta('url', $post->post_author);
+//
+// // Get link to the author archive page
+// $user_posts = get_author_posts_url( get_the_author_meta( 'ID' , $post->post_author));
+//
+// if ( ! empty( $display_name ) )
+//
+// $author_details = '<p class="author_name">A propos de ' . $display_name . '</p>';
+//
+// if ( ! empty( $user_description ) )
+// // Author avatar and bio
+//
+// $author_details .= '<p class="author_details">' . get_avatar( get_the_author_meta('user_email') , 90 ) . nl2br( $user_description ). '</p>';
+//
+// //$author_details .= '<p class="author_links"><a href="'. $user_posts .'">Voir mes autres articles ' . $display_name . '</a></p>';
+//
+// // Pass all this info to post content
+// $content = $content . '<footer class="author_bio_section" >' . $author_details . '</footer>';
+// }
+// return $content;
+// }
+//
+// // Add our function to the post content filter
+// add_action( 'the_content', 'wpb_author_info_box' );
+//
+// // Allow HTML in author bio section
+// remove_filter('pre_user_description', 'wp_filter_kses');
+
 
 function popup_newsletter() {
 	if (!isset($_COOKIE['sitename_newvisitor'])) {
@@ -117,7 +185,7 @@ class description_walker extends Walker_Nav_Menu
 								$custom_posts = get_posts($argss);
 								foreach($custom_posts as $post) : setup_postdata($post);
 									// $prepend = get_the_post_thumbnail($post->ID);
-									$prepend .= '<li><a href="' . get_the_permalink() . '">' . get_the_post_thumbnail($post->ID) . '</a></li>';
+									$prepend .= '<li><a href="' . get_the_permalink() . '">' . get_the_post_thumbnail($post->ID, 'nav__thumbnail') . '</a></li>';
 									// $prepend .= count($custom_posts);
 								endforeach;
 								$prepend .= '</ul>';
@@ -267,6 +335,16 @@ function register_my_widget_theme()  {
 	));
 
 	register_sidebar(array(
+		'id' => 'sidebar__lecture', // identifiant
+		'name' => 'Sidebar Lecture', // Nom a afficher dans le tableau de bord
+		'description' => 'Sidebar pour les lecture Dettachée', // description facultatif
+		'before_widget' => '<li id="%1$s" class="widget %2$s large--12 medium--4 small--6 extrasmall--12">', // class attribuer pour le contenu (css)
+		'after_widget' => '</li>',
+		'before_title' => '<h2 class="widgettitle">', // class attribuer  pour le titre (css)
+		'after_title' => '</h2>',
+	));
+
+	register_sidebar(array(
 		'id' => 'home--1', // identifiant
 		'name' => 'Home 1', // Nom a afficher dans le tableau de bord
 		'description' => 'Sidebar pour mes pages.', // description facultatif
@@ -362,6 +440,6 @@ function wpc_add_dashboard_widgets() {
 add_action('wp_dashboard_setup', 'wpc_add_dashboard_widgets' );
 
 function remove_footer_admin () {
-echo 'Fait avec &#9829; par ton geek pr&eacute;f&eacute;r&eacute; :D';
- }
- add_filter('admin_footer_text', 'remove_footer_admin');
+	echo 'Fait avec &#9829; par ton geek pr&eacute;f&eacute;r&eacute; :D';
+}
+add_filter('admin_footer_text', 'remove_footer_admin');

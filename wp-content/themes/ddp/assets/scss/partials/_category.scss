@@ -8,11 +8,72 @@
     margin-bottom: 10px!important;
 
     a {
-      color: white;
       padding: 10px;
       display: block;
       position: relative;
       top: 130px;
+      color: black;
+      background: rgba(255, 255, 255, 0.69);
+      height: 70px;
+    }
+  }
+}
+
+#bg.category {
+  background: $gris-bg-light;
+}
+
+.category .sidebar {
+  background: $white;
+}
+
+.cat {
+  &__sidebar {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  &__child {
+  padding: 40px;
+  background: $white;
+
+    &--title {
+      text-align: center;
+      font-size: 1.6rem;
+      font-family: $Jsemibold;
+      text-transform: uppercase;
+      margin-bottom: 35px;
+    }
+
+    &--p {
+      max-height: 32px;
+      overflow: hidden;
+    }
+
+    &--aside {
+      overflow: auto;
+
+      h4 a {
+        font-size: 1.4rem;
+        padding-top: 20px;
+        color: black;
+        padding-bottom: 20px;
+        display: inline-block;
+        max-width: 300px;
+      }
+    }
+
+    &--article {
+      min-height: 181px;
+      max-height: 181px;
+      border: 1px solid $gris-border;
+      margin-bottom: 40px;
+      img {
+        display: inline-block;
+        width: 180px;
+        float: left;
+        margin-right: 30px;
+      }
     }
   }
 }
@@ -26,6 +87,7 @@
   position: relative;
   @include transform(translateX(-50%));
   margin-top: -10px;
+  margin-bottom: 35px;
 }
 
 .button {

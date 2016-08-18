@@ -1,0 +1,10 @@
+.lecture {
+  min-height: 100vh;
+  &__sidebar {
+    padding: 0 20px;
+  }
+
+  & #sb_instagram.sbi_col_1 #sbi_images .sbi_item {
+    margin-bottom: 25px!important;
+  }
+}

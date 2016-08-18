@@ -184,6 +184,7 @@ final class NF_Display_Render
         }
 
         // Output Form Container
+        do_action( 'ninja_forms_before_container', $form_id, $form->get_settings(), $form_fields );
         Ninja_Forms::template( 'display-form-container.html.php', compact( 'form_id' ) );
 
         ?>
@@ -344,6 +345,7 @@ final class NF_Display_Render
         }
 
         // Output Form Container
+        do_action( 'ninja_forms_before_container_preview', $form_id, $form[ 'settings' ], $fields );
         Ninja_Forms::template( 'display-form-container.html.php', compact( 'form_id' ) );
 
         ?>
@@ -415,6 +417,7 @@ final class NF_Display_Render
         wp_enqueue_script( 'nf-global', Ninja_Forms::$url . 'assets/js/min/global.js', array( 'jquery' ) );
 
         wp_enqueue_script( 'nf-front-end', Ninja_Forms::$url . 'assets/js/min/front-end.js', array( 'jquery', 'backbone', 'backbone-radio', 'backbone-marionette', 'math' ) );
+        wp_localize_script( 'nf-front-end', 'nfi18n', Ninja_Forms::config( 'i18nFrontEnd' ) );
 
         $data = apply_filters( 'ninja_forms_render_localize_script_data', array(
             'ajaxNonce' => wp_create_nonce( 'ninja_forms_display_nonce' ),

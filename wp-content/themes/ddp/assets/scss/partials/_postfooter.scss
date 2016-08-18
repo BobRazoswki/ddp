@@ -1,0 +1,62 @@
+.single {
+  &__author {
+    &--container h4 {
+      float: none!important;
+      margin-bottom: 8px;
+    }
+    &--socials ul {
+      text-align: center;
+      & li {
+        display: inline-block;
+        & a {
+          display: block;
+        }
+      }
+    }
+
+    &--description {
+      font-size: 0.8rem!important;
+      margin-top: 4px;
+    }
+
+    &--img img {
+      float: left;
+      margin-right: 20px;
+      margin-top: 10px;
+    }
+  }
+
+  &__footer {
+    &--source {
+      font-style: italic;
+      color: gray;
+      padding-bottom: 0!important;
+    }
+
+    &--tag {
+      display: inline-block;
+      padding: 5px 10px;
+      background: black;
+      color: white;
+      margin: 0 5px;
+      &s {
+        margin-left: -5px;
+      }
+    }
+    &--meta {
+      border: 1px solid rgba(140, 136, 136, 0.47);
+      margin: 20px auto;
+      padding: 20px;
+      & h4 {
+        font-family: 'josefin_slabbold';
+        // border-bottom: 1px solid black;
+        // padding-bottom: 10px;
+        // margin-bottom: 10px;
+        // width: auto;
+        // display: inline-block;
+        float: left;
+        margin-right: 20px;
+      }
+    }
+  }
+}

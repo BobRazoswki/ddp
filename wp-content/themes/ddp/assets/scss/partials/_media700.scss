@@ -2,4 +2,38 @@
   #wonderplugincarousel-1 .amazingcarousel-prev, #wonderplugincarousel-1 .amazingcarousel-next {
     display: none!important;
   }
+
+  .usp-login {
+      width: 310px;
+      max-width: 310px;
+      padding-left: 20px;
+      padding-right: 20px;
+  }
+
+  .cat__child--article img {
+    display: block;
+    width: 180px;
+    float: none;
+    margin-right: 0px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .cat__child--article {
+    border: none;
+    max-height: none;
+  }
+
+  .cat__child--aside h4 a, .cat__child--p {
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .cta__lireplus {
+    display: block;
+    text-align: center;
+    margin: 20px auto;
+    border-bottom: 1px solid $gris-border;
+    padding-bottom: 50px;
+  }
 }

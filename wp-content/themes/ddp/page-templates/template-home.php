@@ -218,5 +218,4 @@ get_header(); ?>
     </aside>
   </div>
 </section>
-
 <?php get_footer(); ?>

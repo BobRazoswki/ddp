@@ -9,6 +9,21 @@ jQuery( document ).ready(function() {
   //       var newe = enew.replace(query, "<span class='highlight'>$1</span>");
   //       document.getElementById("bg").innerHTML = newe;
 
+    jQuery("#load-more")[0].innerHTML = "Voir l'article suivant ;) ";
+    if (window.location.pathname === "/ddp/soumission-darticle/") {
+      jQuery(".usp-add-another > a")[0].innerHTML = "Ajouter une photo";
+      jQuery(".usp-input-category > option:first-of-type")[0].innerHTML = "Sélectionner votre catégorie";
+    }
+
+  jQuery("#menu-nav > li").mouseenter( function() {
+    jQuery(this).children("ul").addClass("animated fadeInDown");
+    jQuery(this).children("ul").removeClass("fadeOutUp");
+  });
+  jQuery("#menu-nav > li").mouseleave( function() {
+    jQuery(this).children("ul").addClass("fadeOutUp");
+    setTimeout(function(){jQuery(this).children("ul").removeClass("fadeInDown")},600)
+  });
+
   jQuery(".video__lien").on("click", function(){
     jQuery(".video__lien").removeClass("video__lien--actif");
     jQuery(this).addClass("video__lien--actif");

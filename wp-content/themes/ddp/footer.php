@@ -51,7 +51,12 @@
 
       <section class="footer__store">
         <div class="container">
-          <h4 class="home__h4 home__h4--store-hr home__h4--store "><a href="#">Dettachée <span>Store</span></a></h4>
+          <h4 class="home__h4 home__h4--store-hr home__h4--store "><a href="#">L'insta<span> Dettachée</span></a></h4>
+          <div id="sb_instagram" class="sbi sbi_col_5" style="width:100%; padding-bottom: 12px; " data-id="361637682" data-num="5" data-res="auto" data-cols="5" data-options='{&quot;sortby&quot;: &quot;none&quot;, &quot;headercolor&quot;: &quot;&quot;, &quot;imagepadding&quot;: &quot;6&quot;}'>
+            <div id="sbi_images" style="padding: 6px;">
+              <div class="sbi_loader fa-spin"></div>
+            </div>
+          </div>
         </div>
       </section>
       <section class="footer__end">

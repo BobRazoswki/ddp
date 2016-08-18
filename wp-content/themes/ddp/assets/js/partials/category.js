@@ -11,12 +11,14 @@ jQuery( document ).ready( function() {
       name: '.name',
       symbol: '.symbol',
       number: '.number parseInt',
+      post: '[data-post]',
       category: '[data-category]',
       weight: function( itemElem ) {
         var weight = jQuery( itemElem ).find('.weight').text();
         return parseFloat( weight.replace( /[\(\)]/g, '') );
       }
-    }
+    },
+    sortBy: [ 'category', 'post']
   });
 
   // filter functions

@@ -6,7 +6,6 @@
   color: $white;
   text-align: center;
   margin-top: 80px;
-
   &__infoencontinu {
     padding: 40px;
 
@@ -49,7 +48,7 @@
   }
 
   &__store {
-    height: 300px;
+    min-height: 300px;
   }
 
   &__sociaux {
@@ -91,4 +90,7 @@
       }
     }
   }
+}
+footer.content {
+  background: $white;
 }

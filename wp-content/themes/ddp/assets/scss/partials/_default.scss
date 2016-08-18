@@ -1,3 +1,76 @@
+.animated {
+  -webkit-animation-duration: .4s;
+  animation-duration: .4s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+@-webkit-keyframes fadeInDown {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -2%, 0);
+    transform: translate3d(0, -2%, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -2%, 0);
+    transform: translate3d(0, -2%, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+.fadeInDown {
+	display: flex !important;
+  -webkit-animation-name: fadeInDown;
+  animation-name: fadeInDown;
+}
+
+
+@-webkit-keyframes fadeOutUp {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -2%, 0);
+    transform: translate3d(0, -2%, 0);
+  }
+}
+
+@keyframes fadeOutUp {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -2%, 0);
+    transform: translate3d(0, -2%, 0);
+  }
+}
+
+.fadeOutUp {
+  -webkit-animation-name: fadeOutUp;
+  animation-name: fadeOutUp;
+}
+
+
+
 .fullWidth__bg {
 	position: absolute;
 	width: 150vw;
@@ -18,7 +91,13 @@
 		background: $rose;
 	}
 }
-
+.cta__lireplus {
+  position: relative;
+  display: inline-block;
+  padding-left: 0;
+  width: 120px;
+  margin-top: 20px;
+}
 #bg {
 	background-color: #F9F9F9;
 }

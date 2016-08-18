@@ -41,7 +41,6 @@
   color: white;
   padding-bottom: 12px;
   margin-bottom: 6px!important;
-
 }
 
 #wpoa-login-google {
@@ -59,10 +58,23 @@
 
 .wpoa-layout-align-left {
   text-align: center;
-  width: 140px;
-  left: 50%;
+  max-width: 400px;
   position: relative;
   @include transform(translateX(-50%));
-  margin-top: 50px;
-  margin-bottom: -20px;
+  left: 50%;
+  margin-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+p#wpoa-title {
+  text-align: center!important;
+  padding-bottom: 20px;
+}
+
+.submission {
+  border: 1px solid $gris-border;
+  padding-top: 30px;
+  background: $bleu-ciel;
+  margin-bottom: 40px;
 }

@@ -3,12 +3,13 @@
   p {
     @include font($Oregular, $small, none);
   }
-  section{
+  section {
     background: $white;
     width: 63%;
     padding: 40px 20px;
     float: none!important;
     margin-right: 10px;
+    padding-bottom: 1px;
   }
 
   &__date {

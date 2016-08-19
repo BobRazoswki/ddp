@@ -27,41 +27,43 @@ get_header();
              global $postfooter;
              $meta=$postfooter->the_meta(get_the_id());
            ?>
-           <div class="single__footer--meta">
-             <h4>Source :</h4>
-             <p class="single__footer--source">
-               <?php echo $meta["post-source-ddp"] ?>
-             </p>
-           </div>
-           <div class="single__footer--meta">
-             <h4>Tags :</h4>
-             <ul class="single__footer--tags">
-             <?php
-              $single_tags = explode(',',$meta["post-tags-ddp"]);
-              // var_dump($single_tags.length);
-              for ($i=0; $i < sizeof($single_tags); $i++) {
-             ?>
-                <li class="single__footer--tag"><?php echo $single_tags[$i]; ?></li>
-            <?php
-              }
-            ?>
-            </ul>
-           </div>
-           <aside class="single__footer--meta single__author--container">
-             <h4>L'auteur :</h4>
-             <div class="single__author--img"><?php echo get_avatar( get_the_author_meta('user_email') , 90 ) . nl2br( $user_description ); ?></div>
-             <p class="single__author--description">
-               <?php echo the_author_meta('description'); ?>
-             </p>
-             <div class="single__author--socials">
-               <ul>
-                 <li class="single__author--twitter" ><a href="<?php echo the_author_meta('twitter'); ?>"><img src="<?php echo site_url(); ?>/wp-content/uploads/2016/08/twitter_ddp.png" alt="" /> </a> </li>
-                 <li class="single__author--fb" ><a href="<?php echo the_author_meta('facebook'); ?>"><img src="<?php echo site_url(); ?>/wp-content/uploads/2016/08/facebook_ddp.png" alt="" /> </a> </li>
-                 <li class="single__author--google" ><a href="<?php echo the_author_meta('googleplus'); ?>"><img src="<?php echo site_url(); ?>/wp-content/uploads/2016/08/instagram_ddp.png" alt="" /> </a> </li>
-                 <li class="single__author--google" ><a href="<?php echo the_author_meta('googleplus'); ?>"><img src="<?php echo site_url(); ?>/wp-content/uploads/2016/08/snapchat_ddp.png" alt="" /> </a> </li>
-               </ul>
+           <?php if ($meta["post-source-ddp"] != null) { ?>
+             <div class="single__footer--meta single__footer--source-container">
+               <h4>Source :</h4>
+               <p class="single__footer--source">
+                 <?php echo $meta["post-source-ddp"] ?>
+               </p>
              </div>
-           </aside>
+          <?php }
+           if ($meta["post-tags-ddp"] != null) { ?>
+             <div class="single__footer--meta">
+               <h4>Tags :</h4>
+               <ul class="single__footer--tags">
+               <?php
+                $single_tags = explode(',',$meta["post-tags-ddp"]);
+                // var_dump($single_tags.length);
+                for ($i=0; $i < sizeof($single_tags); $i++) {
+               ?>
+                  <li class="single__footer--tag"><?php echo $single_tags[$i]; ?></li>
+              <?php } ?>
+              </ul>
+             </div>
+           <?php } ?>
+             <aside class="single__footer--meta single__author--container">
+               <h4>L'auteur : <?php echo the_author_meta('first_name');?> <?php  echo the_author_meta('last_name'); ?></h4>
+               <div class="single__author--img"><?php echo get_avatar( get_the_author_meta('user_email') , 90 ) . nl2br( $user_description ); ?></div>
+               <p class="single__author--description">
+                 <?php echo the_author_meta('description'); ?>
+               </p>
+               <!-- <div class="single__author--socials">
+                 <ul>
+                   <li class="single__author--twitter" ><a href="<?php //echo the_author_meta('twitter'); ?>"><img src="<?php //echo site_url(); ?>/wp-content/uploads/2016/08/twitter_ddp.png" alt="" /> </a> </li>
+                   <li class="single__author--fb" ><a href="<?php //echo the_author_meta('facebook'); ?>"><img src="<?php// echo site_url(); ?>/wp-content/uploads/2016/08/facebook_ddp.png" alt="" /> </a> </li>
+                   <li class="single__author--google" ><a href="<?php //echo the_author_meta('googleplus'); ?>"><img src="<?php //echo site_url(); ?>/wp-content/uploads/2016/08/instagram_ddp.png" alt="" /> </a> </li>
+                   <li class="single__author--google" ><a href="<?php //echo the_author_meta('googleplus'); ?>"><img src="<?php //echo site_url(); ?>/wp-content/uploads/2016/08/snapchat_ddp.png" alt="" /> </a> </li>
+                 </ul>
+               </div> -->
+             </aside>
      	    </footer>
           <span class="load__more"></span>
         </section>

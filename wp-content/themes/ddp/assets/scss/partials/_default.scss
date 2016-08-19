@@ -97,9 +97,15 @@
   padding-left: 0;
   width: 120px;
   margin-top: 20px;
+  color: $bleu-ciel;
+  &:hover, &:focus, &:active {
+    color: $bleu-fonce;
+    @include transition(.3s all ease);
+  }
 }
 #bg {
 	background-color: #F9F9F9;
+
 }
 
 // Wordpress CSS Reset

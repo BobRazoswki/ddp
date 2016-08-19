@@ -2,6 +2,10 @@
   min-height: 100vh;
   &__sidebar {
     padding: 0 20px;
+    min-height: 100vh;
+    &--img {
+      margin-top: 30px;
+    }
   }
 
   & #sb_instagram.sbi_col_1 #sbi_images .sbi_item {

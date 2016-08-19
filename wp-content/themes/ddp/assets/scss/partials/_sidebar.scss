@@ -69,6 +69,7 @@
 
     & img {
       width: auto;
+      margin-top: 15px;
     }
   }
 
@@ -79,7 +80,7 @@
 
     &title {
       margin-bottom: 10px;
-      @include font($Jsemibold, $smallmedium, uppercase);
+      @include font($Jsemibold, $extrasmallmedium, uppercase);
       text-transform: uppercase;
       position: relative;
 
@@ -104,7 +105,8 @@
 
     &__sociaux {
       display: flex;
-      padding-top: 40px;
+      margin-top: 30px;
+      margin-bottom: -30px;
       a {
         display: -webkit-inline-flex;
         display: -ms-inline-flexbox;

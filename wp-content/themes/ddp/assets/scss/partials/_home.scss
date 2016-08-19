@@ -68,14 +68,26 @@
 
   &__aumenu {
     &--1 {
+      max-height: 360px;
+      display: block;
+      position: relative;
+      margin-bottom: 30px;
+
       & span {
-        position: relative;
-        top: -90px;
+        // position: relative;
+        // top: -90px;
+        // text-align: center;
+        // display: block;
+        // text-transform: uppercase;
+        // color: white;
+        // font-size: 35px;
         text-align: center;
-        display: block;
-        text-transform: uppercase;
         color: white;
+        text-transform: uppercase;
+        bottom: 0;
         font-size: 35px;
+        position: absolute;
+        padding-bottom: 20px;
       }
       & img {
         width: 100%;
@@ -424,7 +436,6 @@
   }
 
   &__lifestyle {
-
     &--evasion {
       & img {
         max-height: 333px;
@@ -436,8 +447,11 @@
       position: relative;
       max-height: 333px;
       max-width: 333px;
-      margin-bottom: 15px;
+      margin: 0 auto 15px auto;
       border: 1px solid #e4e1e1;
+      & img {
+        max-height: 333px;
+      }
     }
 
     &--mariage {
@@ -471,7 +485,7 @@
       float: left;
       width: 100%;
       background-size: contain;
-      margin-bottom: 20px;
+      // margin-bottom: 20px;
     }
 
     &--decouvrir {
@@ -531,7 +545,7 @@
       //   content: " ";
       //   height: 16px;
       //   width: 21px;
-      //   background: url(http://localhost:8890/ddp/wp-content/uploads/2016/05/triangle.png);
+      //   background: url(https://ddp:8890/wp-content/uploads/2016/05/triangle.png);
       //   visibility: hidden;
       //   display: block;
       //   z-index: 9;

@@ -1,6 +1,6 @@
 .category {
   &__thumbnail {
-    background-image: url('http://localhost:8890/ddp/wp-content/uploads/2015/06/ob_7bed0d_deces-demis-roussos.jpg');
+    background-image: url('https://ddp:8890/wp-content/uploads/2015/06/ob_7bed0d_deces-demis-roussos.jpg');
     background-size: cover;
     height: 100%;
     margin-left: 5px!important;
@@ -31,6 +31,7 @@
   &__sidebar {
     padding-left: 40px;
     padding-right: 40px;
+    margin-bottom: 40px;
   }
 
   &__child {
@@ -51,7 +52,7 @@
     }
 
     &--aside {
-      overflow: auto;
+      overflow: hidden;
 
       h4 a {
         font-size: 1.4rem;

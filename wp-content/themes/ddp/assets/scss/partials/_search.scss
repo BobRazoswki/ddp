@@ -20,7 +20,7 @@
       content: " ";
       height: 16px;
       width: 21px;
-      background: url('http://localhost:8890/ddp/wp-content/uploads/2016/05/triangle.png');
+      background: url('https://ddp:8890/wp-content/uploads/2016/05/triangle.png');
       @include transform(rotate(180deg));
       display: block;
       z-index: 9999;

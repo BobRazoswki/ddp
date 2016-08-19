@@ -4,12 +4,12 @@
 
 @font-face {
     font-family: 'josefin_slabbold';
-    src: url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-bold-webfont.eot');
-    src: url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-bold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-bold-webfont.woff2') format('woff2'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-bold-webfont.woff') format('woff'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-bold-webfont.ttf') format('truetype'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-bold-webfont.svg#josefin_sansbold') format('svg');
+    src: url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-bold-webfont.eot');
+    src: url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-bold-webfont.woff2') format('woff2'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-bold-webfont.woff') format('woff'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-bold-webfont.ttf') format('truetype'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-bold-webfont.svg#josefin_sansbold') format('svg');
     font-weight: normal;
     font-style: normal;
 
@@ -20,12 +20,12 @@
 
 @font-face {
     font-family: 'josefin_sansitalic';
-    src: url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-italic-webfont.eot');
-    src: url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-italic-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-italic-webfont.woff2') format('woff2'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-italic-webfont.woff') format('woff'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-italic-webfont.ttf') format('truetype'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-italic-webfont.svg#josefin_sansitalic') format('svg');
+    src: url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-italic-webfont.eot');
+    src: url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-italic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-italic-webfont.woff2') format('woff2'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-italic-webfont.woff') format('woff'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-italic-webfont.ttf') format('truetype'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-italic-webfont.svg#josefin_sansitalic') format('svg');
     font-weight: normal;
     font-style: normal;
 
@@ -36,12 +36,12 @@
 
 @font-face {
     font-family: 'josefin_sanslight';
-    src: url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-light-webfont.eot');
-    src: url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-light-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-light-webfont.woff2') format('woff2'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-light-webfont.woff') format('woff'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-light-webfont.ttf') format('truetype'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-light-webfont.svg#josefin_sanslight') format('svg');
+    src: url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-light-webfont.eot');
+    src: url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-light-webfont.woff2') format('woff2'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-light-webfont.woff') format('woff'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-light-webfont.ttf') format('truetype'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-light-webfont.svg#josefin_sanslight') format('svg');
     font-weight: normal;
     font-style: normal;
 
@@ -52,12 +52,12 @@
 
 @font-face {
     font-family: 'josefin_slabregular';
-    src: url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-regular-webfont.eot');
-    src: url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-regular-webfont.woff2') format('woff2'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-regular-webfont.woff') format('woff'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-regular-webfont.ttf') format('truetype'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-regular-webfont.svg#josefin_sansregular') format('svg');
+    src: url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-regular-webfont.eot');
+    src: url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-regular-webfont.woff2') format('woff2'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-regular-webfont.woff') format('woff'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-regular-webfont.ttf') format('truetype'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-regular-webfont.svg#josefin_sansregular') format('svg');
     font-weight: normal;
     font-style: normal;
 
@@ -68,12 +68,12 @@
 
 @font-face {
     font-family: 'josefin_slabsemibold';
-    src: url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-semibold-webfont.eot');
-    src: url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-semibold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-semibold-webfont.woff2') format('woff2'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-semibold-webfont.woff') format('woff'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-semibold-webfont.ttf') format('truetype'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-semibold-webfont.svg#josefin_sanssemibold') format('svg');
+    src: url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-semibold-webfont.eot');
+    src: url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-semibold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-semibold-webfont.woff2') format('woff2'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-semibold-webfont.woff') format('woff'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-semibold-webfont.ttf') format('truetype'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-semibold-webfont.svg#josefin_sanssemibold') format('svg');
     font-weight: normal;
     font-style: normal;
 
@@ -81,12 +81,12 @@
 
 @font-face {
     font-family: 'open_sansregular';
-    src: url('/ddp/wp-content/themes/ddp/build/assets/fonts/opensans-regular-webfont.eot');
-    src: url('/ddp/wp-content/themes/ddp/build/assets/fonts/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/opensans-regular-webfont.woff2') format('woff2'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/opensans-regular-webfont.woff') format('woff'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/opensans-regular-webfont.ttf') format('truetype'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/opensans-regular-webfont.svg#open_sansregular') format('svg');
+    src: url('/wp-content/themes/ddp/build/assets/fonts/opensans-regular-webfont.eot');
+    src: url('/wp-content/themes/ddp/build/assets/fonts/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/wp-content/themes/ddp/build/assets/fonts/opensans-regular-webfont.woff2') format('woff2'),
+         url('/wp-content/themes/ddp/build/assets/fonts/opensans-regular-webfont.woff') format('woff'),
+         url('/wp-content/themes/ddp/build/assets/fonts/opensans-regular-webfont.ttf') format('truetype'),
+         url('/wp-content/themes/ddp/build/assets/fonts/opensans-regular-webfont.svg#open_sansregular') format('svg');
     font-weight: normal;
     font-style: normal;
 
@@ -96,12 +96,12 @@
 
 @font-face {
     font-family: 'josefin_sansthin_italic';
-    src: url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-thinitalic-webfont.eot');
-    src: url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-thinitalic-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-thinitalic-webfont.woff2') format('woff2'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-thinitalic-webfont.woff') format('woff'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-thinitalic-webfont.ttf') format('truetype'),
-         url('/ddp/wp-content/themes/ddp/build/assets/fonts/josefinsans-thinitalic-webfont.svg#josefin_sansthin_italic') format('svg');
+    src: url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-thinitalic-webfont.eot');
+    src: url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-thinitalic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-thinitalic-webfont.woff2') format('woff2'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-thinitalic-webfont.woff') format('woff'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-thinitalic-webfont.ttf') format('truetype'),
+         url('/wp-content/themes/ddp/build/assets/fonts/josefinsans-thinitalic-webfont.svg#josefin_sansthin_italic') format('svg');
     font-weight: normal;
     font-style: normal;
 
@@ -110,7 +110,7 @@
 
 @font-face {
   font-family: 'EdwardianScriptITC';
-  src: url('/ddp/wp-content/themes/ddp/build/assets/fonts/EdwardianScriptITC.eot') format('embedded-opentype');
+  src: url('/wp-content/themes/ddp/build/assets/fonts/EdwardianScriptITC.eot') format('embedded-opentype');
   font-weight: normal;
   font-style: normal;
 }
@@ -825,7 +825,7 @@ VU55FVRUSajKqqiqWqC3hppqqa2Ouuqpr4GGGmmsiaaaaa6FllpprY222mmvg4466ayLrrrproee
 eumtj7766W+AgQYZbIihhhluhJFGGW2MscYZb4KJJplsiqmmmW6GMDPNMtscc80z3wILLbLYEkst
 s9wKK62y2hprrbPeBhttstkWW22z3Q477bLbHnvts98BBx1y2BFHHXPcCSedctoZZ51z3gUXXXLZ
 FVddc90NN91y2x133XPfAw898tgT4Z565rkXXnrltTfeeue9Dz765LMvvvoWuPvDT7/8/gsWUXnE
-uQABAf+FjQA=) format('woff'), url('/ddp/wp-content/themes/ddp/build/assets/fonts/EdwardianScriptITC.ttf')  format('truetype'), url('/ddp/wp-content/themes/ddp/build/assets/fonts/EdwardianScriptITC.svg#EdwardianScriptITC') format('svg');
+uQABAf+FjQA=) format('woff'), url('/wp-content/themes/ddp/build/assets/fonts/EdwardianScriptITC.ttf')  format('truetype'), url('/wp-content/themes/ddp/build/assets/fonts/EdwardianScriptITC.svg#EdwardianScriptITC') format('svg');
   font-weight: normal;
   font-style: normal;
 }

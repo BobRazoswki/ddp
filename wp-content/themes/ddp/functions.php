@@ -5,10 +5,12 @@ include_once 'metaboxes/setup.php';
 // include_once 'metaboxes/customizer-spec.php';
 include_once 'metaboxes/full-spec.php';
 include_once 'metaboxes/months-spec.php';
+include_once 'metaboxes/videos-spec.php';
 include_once 'metaboxes/postfooter-spec.php';
 $wpalchemy_media_access = new WPAlchemy_MediaAccess();
 
 // add_theme_support( 'post-thumbnails' );
+add_image_size( 'home_under_slider', 960, 320, true );
 add_image_size( 'nav__thumbnail', 134, 134, true );
 add_image_size( 'home__thumbnail', 400, 400, true );
 add_image_size( 'cat__thumbnail', 180, 180, true );

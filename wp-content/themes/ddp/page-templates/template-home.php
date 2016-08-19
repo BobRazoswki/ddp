@@ -18,7 +18,7 @@ get_header(); ?>
         while($first_query->have_posts()) : $first_query->the_post(); ?>
       <div class="last__post last__post--12 large--12">
         <figure>
-          <!-- <?php the_post_thumbnail(); ?> -->
+          <?php //the_post_thumbnail('home_under_slider'); ?>
           <img src="http://fakeimg.pl/960x320/" alt="" />
           <figcaption><?php  the_title();?></figcaption>
         </figure>
@@ -122,8 +122,10 @@ get_header(); ?>
               );
               $custom_posts = get_posts($args);
               $i = 0;
-              foreach($custom_posts as $post) : setup_postdata($post); ?>
-                  <div class="youtube<?php if($i === 0) echo " youtube--actif"; ?> <?php the_ID(); ?>" id="<?php the_title(); ?>" ></div>
+              foreach($custom_posts as $post) : setup_postdata($post);
+              global $videos;
+              $meta=$videos->the_meta(get_the_id()); ?>
+                  <div class="youtube<?php if($i === 0) echo " youtube--actif"; ?> <?php the_ID(); ?>" id="<?php echo $meta["video-id-ddp"] ?>" ></div>
                 <!-- <span class="home__videoIdPlayer videoID-<?= the_ID(); ?>" data-videoid="<?= the_ID(); ?>"><?php  the_content(); ?></span> -->
                <?php $i++; endforeach; ?>
             </div>
@@ -141,15 +143,15 @@ get_header(); ?>
         <h3 class="home__h3 home__h3--jaune">Life <span class="home__h3--lifestyle">style</span></h3>
         <div class="home__lifestyle--container">
           <div class="home__lifestyle--div home__lifestyle--evasion large--6 medium--12 small--12">
-            <img src="<?php echo site_url(); ?>/wp-content/uploads/2016/05/Screen-Shot-2016-05-20-at-10.44.44-AM.png" alt="" />
+            <img src="<?php echo site_url(); ?>/wp-content/uploads/2016/08/photo-evasion-ddp.png" alt="" />
             <span class="home__button home__button--whiterose">Evasion</span>
           </div>
           <div class="home__lifestyle--div home__lifestyle--miss large--3 medium--6 small--12">
-            <img src="<?php echo site_url(); ?>/wp-content/uploads/2016/05/miss_ddp.png" alt="" />
+            <img src="<?php echo site_url(); ?>/wp-content/uploads/2016/08/miss-ddp.png" alt="" />
             <span class="home__button home__button--miss">Miss Dettachée</span>
           </div>
           <div class="home__lifestyle--div home__lifestyle--mr large--3 medium--6 small--12">
-            <img src="<?php echo site_url(); ?>/wp-content/uploads/2016/05/mr__ddp.png" alt="" />
+            <img src="<?php echo site_url(); ?>/wp-content/uploads/2016/08/mister-ddp.png" alt="" />
             <span class="home__button home__button--mr">Mr Dettachée</span>
           </div>
           <div class="home__lifestyle--mariage large---12">

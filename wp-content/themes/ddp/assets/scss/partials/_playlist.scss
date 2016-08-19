@@ -1,0 +1,14 @@
+.playlist {
+  &__h2 {
+    font-family: 'josefin_slabsemibold';
+    padding-bottom: 10px;
+    border-bottom: 1px solid black;
+    margin-bottom: 30px;
+    width: auto;
+    display: inline-block;
+    font-size: 1.2rem;
+    &--2 {
+      margin-top: 20px;
+    }
+  }
+}

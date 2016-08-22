@@ -76,10 +76,42 @@
   }
 
   &page {
-    &__container {
-      margin-top: 200px!important;
+    &__text {
+      min-height: 150px;
+
+      & figure img, & figure {
+        display: block;
+        width: 100px;
+        height: 100px;
+      }
+
+      & figure {
+        float: left;
+        margin: 20px 20px 50px 20px;
+      }
+
+      &--a {
+        display: block;
+        position: relative;
+        margin-left: 140px;
+        padding: 10px;
+        border: 1px solid $bleu-ciel;
+        text-align: center;
+        margin-left: 0;
+      }
+
+      &--p {
+        margin-top: 20px;
+      }
     }
+
+    &__container {
+      margin-top: 130px;
+      margin-bottom: 20px;
+    }
+
     &__results {
+      position: relative;
       border: 1px solid rgba(0, 0, 0, 0.17);
       margin-bottom: 10px;
       margin-top: 10px;
@@ -99,6 +131,8 @@
         & a {
           color: $black;
           text-transform: uppercase;
+          margin-left: 20px;
+          display: block;
           &:hover, &:visited, &:focus {
             color: $black;
           }
@@ -106,28 +140,18 @@
       }
 
       footer {
-        position: absolute;
+        position: relative;
         bottom: 0;
-        padding-left: 160px;
         background: $gris-bg;
         display: block;
         width: 100%;
         padding-top: 10px;
         padding-bottom: 10px;
+        padding-left: 20px;
 
         & strong {
-          @include font($Jsemibold, $smallmedium, uppercase);
+          @include font($Jsemibold, $extrasmall, uppercase);
         }
-      }
-
-      figure {
-        min-height: 160px;
-        min-width: 160px;
-        height: 160px;
-        display: block;
-        position: relative;
-        float: left;
-        clear: left;
       }
     }
   }
@@ -142,6 +166,11 @@
       }
     }
   }
+}
+
+strong.search-excerpt {
+  background-color:yellow;
+  color:blue;
 }
 
 .highlight {

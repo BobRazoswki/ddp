@@ -73,6 +73,13 @@
     }
   }
 
+  &__lecture {
+    margin-bottom: 40px;
+    &--title {
+      padding-bottom: 20px;
+    }
+  }
+
   .widget {
     margin-bottom: 25px;
     list-style-type: none;
@@ -106,19 +113,13 @@
     &__sociaux {
       display: flex;
       margin-top: 30px;
-      margin-bottom: -30px;
+      padding-bottom: 5px;
+
       a {
-        display: -webkit-inline-flex;
-        display: -ms-inline-flexbox;
         display: inline-flex;
-        width: 60px;
-        margin-left: auto;
-        margin-right: auto;
-        height: 60px;
-        top: 50%;
         position: relative;
-        -webkit-transform: translateY(-50%);
-        transform: translateY(-50%);
+        width: 60px;
+        height: 60px;
       }
     }
   }

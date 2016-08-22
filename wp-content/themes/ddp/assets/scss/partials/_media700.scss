@@ -36,4 +36,18 @@
     border-bottom: 1px solid $gris-border;
     padding-bottom: 50px;
   }
+  .searchpage__text {
+    margin-bottom: 40px;
+    min-height: 170px;
+    &--a {
+      border-bottom: 1px solid $bleu-ciel;
+      padding-bottom: 10px;
+      float: left;
+    }
+    &--p {
+      margin-top: 20px;
+      margin-right: 15px;
+      text-align: justify;
+    }
+  }
 }

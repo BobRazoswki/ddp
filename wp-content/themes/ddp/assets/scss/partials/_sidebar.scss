@@ -129,6 +129,10 @@
   height: 100px;
 }
 
+.sidebar .sidebar__lecture--title:after, .sidebar .sidebar__lecture--title:before {
+  width: 12px;
+}
+
 #text-7 {
   float: right;
 }

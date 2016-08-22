@@ -683,6 +683,9 @@ li#text-4 {
   max-height: 100%;
   height: 100px; }
 
+.sidebar .sidebar__lecture--title:after, .sidebar .sidebar__lecture--title:before {
+  width: 12px; }
+
 #text-7 {
   float: right; }
 
@@ -981,7 +984,7 @@ p#wpoa-title {
 
 .home__newsletter {
   height: 130px;
-  background: #EABCBD; }
+  background: #A9D7E0; }
   .home__newsletter--padding {
     padding: 40px; }
   .home__newsletter .newsletter__button--container {
@@ -1476,37 +1479,34 @@ p#wpoa-title {
 footer.content {
   background: #fff; }
 
-.post p {
-  font-family: "open_sansregular";
-  font-size: 1rem;
-  text-transform: none; }
-
-.post section {
-  background: #fff;
-  width: 63%;
-  padding: 40px 20px;
-  float: none !important;
-  margin-right: 10px;
-  padding-bottom: 1px; }
-
-.post__date {
-  margin-top: 20px;
-  margin-bottom: 20px; }
-  .post__date:before {
-    margin-right: 20px; }
-
-.post__h4 {
-  font-size: 1.85rem;
-  text-transform: uppercase; }
-
-.post__thumbnails {
-  width: 100%;
-  height: auto;
-  display: block;
-  text-align: center; }
-
-.post__header {
-  text-align: center; }
+.post {
+  margin-bottom: 30px; }
+  .post p {
+    font-family: "open_sansregular";
+    font-size: 1rem;
+    text-transform: none; }
+  .post section {
+    background: #fff;
+    width: 63%;
+    padding: 40px 20px;
+    float: none !important;
+    margin-right: 10px;
+    padding-bottom: 1px; }
+  .post__date {
+    margin-top: 20px;
+    margin-bottom: 20px; }
+    .post__date:before {
+      margin-right: 20px; }
+  .post__h4 {
+    font-size: 1.85rem;
+    text-transform: uppercase; }
+  .post__thumbnails {
+    width: 100%;
+    height: auto;
+    display: block;
+    text-align: center; }
+  .post__header {
+    text-align: center; }
 
 .single article.post p, .single .comment-content p, .single article.page p {
   padding-bottom: 17px; }
@@ -2026,6 +2026,12 @@ input.usp-submit.usp-submit-default {
     font-family: 'josefin_slabbold';
     float: left;
     margin-right: 20px; }
+
+.fb-comments {
+  width: 100%;
+  display: block;
+  position: relative;
+  text-align: center; }
 
 .animated {
   -webkit-animation-duration: .4s;

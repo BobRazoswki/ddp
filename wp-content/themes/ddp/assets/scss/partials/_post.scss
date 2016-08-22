@@ -1,5 +1,6 @@
 .post {
-
+  margin-bottom: 30px;
+  
   p {
     @include font($Oregular, $small, none);
   }
